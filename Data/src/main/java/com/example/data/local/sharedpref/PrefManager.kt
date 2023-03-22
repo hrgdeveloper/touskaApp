@@ -34,6 +34,7 @@ class PrefManager @Inject constructor(val sharedPreferences: SharedPreferences,v
 
      companion object  {
           const val IS_LOGIN ="is_login"
+          const val TOKEN ="token"
      }
 
 }

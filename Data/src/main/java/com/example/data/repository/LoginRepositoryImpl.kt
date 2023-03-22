@@ -24,6 +24,7 @@ class LoginRepositoryImpl @Inject constructor ( val prefManager: PrefManager ,
         try {
             val result = safeCall { apiInterface.login(username,password) }
             prefManager.setValue(PrefManager.IS_LOGIN,true)
+            prefManager.setValue(PrefManager.TOKEN,result.token)
             userDao.insertUser(result.toEntity())
             emit(Resource.Success(result.toDomain()))
         }catch (e:CustomExeption) {

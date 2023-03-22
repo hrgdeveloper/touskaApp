@@ -1,6 +1,4 @@
 package com.example.touska.screens.login
-
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,26 +9,23 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.livedata.observeAsState
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,8 +34,10 @@ import com.example.shared.Resource
 
 import com.example.touska.R
 import com.example.touska.components.VerticalDefaultMargin
+import com.example.touska.navigation.Navigation
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
+import com.example.touska.utils.toastLong
 
 @Composable
 fun loginScreen(
@@ -60,8 +57,26 @@ fun loginScreen(
         mutableStateOf(false)
     }
 
-    val loginState = loginViewModel.login.value
+    val loginState = loginViewModel.login.observeAsState().value
+    val context = LocalContext.current
 
+
+    LaunchedEffect(loginState)   {
+        when(loginState) {
+            is Resource.Failure -> {
+                loginState.message.toastLong(context)
+            }
+
+            is Resource.Success -> {
+               navController.navigate(Navigation.Home.route) {
+                   popUpTo(0)
+               }
+            }
+            else ->{
+
+            }
+        }
+    }
 
 
     Column(
@@ -172,15 +187,21 @@ fun loginScreen(
                     VerticalDefaultMargin()
 
                     Button(
-                        onClick = { },
+                        onClick = {
+                         loginViewModel.login(email.text,password.text)
+                        },
                         Modifier
                             .fillMaxWidth()
                             .height(56.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant)
                     ) {
-                        Text(text = stringResource(R.string.enter))
-                    }
+                        if (loginState is Resource.IsLoading) {
+                            CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)
+                        }else {
+                            Text(text = stringResource(R.string.enter))
+                        }
 
+                    }
                     VerticalDefaultMargin()
                     Text(
                         text = stringResource(R.string.forget_password),

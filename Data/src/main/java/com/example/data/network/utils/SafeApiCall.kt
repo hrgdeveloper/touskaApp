@@ -12,7 +12,7 @@ abstract class SafeApiCall {
            try {
                val result = call()
                if (result.isSuccessful) {
-                   return result.body()!!.date
+                   return result.body()!!.data
                }else {
                    val error = Gson().fromJson(result.errorBody()!!.string(),ErrorResponse::class.java)
                    throw CustomExeption(error.message,error.status)

@@ -12,6 +12,6 @@ data class UserDto(
     val project_id: Int,
     val role_id: Int,
     val status: Int,
-    val token: String,
-    val updated_at: String
+    val updated_at: String,
+    val token:String
 )
