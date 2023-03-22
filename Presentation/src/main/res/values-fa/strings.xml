@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Touska</string>
-    <string name="login">Login</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="login">ورود به حساب</string>
+    <string name="email">ایمیل</string>
+    <string name="password">رمز عبور</string>
     <string name="enter">ورود</string>
     <string name="forget_password">فراموشی رمز عبور</string>
 </resources>
