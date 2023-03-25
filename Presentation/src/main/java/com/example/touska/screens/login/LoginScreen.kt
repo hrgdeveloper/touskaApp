@@ -68,7 +68,7 @@ fun loginScreen(
             }
 
             is Resource.Success -> {
-               navController.navigate(Navigation.Home.route) {
+               navController.navigate(Navigation.Main.route) {
                    popUpTo(0)
                }
             }

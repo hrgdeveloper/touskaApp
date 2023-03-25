@@ -1,6 +1,15 @@
 package com.example.domain.models
 
 data class User(
-    val token: String,
-    val email: String
+    val contract_type_id: Int?,
+    val created_at: String?,
+    val email: String,
+    val mobile: String,
+    val name: String,
+    val post_id: Int?,
+    val role_id: Int,
+    val status: Int,
+
+    val role:String,
+    val project : Project
 )

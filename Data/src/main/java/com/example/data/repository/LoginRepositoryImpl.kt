@@ -26,7 +26,8 @@ class LoginRepositoryImpl @Inject constructor ( val prefManager: PrefManager ,
             prefManager.setValue(PrefManager.IS_LOGIN,true)
             prefManager.setValue(PrefManager.TOKEN,result.token)
             userDao.insertUser(result.toEntity())
-            emit(Resource.Success(result.toDomain()))
+            val user = userDao.getUser()
+            emit(Resource.Success(user.toDomain()))
         }catch (e:CustomExeption) {
             emit(Resource.Failure(e.errorMessage,e.status))
         }

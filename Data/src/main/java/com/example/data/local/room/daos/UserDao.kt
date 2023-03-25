@@ -14,6 +14,6 @@ interface UserDao {
     fun insertUser(userEntity: UserEntity)
 
     @Query("select * from User")
-    fun getUser():UserEntity
+   suspend fun getUser():UserEntity
 
 }
