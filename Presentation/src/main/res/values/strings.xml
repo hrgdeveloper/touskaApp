@@ -7,4 +7,8 @@
     <string name="forget_password">فراموشی رمز عبور</string>
     <string name="insert_email">لطفا ایمیل خود را وارد نمایید</string>
     <string name="insert_password">لطفا رمز عبور خود را وارد نمایید</string>
+    <string name="blocks_manage">مدیریت بلوک ها</string>
+    <string name="posts_manage">مدیریت عنواین شغلی</string>
+    <string name="contract_manage">مدیریت قرارداد ها</string>
+    <string name="manage_working_time">مدیریت ساعات کاری</string>
 </resources>

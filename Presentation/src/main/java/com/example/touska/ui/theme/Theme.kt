@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
 private val DarkColorPalette = darkColors(
     primary = textColor_dark,
@@ -22,8 +23,6 @@ private val LightColorPalette = lightColors(
     surface = gray_light,
     background = background_light
 
-
-
 )
 
 @Composable
@@ -33,11 +32,19 @@ fun TouskaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
     } else {
         LightColorPalette
     }
+    val customColorsPalette =
+        if (darkTheme) OnDarkCustomColorsPalette
+        else OnLightCustomColorsPalette
 
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalCustomColorsPalette provides customColorsPalette
+    ) {
+        MaterialTheme(
+            colors = colors,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    }
+
 }

@@ -1,13 +1,17 @@
 package com.example.touska.screens.homeScreen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -17,12 +21,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.touska.R
+import com.example.touska.components.VerticalDefaultMargin
+import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
 
@@ -31,6 +39,7 @@ fun homeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+
     val user = homeViewModel.user.observeAsState().value
 
     LaunchedEffect(key1 = Unit) {
@@ -39,42 +48,110 @@ fun homeScreen(
 
     user?.let {
         Column(Modifier.padding(all = MaterialTheme.spacing.default_margin)) {
-          Card(shape = RoundedCornerShape(15.dp), elevation = 4.dp) {
-               Column(Modifier.fillMaxWidth()) {
-                   // The bottom image
-                   Image(
-                       painter = painterResource(R.drawable.art),
-                       contentDescription = "Bottom Image",
-                       contentScale = ContentScale.FillBounds,
-                       modifier = Modifier
-                           .height(200.dp)
-                           .fillMaxWidth()
-                   )
+            ConstraintLayout(
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(MaterialTheme.customColorsPalette.cardBack)
+            ) {
+                val (iv_project,iv_profile,tv_project) = createRefs()
+                Image(painter = painterResource(id = R.drawable.art), contentDescription = null,
+                     modifier = Modifier
+                         .fillMaxWidth()
+                         .height(200.dp)
+                         .constrainAs(iv_project) {
+                             top.linkTo(parent.top, 0.dp)
+                         },
+                    contentScale = ContentScale.FillBounds
+                    )
+                Image(painter = painterResource(id = R.drawable.art), contentDescription = null,
+                    modifier = Modifier
+                        .size(75.dp)
+                        .clip(CircleShape)
+                        .border(2.dp, Color.White, CircleShape)
+                        .constrainAs(iv_profile) {
+                            top.linkTo(iv_project.bottom)
+                            bottom.linkTo(iv_project.bottom)
+                            end.linkTo(iv_project.end, 15.dp)
+                        }
+                    )
 
-                   Box(modifier = Modifier.fillMaxWidth()) {
-                       Image(
-                           painter = painterResource(R.drawable.art),
-                           contentDescription = "Top Image",
-                           contentScale = ContentScale.FillBounds,
-                           modifier = Modifier
-                               .width(60.dp)
-                               .height(60.dp)
-                               .clip(CircleShape)
-                               .align(Alignment.BottomStart)
-                               .offset(y = -30.dp)
-                               .border(2.dp, Color.White, CircleShape)
-                       )
-                   }
+                Text(text = user.project.name, fontSize = 18.sp, fontFamily = iranSansFamily, fontWeight = FontWeight.Bold,
+                    modifier = Modifier.constrainAs(tv_project){
+                        top.linkTo(iv_profile.bottom)
+                        start.linkTo(parent.start,16.dp)
+                        bottom.linkTo(parent.bottom,16.dp)
+                        }
+                    )
+            }
+            VerticalDefaultMargin()
+            Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.spacing.default_margin),
+                   horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                    Row() {
+                        Icon(painter = painterResource(id = R.drawable.ic_blocs), contentDescription =null)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = stringResource(R.string.blocks_manage))
+                    }
+                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
 
-                   // The top image
+                }
+            }
 
-                   Text(text = user.project.name, fontFamily = iranSansFamily, fontWeight = FontWeight.Bold, fontSize = 25.sp)
-               }
+            VerticalDefaultMargin()
+            Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.spacing.default_margin),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row() {
+                        Icon(imageVector = Icons.Default.Workspaces, contentDescription =null)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = stringResource(R.string.posts_manage))
+                    }
+                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+
+                }
+            }
+
+            VerticalDefaultMargin()
+            Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.spacing.default_margin),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row() {
+                        Icon(imageVector = Icons.Default.Feed, contentDescription =null)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(stringResource(R.string.contract_manage))
+                    }
+                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+
+                }
+            }
 
 
+            VerticalDefaultMargin()
+            Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.spacing.default_margin),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row() {
+                        Icon(imageVector = Icons.Default.Watch, contentDescription =null)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = stringResource(R.string.manage_working_time))
+                    }
+                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
 
-
-          }
+                }
+            }
 
 
         }
