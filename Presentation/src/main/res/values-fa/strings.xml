@@ -24,4 +24,13 @@
     <string name="delete_bloc">حذف بلاک</string>
     <string name="confirm_delete_bloc">آیا مایل به حذف بلاک میباشید</string>
     <string name="bloc_deleted_suucessfully">جذف بلوک با موفقیت انجام شد</string>
+    <string name="no_floors">هیج طبقه ای اضافه نشده است</string>
+    <string name="add_new_floor">افزودن طبقه جدید</string>
+    <string name="insert_floor_name">لطفا نام طبقه را وارد نمایید</string>
+    <string name="updateFloor">به روز رسانی طبقه</string>
+    <string name="floor_name">نام طبقه</string>
+    <string name="floor_number">شماره طبقه</string>
+    <string name="floor_deleted_suucessfully">طبثه با موفقیت حذف گردید</string>
+    <string name="delete_floor">حذف طبقه</string>
+    <string name="confirm_delete_floor">آیا از حذف این طبقه مطمعن میباشید</string>
 </resources>

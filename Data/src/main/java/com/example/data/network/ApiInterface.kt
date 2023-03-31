@@ -1,6 +1,7 @@
 package com.example.data.network
 
 import com.example.data.network.dtos.BlocDto
+import com.example.data.network.dtos.FloorDto
 import com.example.data.network.utils.BaseResponse
 import com.example.data.network.dtos.UserDto
 import retrofit2.Response
@@ -44,5 +45,25 @@ interface ApiInterface {
     ): Response<BaseResponse<Any>>
 
 
+    @POST("floor")
+    @FormUrlEncoded
+    suspend fun createFloor(
+        @Field("name") name:String,
+        @Field("number") number:Int,
+        @Field("bloc_id") bloc_id:Int
+    ): Response<BaseResponse<FloorDto>>
+
+
+    @PUT("floor/{id}")
+    @FormUrlEncoded
+    suspend fun updateFloor(
+        @Field("name") name:String,
+        @Field("number") number:Int,
+        @Path("id") floor_id:Int
+    ): Response<BaseResponse<FloorDto>>
+
+    @DELETE("floor/{id}")
+    suspend fun deleteFloor( @Path("id") id : Int
+    ): Response<BaseResponse<Any>>
 
 }

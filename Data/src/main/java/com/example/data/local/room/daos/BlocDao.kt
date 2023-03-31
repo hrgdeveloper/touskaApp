@@ -3,7 +3,9 @@ package com.example.data.local.room.daos
 import androidx.room.*
 import com.example.data.local.room.enteties.BlocEntity
 import com.example.data.local.room.enteties.UserEntity
+import com.example.data.network.dtos.FloorDto
 import com.example.domain.models.Bloc
+import com.example.domain.models.Floor
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -36,6 +38,14 @@ interface BlocDao {
 
     @Query("delete from Bloc where id = :bloc_id")
     suspend fun deleteBloc(bloc_id:Int)
+
+    @Query("update bloc set floors = :floors where id = :bloc_id")
+    suspend fun updateFloors(floors : List<FloorDto>, bloc_id:Int)
+
+
+
+
+
 
 
 }

@@ -1,5 +1,7 @@
 package com.example.domain.models
 
+
+
 data class Floor(
     val bloc_id: Int,
     val created_at: String,
@@ -7,5 +9,6 @@ data class Floor(
     val name: String,
     val number: Int,
     val unitts: List<Unitt>,
-    val updated_at: String
+    val updated_at: String,
+    var is_open : Boolean = false
 )

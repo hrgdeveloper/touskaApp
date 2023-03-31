@@ -15,9 +15,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.navigation.*
 
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -26,6 +25,7 @@ import com.example.touska.navigation.BottomNavItem
 import com.example.touska.navigation.MainNavigation
 
 import com.example.touska.screens.blocScreen.blocScreen
+import com.example.touska.screens.floorScreen.floorScreen
 import com.example.touska.screens.homeScreen.homeScreen
 
 import com.example.touska.screens.reportScreen.reportScreen
@@ -140,6 +140,14 @@ fun NavigationGraph(navController: NavHostController) {
             blocScreen(navController = navController)
         }
 
+        composable(route = MainNavigation.Floor.route+"/{bloc_id}", arguments = listOf(navArgument("bloc_id"){
+            type= NavType.IntType
+        })
+         )
+             {
+            val bloc_id = it.arguments?.getInt("bloc_id",0)?:0
+            floorScreen(navController = navController, bloc_id = bloc_id)
+        }
 
     }
 }

@@ -32,6 +32,7 @@ import com.example.domain.models.Bloc
 import com.example.shared.Resource
 import com.example.touska.R
 import com.example.touska.components.*
+import com.example.touska.navigation.MainNavigation
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
@@ -248,11 +249,21 @@ fun blocScreen(
                                             Row(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(MaterialTheme.spacing.default_margin),
+                                                    .padding(MaterialTheme.spacing.default_margin)
+                                                    .clickable {
+                                                               navController.navigate(MainNavigation.Floor.withArgs(
+                                                                   blocs.result[position].id.toString()
+                                                               ))
+                                                    }
+                                                ,
                                                 horizontalArrangement = Arrangement.SpaceBetween
                                             ) {
-                                                Row() {
+
                                                     Text(text = blocs.result[position].name)
+
+
+                                                Row() {
+
                                                     Icon(
 
                                                         imageVector = Icons.Default.Edit,
@@ -281,16 +292,18 @@ fun blocScreen(
                                                                 openDeleteDialog.value = true
                                                                 bloc_id_for_delete =
                                                                     blocs.result[position].id
-                                                            }
+                                                            },
+                                                        tint = Color.Red
 
                                                     )
 
-
+                                                    Icon(
+                                                        imageVector = Icons.Default.ChevronLeft,
+                                                        contentDescription = null
+                                                    )
                                                 }
-                                                Icon(
-                                                    imageVector = Icons.Default.ChevronLeft,
-                                                    contentDescription = null
-                                                )
+
+
                                             }
                                             if (position != blocs.result.size - 1) {
                                                 customDivider()
@@ -341,7 +354,6 @@ fun blocScreen(
             )
 
         }
-
 
 
     }

@@ -6,5 +6,15 @@ sealed class MainNavigation(val route : String) {
     object Setting : MainNavigation("Setting")
 
     object Bloc : MainNavigation("bloc")
+    object Floor : MainNavigation("floor")
+
+    fun withArgs(vararg args:  String ) : String {
+        return  buildString {
+            append(route)
+            args.forEach {arg->
+              append("/${arg}")
+            }
+        }
+    }
 
 }
