@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TouskaTheme {
                 val navController = rememberNavController()
-                val loginState = prefManager.getValue(PrefManager.IS_LOGIN,Boolean::class.java,false)
+                val loginState = prefManager.getValue(PrefManager.IS_LOGIN,Boolean::class,false)
                 val route = if (loginState) Navigation.Main.route else Navigation.Login.route
 
                 NavHost(navController = navController, startDestination = route) {

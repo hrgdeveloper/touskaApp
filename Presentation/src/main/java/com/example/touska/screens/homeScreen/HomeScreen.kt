@@ -1,8 +1,6 @@
 package com.example.touska.screens.homeScreen
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +28,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.touska.R
 import com.example.touska.components.VerticalDefaultMargin
+import com.example.touska.components.VerticalSmallSpacer
+import com.example.touska.navigation.MainNavigation
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
@@ -47,7 +47,10 @@ fun homeScreen(
     }
 
     user?.let {
-        Column(Modifier.padding(all = MaterialTheme.spacing.default_margin)) {
+        Column(
+            Modifier
+                .padding(all = MaterialTheme.spacing.default_margin)
+                .verticalScroll(rememberScrollState())) {
             ConstraintLayout(
                 Modifier
                     .fillMaxWidth()
@@ -85,10 +88,17 @@ fun homeScreen(
                     )
             }
             VerticalDefaultMargin()
-            Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
+
+            //Blocs Card
+            Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack,
+            modifier = Modifier.clickable {
+                navController.navigate(MainNavigation.Bloc.route)
+            }
+                ) {
                 Row(modifier = Modifier
                     .fillMaxWidth()
-                    .padding(MaterialTheme.spacing.default_margin),
+                    .padding(MaterialTheme.spacing.default_margin)
+                   ,
                    horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                     Row() {
@@ -102,6 +112,7 @@ fun homeScreen(
             }
 
             VerticalDefaultMargin()
+            //Posts Card
             Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
                 Row(modifier = Modifier
                     .fillMaxWidth()
@@ -119,6 +130,8 @@ fun homeScreen(
             }
 
             VerticalDefaultMargin()
+
+            //Contract Card
             Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
                 Row(modifier = Modifier
                     .fillMaxWidth()
@@ -137,6 +150,7 @@ fun homeScreen(
 
 
             VerticalDefaultMargin()
+            //WorkingTime Card
             Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
                 Row(modifier = Modifier
                     .fillMaxWidth()
@@ -152,6 +166,15 @@ fun homeScreen(
 
                 }
             }
+
+            VerticalDefaultMargin()
+
+
+
+
+
+
+
 
 
         }

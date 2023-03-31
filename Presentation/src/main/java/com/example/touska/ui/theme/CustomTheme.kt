@@ -9,7 +9,8 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 data class CustomColorsPalette(
-    val cardBack: Color = Color.Unspecified
+    val cardBack: Color = Color.Unspecified,
+    val divider_color : Color   = Color.Unspecified
 )
 
 val LocalCustomColorsPalette = staticCompositionLocalOf { CustomColorsPalette() }
@@ -23,9 +24,11 @@ val MaterialTheme.customColorsPalette: CustomColorsPalette
 
 val OnLightCustomColorsPalette = CustomColorsPalette(
     cardBack = card_back_light,
+    divider_color= devider_light
 
 )
 
 val OnDarkCustomColorsPalette = CustomColorsPalette(
-    cardBack = card_back_dark
+    cardBack = card_back_dark,
+    divider_color= devider_dark
 )

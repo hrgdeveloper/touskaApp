@@ -1,7 +1,9 @@
 package com.example.data.di
 
+import com.example.data.repository.BlocRepositoryImpl
 import com.example.data.repository.HomeRepositoryImpl
 import com.example.data.repository.LoginRepositoryImpl
+import com.example.domain.repositories.BlocRepository
 import com.example.domain.repositories.HomeRepository
 import com.example.domain.repositories.LoginRepository
 import dagger.Binds
@@ -21,5 +23,10 @@ abstract class Repositories {
     @Binds
     @Singleton
     abstract fun provideHomeRepository(homeRepositoryImpl: HomeRepositoryImpl):HomeRepository
+
+    @Binds
+    @Singleton
+    abstract fun provideBlocRepository(blocRepositoryImpl: BlocRepositoryImpl):BlocRepository
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.data.network.utils
 
 import android.util.Log
+import com.example.data.BuildConfig
 import com.example.shared.Resource
 import com.google.gson.Gson
 import retrofit2.Response
@@ -12,7 +13,12 @@ abstract class SafeApiCall {
            try {
                val result = call()
                if (result.isSuccessful) {
-                   return result.body()!!.data
+                if (result.body()!=null) {
+                    return result.body()!!.data
+                }else {
+                    return "" as T
+                }
+
                }else {
                    val error = Gson().fromJson(result.errorBody()!!.string(),ErrorResponse::class.java)
                    throw CustomExeption(error.message,error.status)
@@ -29,6 +35,9 @@ abstract class SafeApiCall {
                    is IOException ->{
                      throw  CustomExeption( IOE,-2)
                    }else-> {
+                       if (BuildConfig.DEBUG) {
+                           Log.e("MyGeneralExeption",throwable.message?:"NoMessage")
+                       }
                        throw CustomExeption(GENERAL,-3)
                    }
                }

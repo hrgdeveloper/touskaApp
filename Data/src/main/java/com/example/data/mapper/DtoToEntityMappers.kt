@@ -1,7 +1,9 @@
 package com.example.data.mapper
 
+import com.example.data.local.room.enteties.BlocEntity
 import com.example.data.local.room.enteties.ProjectEntity
 import com.example.data.local.room.enteties.UserEntity
+import com.example.data.network.dtos.BlocDto
 import com.example.data.network.dtos.ProjectDto
 import com.example.data.network.dtos.UserDto
 import com.example.domain.models.User
@@ -14,4 +16,9 @@ fun UserDto.toEntity() : UserEntity {
 
 fun ProjectDto.toEntity():ProjectEntity {
     return ProjectEntity(id,name,lat, lng,pic)
+}
+
+
+fun BlocDto.toEntitiy():BlocEntity {
+    return BlocEntity(created_at,floors,id,name,project_id,updated_at)
 }

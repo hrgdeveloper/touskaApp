@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 data class Spacing(
+    val small_margin : Dp  = 8.dp,
     val default_margin : Dp  = 16.dp,
     val default_margin_bigger : Dp  = 24.dp,
 )

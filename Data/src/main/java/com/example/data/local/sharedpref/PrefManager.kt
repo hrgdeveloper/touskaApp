@@ -4,6 +4,7 @@ package com.example.data.local.sharedpref
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 class PrefManager @Inject constructor(val sharedPreferences: SharedPreferences,val editor: Editor) {
 
@@ -21,14 +22,14 @@ class PrefManager @Inject constructor(val sharedPreferences: SharedPreferences,v
      }
 
 
-     fun <T> getValue(key: String,clazz: Class<T>, defaultValue : T) : T {
+     fun <T : Any> getValue(key: String, clazz: KClass<T>, defaultValue: T): T {
           return when (clazz) {
-               String::class.java -> sharedPreferences.getString(key, defaultValue as String) as T
-               Int::class.java -> sharedPreferences.getInt(key, defaultValue as Int) as T
-               Long::class.java -> sharedPreferences.getLong(key, defaultValue as Long) as T
-               Boolean::class.java -> sharedPreferences.getBoolean(key, defaultValue as Boolean) as T
-               Float::class.java -> sharedPreferences.getFloat(key, defaultValue as Float) as T
-               else -> throw IllegalArgumentException("Unsupported value type: ${clazz.name}")
+               String::class -> sharedPreferences.getString(key, defaultValue as? String ?: "") as T
+               Int::class -> sharedPreferences.getInt(key, defaultValue as? Int ?: 0) as T
+               Long::class -> sharedPreferences.getLong(key, defaultValue as? Long ?: 0L) as T
+               Boolean::class -> sharedPreferences.getBoolean(key, defaultValue as? Boolean ?: false) as T
+               Float::class -> sharedPreferences.getFloat(key, defaultValue as? Float ?: 0f) as T
+               else -> throw IllegalArgumentException("Unsupported value type: ${clazz.simpleName}")
           }
      }
 

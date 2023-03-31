@@ -37,6 +37,7 @@ import com.example.touska.components.VerticalDefaultMargin
 import com.example.touska.navigation.Navigation
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
+import com.example.touska.utils.returnProperMessage
 import com.example.touska.utils.toastLong
 
 @Composable
@@ -64,7 +65,8 @@ fun loginScreen(
     LaunchedEffect(loginState)   {
         when(loginState) {
             is Resource.Failure -> {
-                loginState.message.toastLong(context)
+
+                loginState.returnProperMessage(context).toastLong(context)
             }
 
             is Resource.Success -> {

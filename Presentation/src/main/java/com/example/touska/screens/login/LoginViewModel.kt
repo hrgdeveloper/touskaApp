@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase,@ApplicationContext val context: Context)  : ViewModel(){
+class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase)  : ViewModel(){
 
     private  val login_ = MutableLiveData<Resource<User>>()
     val login  : LiveData<Resource<User>> get() = login_
@@ -28,12 +28,12 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase,@Applica
 
     fun login(email:String,password:String) {
         if (!email.isValidEmail()) {
-            login_.postValue(Resource.Failure(context.getString(R.string.insert_email),400))
+            login_.postValue(Resource.Failure("",400,R.string.insert_email))
             return
         }
 
         if (password.isNullOrEmpty()) {
-            login_.postValue(Resource.Failure(context.getString(R.string.insert_password),400))
+            login_.postValue(Resource.Failure("",400,R.string.insert_password))
             return
         }
 

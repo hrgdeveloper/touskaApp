@@ -11,4 +11,17 @@
     <string name="posts_manage">مدیریت عنواین شغلی</string>
     <string name="contract_manage">مدیریت قرارداد ها</string>
     <string name="manage_working_time">مدیریت ساعات کاری</string>
+    <string name="retry">تلاش دوباره</string>
+    <string name="no_bloc">\"هیچ بلوکی یافت نشد ! \"</string>
+    <string name="add_new_bloc">افزودن بلوک جدید</string>
+    <string name="bloc_name">نام بلوک</string>
+    <string name="add">افزودن</string>
+    <string name="insert_bloc_name">لطفا نام بلوک را وارد نمایید</string>
+    <string name="update_bloc">به روز رسانی بلوک</string>
+    <string name="update">به روز رسانی</string>
+    <string name="Confirm">تایید</string>
+    <string name="cancel">لفو</string>
+    <string name="delete_bloc">حذف بلاک</string>
+    <string name="confirm_delete_bloc">آیا مایل به حذف بلاک میباشید</string>
+    <string name="bloc_deleted_suucessfully">جذف بلوک با موفقیت انجام شد</string>
 </resources>

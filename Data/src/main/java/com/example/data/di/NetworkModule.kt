@@ -3,6 +3,7 @@ package com.example.data.di
 
 import com.example.data.BuildConfig
 import com.example.data.network.ApiInterface
+import com.example.data.network.utils.TokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +22,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(): OkHttpClient {
+    fun provideOkhttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
         val builder = OkHttpClient.Builder()
         builder.connectTimeout(30, TimeUnit.SECONDS)
         builder.readTimeout(30, TimeUnit.SECONDS)
@@ -29,6 +30,7 @@ object NetworkModule {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         builder.addInterceptor(loggingInterceptor)
+        builder.addInterceptor(tokenInterceptor)
         return builder.build()
     }
 
