@@ -1,13 +1,7 @@
 package com.example.data.di
 
-import com.example.data.repository.BlocRepositoryImpl
-import com.example.data.repository.FloorRepositoryImpl
-import com.example.data.repository.HomeRepositoryImpl
-import com.example.data.repository.LoginRepositoryImpl
-import com.example.domain.repositories.BlocRepository
-import com.example.domain.repositories.FloorRepository
-import com.example.domain.repositories.HomeRepository
-import com.example.domain.repositories.LoginRepository
+import com.example.data.repository.*
+import com.example.domain.repositories.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,19 +13,28 @@ import javax.inject.Singleton
 abstract class Repositories {
     @Binds
     @Singleton
-    abstract fun provideLoginRepository(loginRepositoryImpl: LoginRepositoryImpl):LoginRepository
+    abstract fun provideLoginRepository(loginRepositoryImpl: LoginRepositoryImpl): LoginRepository
 
 
     @Binds
     @Singleton
-    abstract fun provideHomeRepository(homeRepositoryImpl: HomeRepositoryImpl):HomeRepository
+    abstract fun provideHomeRepository(homeRepositoryImpl: HomeRepositoryImpl):
+            HomeRepository
 
     @Binds
     @Singleton
-    abstract fun provideBlocRepository(blocRepositoryImpl: BlocRepositoryImpl):BlocRepository
+    abstract fun provideBlocRepository(blocRepositoryImpl: BlocRepositoryImpl):
+            BlocRepository
 
 
     @Binds
     @Singleton
-    abstract fun provideFloorRepository(floorRepositoryImpl: FloorRepositoryImpl):FloorRepository
+    abstract fun provideFloorRepository(floorRepositoryImpl: FloorRepositoryImpl):
+            FloorRepository
+
+
+    @Binds
+    @Singleton
+    abstract fun provideUnitRepository(unitRepositoryImpl: UnitRepositoryImpl):
+            UnitRepository
 }

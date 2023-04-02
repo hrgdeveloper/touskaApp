@@ -33,4 +33,12 @@
     <string name="floor_deleted_suucessfully">طبثه با موفقیت حذف گردید</string>
     <string name="delete_floor">حذف طبقه</string>
     <string name="confirm_delete_floor">آیا از حذف این طبقه مطمعن میباشید</string>
+    <string name="insert_unit_name">لطفا نام واحد را وارد نمایید</string>
+    <string name="unit_deleted_suucessfully">واحد با موفقیت حذف گردید</string>
+    <string name="updateUnit">به روز رسانی نام واحد</string>
+    <string name="add_new_unit">افزودن واحد جدید</string>
+    <string name="unit_name">نام واحد</string>
+    <string name="no_units">هیچ واحدی افزوده نشده است</string>
+    <string name="delete_unit">حذف واحد</string>
+    <string name="confirm_delete_unit">آیا از حذف این واحد مطمعن میباشید</string>
 </resources>

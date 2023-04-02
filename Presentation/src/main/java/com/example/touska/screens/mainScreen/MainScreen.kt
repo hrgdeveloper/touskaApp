@@ -30,6 +30,7 @@ import com.example.touska.screens.homeScreen.homeScreen
 
 import com.example.touska.screens.reportScreen.reportScreen
 import com.example.touska.screens.settingScreen.settingScreen
+import com.example.touska.screens.unitScreen.unitScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -140,14 +141,44 @@ fun NavigationGraph(navController: NavHostController) {
             blocScreen(navController = navController)
         }
 
-        composable(route = MainNavigation.Floor.route+"/{bloc_id}", arguments = listOf(navArgument("bloc_id"){
+        composable(route = MainNavigation.Floor.route+"/{bloc_id}/{bloc_name}", arguments = listOf(navArgument("bloc_id"){
             type= NavType.IntType
-        })
+        },
+            navArgument("bloc_name"){
+                type= NavType.StringType
+            }
+            )
          )
              {
             val bloc_id = it.arguments?.getInt("bloc_id",0)?:0
-            floorScreen(navController = navController, bloc_id = bloc_id)
+            val bloc_name = it.arguments?.getString("bloc_name","")?:""
+
+            floorScreen(navController = navController, bloc_id = bloc_id, bloc_name = bloc_name)
         }
+
+        composable(route = MainNavigation.Unit.route+"/{floor_id}/{floor_name}/{bloc_name}", arguments =
+        listOf(navArgument("floor_id"){
+            type= NavType.IntType
+        },
+            navArgument("floor_name"){
+                type= NavType.StringType
+            },
+            navArgument("bloc_name"){
+                type= NavType.StringType
+            }
+        )
+        )
+        {
+            val floor_id = it.arguments?.getInt("floor_id",0)?:0
+            val floor_name = it.arguments?.getString("floor_name","")?:""
+            val bloc_name = it.arguments?.getString("bloc_name","")?:""
+
+            unitScreen(navController = navController, floor_id = floor_id, floor_name =floor_name,
+                   bloc_name = bloc_name
+                )
+        }
+
+
 
     }
 }

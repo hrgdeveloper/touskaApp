@@ -3,6 +3,12 @@ package com.example.touska.utils
 import android.content.Context
 import android.util.Patterns
 import android.widget.Toast
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import com.example.shared.Resource
 
 fun String.toastLong(context: Context){
@@ -19,4 +25,12 @@ fun Resource.Failure.returnProperMessage(context: Context) : String {
     }else {
         return context.resources.getString(stringIdResource)
     }
+}
+
+@Stable
+fun Modifier.mirror(): Modifier = composed {
+    if (LocalLayoutDirection.current == LayoutDirection.Rtl)
+        this.scale(scaleX = -1f, scaleY = 1f)
+    else
+        this
 }

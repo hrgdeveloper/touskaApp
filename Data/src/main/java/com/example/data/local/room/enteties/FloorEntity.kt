@@ -2,14 +2,16 @@ package com.example.data.local.room.enteties
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.data.network.dtos.FloorDto
 
-@Entity(tableName = "Bloc")
-data class BlocEntity(
+
+@Entity(tableName = "Floor")
+data class FloorEntity(
+    val bloc_id: Int,
     val created_at: String,
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val name: String,
-    val project_id: Int,
-    val updated_at: String
+    val number: Int ,
+    val updated_at: String,
+
 )

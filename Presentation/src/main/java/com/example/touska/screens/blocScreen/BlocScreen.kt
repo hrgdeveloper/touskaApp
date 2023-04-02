@@ -1,5 +1,6 @@
 package com.example.touska.screens.blocScreen
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -11,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
@@ -36,12 +38,14 @@ import com.example.touska.navigation.MainNavigation
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
+import com.example.touska.utils.mirror
 import com.example.touska.utils.returnProperMessage
 import com.example.touska.utils.toastLong
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun blocScreen(
@@ -220,128 +224,138 @@ fun blocScreen(
             .fillMaxSize()
 
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-            ) {
-                when (blocs) {
-                    is Resource.Failure -> {
-                        failure(message = blocs.message) {
-                            viewmodel.getBlocs()
-                        }
-                    }
-                    Resource.IsLoading -> {
-                        CircularProgressBox()
-                    }
-                    is Resource.Success -> {
-                        SwipeRefresh(
-                            state = rememberSwipeRefreshState(blocs is Resource.IsLoading),
-                            onRefresh = {
+        Scaffold(topBar = {
+            CustomTopAppbar(title = stringResource(id = R.string.blocks_manage), navController = navController)
+        }) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    when (blocs) {
+                        is Resource.Failure -> {
+                            failure(message = blocs.message) {
                                 viewmodel.getBlocs()
-                            }) {
-                            if (blocs.result.isEmpty()) {
-                                empty(message = stringResource(R.string.no_bloc))
-                            } else {
-                                Box(modifier = Modifier.fillMaxSize()) {
-                                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                                        items(blocs.result.size) { position ->
-                                            Row(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(MaterialTheme.spacing.default_margin)
-                                                    .clickable {
-                                                               navController.navigate(MainNavigation.Floor.withArgs(
-                                                                   blocs.result[position].id.toString()
-                                                               ))
-                                                    }
-                                                ,
-                                                horizontalArrangement = Arrangement.SpaceBetween
-                                            ) {
+                            }
+                        }
+                        Resource.IsLoading -> {
+                            CircularProgressBox()
+                        }
+                        is Resource.Success -> {
+                            SwipeRefresh(
+                                state = rememberSwipeRefreshState(blocs is Resource.IsLoading),
+                                onRefresh = {
+                                    viewmodel.getBlocs()
+                                }) {
+                                if (blocs.result.isEmpty()) {
+                                    empty(message = stringResource(R.string.no_bloc))
+                                } else {
+                                    Box(modifier = Modifier.fillMaxSize()) {
+                                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                                            items(blocs.result.size) { position ->
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(MaterialTheme.spacing.default_margin)
+                                                        .clickable {
+                                                            navController.navigate(
+                                                                MainNavigation.Floor.withArgs(
+                                                                    blocs.result[position].id.toString(),
+                                                                    blocs.result[position].name
+                                                                )
+                                                            )
+                                                        }
+                                                    ,
+                                                    horizontalArrangement = Arrangement.SpaceBetween
+                                                ) {
 
                                                     Text(text = blocs.result[position].name)
 
 
-                                                Row() {
+                                                    Row() {
 
-                                                    Icon(
+                                                        Icon(
 
-                                                        imageVector = Icons.Default.Edit,
-                                                        contentDescription = null,
-                                                        modifier = Modifier
-                                                            .padding(start = MaterialTheme.spacing.small_margin)
-                                                            .clickable {
-                                                                coroutineScope.launch {
-                                                                    isUpdate = true
-                                                                    sheetState.show()
-                                                                    bloc_value =
-                                                                        TextFieldValue(blocs.result[position].name)
-                                                                    bloc_id_for_update =
-                                                                        blocs.result[position].id
+                                                            imageVector = Icons.Default.Edit,
+                                                            contentDescription = null,
+                                                            modifier = Modifier
+                                                                .padding(start = MaterialTheme.spacing.small_margin)
+                                                                .clickable {
+                                                                    coroutineScope.launch {
+                                                                        isUpdate = true
+                                                                        sheetState.show()
+                                                                        bloc_value =
+                                                                            TextFieldValue(blocs.result[position].name)
+                                                                        bloc_id_for_update =
+                                                                            blocs.result[position].id
+                                                                    }
+
                                                                 }
+                                                        )
 
-                                                            }
-                                                    )
+                                                        Icon(
+                                                            imageVector = Icons.Default.Delete,
+                                                            contentDescription = null,
+                                                            modifier = Modifier
+                                                                .padding(start = MaterialTheme.spacing.small_margin)
+                                                                .clickable {
+                                                                    openDeleteDialog.value = true
+                                                                    bloc_id_for_delete =
+                                                                        blocs.result[position].id
+                                                                },
+                                                            tint = Color.Red
 
-                                                    Icon(
-                                                        imageVector = Icons.Default.Delete,
-                                                        contentDescription = null,
-                                                        modifier = Modifier
-                                                            .padding(start = MaterialTheme.spacing.small_margin)
-                                                            .clickable {
-                                                                openDeleteDialog.value = true
-                                                                bloc_id_for_delete =
-                                                                    blocs.result[position].id
-                                                            },
-                                                        tint = Color.Red
+                                                        )
 
-                                                    )
+                                                        Icon(
+                                                            modifier = Modifier.mirror(),
+                                                            imageVector = Icons.Default.ChevronRight,
+                                                            contentDescription = null
+                                                        )
+                                                    }
 
-                                                    Icon(
-                                                        imageVector = Icons.Default.ChevronLeft,
-                                                        contentDescription = null
-                                                    )
+
+                                                }
+                                                if (position != blocs.result.size - 1) {
+                                                    customDivider()
                                                 }
 
-
-                                            }
-                                            if (position != blocs.result.size - 1) {
-                                                customDivider()
                                             }
 
                                         }
-
                                     }
+
                                 }
-
                             }
-                        }
 
-                    }
-                    null -> {
+                        }
+                        null -> {
+                        }
                     }
                 }
+
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    ConfirmButton(onclick = {
+                        coroutineScope.launch {
+                            if (sheetState.isVisible) sheetState.hide()
+                            else sheetState.show()
+                            bloc_value = TextFieldValue("")
+                            isUpdate = false
+                        }
+                    }, content = {
+                        Text(text = stringResource(id = R.string.add_new_bloc))
+                    })
+
+                    VerticalDefaultMargin()
+
+                }
+
             }
-
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                ConfirmButton(onclick = {
-                    coroutineScope.launch {
-                        if (sheetState.isVisible) sheetState.hide()
-                        else sheetState.show()
-                        bloc_value = TextFieldValue("")
-                        isUpdate = false
-                    }
-                }, content = {
-                    Text(text = stringResource(id = R.string.add_new_bloc))
-                })
-
-                VerticalDefaultMargin()
-
-            }
-
         }
+
+
 
         if (openDeleteDialog.value) {
             CustomAlertDialog(

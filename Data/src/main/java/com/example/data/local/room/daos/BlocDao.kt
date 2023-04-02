@@ -39,8 +39,7 @@ interface BlocDao {
     @Query("delete from Bloc where id = :bloc_id")
     suspend fun deleteBloc(bloc_id:Int)
 
-    @Query("update bloc set floors = :floors where id = :bloc_id")
-    suspend fun updateFloors(floors : List<FloorDto>, bloc_id:Int)
+
 
 
 

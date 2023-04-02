@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class GetFloorsUsecase @Inject constructor(val floorRepository: FloorRepository) {
 
-    operator fun invoke(bloc_id:Int) : Flow<MutableList<Floor>> {
+    operator fun invoke(bloc_id:Int) : Flow<Resource<MutableList<Floor>>> {
         return floorRepository.getFloors(bloc_id)
     }
 

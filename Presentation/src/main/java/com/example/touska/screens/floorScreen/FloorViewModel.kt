@@ -1,5 +1,6 @@
 package com.example.touska.screens.floorScreen
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,7 @@ import com.example.domain.usecases.loginUsecases.floorUsecases.GetFloorsUsecase
 import com.example.domain.usecases.loginUsecases.floorUsecases.UpdateFloorUseCase
 import com.example.shared.Resource
 import com.example.touska.R
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -23,27 +25,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FloorViewModel @Inject constructor(val getFloorsUsecase: GetFloorsUsecase,
-                                         val createFloorUsecase: CreateFloorUsecase,
-                                         val updateFloorUseCase: UpdateFloorUseCase,
-                                         val deleteFloorUseCase: DeleteFloorUseCase
+class FloorViewModel @Inject constructor(
+    val getFloorsUsecase: GetFloorsUsecase,
+    val createFloorUsecase: CreateFloorUsecase,
+    val updateFloorUseCase: UpdateFloorUseCase,
+    val deleteFloorUseCase: DeleteFloorUseCase
 
-                                        ) : ViewModel() {
-   private  val floors_ = MutableLiveData<MutableList<Floor>>()
-   val floors  : LiveData<MutableList<Floor>>  get() = floors_
+) : ViewModel() {
+    private val floors_ = MutableLiveData<Resource<MutableList<Floor>>>()
+    val floors: LiveData<Resource<MutableList<Floor>>> get() = floors_
 
-    private  val addFloor_ = MutableLiveData<Resource<Floor>>()
-    val addFloor  : LiveData<Resource<Floor>>  get() = addFloor_
+    private val addFloor_ = MutableLiveData<Resource<Floor>>()
+    val addFloor: LiveData<Resource<Floor>> get() = addFloor_
 
-    private  val updateFloor_ = MutableLiveData<Resource<Any>>()
-    val updateFloor  : LiveData<Resource<Any>>  get() = updateFloor_
-
-
-    private  val deleteFloor_ = MutableLiveData<Resource<Any>>()
-    val deleteFloor  : LiveData<Resource<Any>>  get() = deleteFloor_
+    private val updateFloor_ = MutableLiveData<Resource<Any>>()
+    val updateFloor: LiveData<Resource<Any>> get() = updateFloor_
 
 
-    fun getFloors(bloc_id:Int){
+    private val deleteFloor_ = MutableLiveData<Resource<Any>>()
+    val deleteFloor: LiveData<Resource<Any>> get() = deleteFloor_
+
+
+    fun getFloors(bloc_id: Int) {
         viewModelScope.launch {
             getFloorsUsecase(bloc_id).collect {
                 floors_.postValue(it)
@@ -51,20 +54,20 @@ class FloorViewModel @Inject constructor(val getFloorsUsecase: GetFloorsUsecase,
         }
     }
 
-    fun createFloor(name:String,number : Int,bloc_id: Int) {
+    fun createFloor(name: String, number: Int, bloc_id: Int) {
         if (name.isEmpty()) {
-            addFloor_.postValue(Resource.Failure("",0,R.string.insert_floor_name))
+            addFloor_.postValue(Resource.Failure("", 0, R.string.insert_floor_name))
             return
         }
         viewModelScope.launch {
-            createFloorUsecase(name,bloc_id,number).collect {resource->
+            createFloorUsecase(name, bloc_id, number).collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
                         val newFloorList = mutableListOf<Floor>().apply {
-                            addAll(floors_.value?: listOf())
+                            addAll(floors_.value?.let { ((it as Resource.Success).result) } ?: mutableListOf())
                             add(resource.result)
                         }
-                        floors_.postValue(newFloorList)
+                        floors_.postValue(Resource.Success(newFloorList))
                         addFloor_.postValue(resource)
                     }
                     else -> {
@@ -73,22 +76,21 @@ class FloorViewModel @Inject constructor(val getFloorsUsecase: GetFloorsUsecase,
                 }
 
 
-
             }
 
         }
     }
 
-    fun updateFloor(name:String,number:Int,id:Int,bloc_id: Int) {
+    fun updateFloor(name: String, number: Int, id: Int, bloc_id: Int) {
         if (name.isEmpty()) {
-            updateFloor_.postValue(Resource.Failure("",0,R.string.insert_bloc_name))
+            updateFloor_.postValue(Resource.Failure("", 0, R.string.insert_bloc_name))
             return
         }
         viewModelScope.launch {
-            updateFloorUseCase(name,number,id,bloc_id).collect {resource->
+            updateFloorUseCase(name, number, id, bloc_id).collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
-                        floors_.postValue(resource.result)
+                        floors_.postValue(Resource.Success(resource.result) )
                         updateFloor_.postValue(Resource.Success(true))
                     }
                     else -> {
@@ -101,12 +103,12 @@ class FloorViewModel @Inject constructor(val getFloorsUsecase: GetFloorsUsecase,
         }
     }
 
-    fun deleteBloc(id:Int,bloc_id: Int) {
+    fun deleteBloc(id: Int, bloc_id: Int) {
         viewModelScope.launch {
-            deleteFloorUseCase(id,bloc_id).collect {resource->
+            deleteFloorUseCase(id, bloc_id).collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
-                        floors_.postValue(resource.result)
+                        floors_.postValue(Resource.Success(resource.result))
                         deleteFloor_.postValue(Resource.Success(true))
                     }
                     else -> {
@@ -117,6 +119,7 @@ class FloorViewModel @Inject constructor(val getFloorsUsecase: GetFloorsUsecase,
             }
         }
     }
+
 
 
 

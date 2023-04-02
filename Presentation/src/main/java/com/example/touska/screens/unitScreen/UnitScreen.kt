@@ -1,4 +1,4 @@
-package com.example.touska.screens.floorScreen
+package com.example.touska.screens.unitScreen
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -30,7 +30,6 @@ import androidx.navigation.NavController
 import com.example.shared.Resource
 import com.example.touska.R
 import com.example.touska.components.*
-import com.example.touska.navigation.MainNavigation
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
@@ -44,16 +43,17 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun floorScreen(
+fun unitScreen(
     navController: NavController,
-    viewmodel: FloorViewModel = hiltViewModel(),
-    bloc_id: Int,
+    viewmodel: UnitViewModel = hiltViewModel(),
+    floor_id: Int,
+    floor_name:String,
     bloc_name:String
 ) {
-    val floors = viewmodel.floors.observeAsState().value
-    val addFloor = viewmodel.addFloor.observeAsState().value
-    val updateFloor = viewmodel.updateFloor.observeAsState().value
-    val deleteFloor = viewmodel.deleteFloor.observeAsState().value
+    val units = viewmodel.units.observeAsState().value
+    val addUnit = viewmodel.addUnit.observeAsState().value
+    val updateUnit = viewmodel.updateUnit.observeAsState().value
+    val deleteUnit = viewmodel.deleteUnit.observeAsState().value
 
 
 
@@ -61,21 +61,19 @@ fun floorScreen(
         mutableStateOf(false)
     }
 
-    var isAddFloor by remember {
+    var isAddUnit by remember {
         mutableStateOf(false)
     }
 
-    var floor_name by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
-    var floor_number by remember {
+    var unit_name by remember {
         mutableStateOf(TextFieldValue(""))
     }
 
-    var floor_id_for_update by remember {
+
+    var unit_id_for_update by remember {
         mutableStateOf(0)
     }
-    var floor_id_for_delete by remember {
+    var unit_id_for_delete by remember {
         mutableStateOf(0)
     }
 
@@ -85,7 +83,7 @@ fun floorScreen(
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewmodel.getFloors(bloc_id)
+        viewmodel.getUnits(floor_id)
     }
 
     val sheetState = rememberModalBottomSheetState(
@@ -98,51 +96,50 @@ fun floorScreen(
         coroutineScope.launch { sheetState.hide() }
     }
 
-    LaunchedEffect(key1 = addFloor) {
-        when (addFloor) {
+    LaunchedEffect(key1 = addUnit) {
+        when (addUnit) {
             is Resource.Failure -> {
-                addFloor.returnProperMessage(context).toastLong(context)
+                addUnit.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
             is Resource.Success -> {
                 sheetState.hide()
-                floor_name = TextFieldValue("")
-                floor_number = TextFieldValue("")
+                unit_name = TextFieldValue("")
             }
             null -> {
             }
         }
     }
 
-    LaunchedEffect(key1 = updateFloor) {
-        when (updateFloor) {
+    LaunchedEffect(key1 = updateUnit) {
+        when (updateUnit) {
             is Resource.Failure -> {
-                updateFloor.returnProperMessage(context).toastLong(context)
+                updateUnit.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
 
             is Resource.Success -> {
                 sheetState.hide()
-                floor_name = TextFieldValue("")
-                floor_number = TextFieldValue("")
+                unit_name = TextFieldValue("")
+
             }
             null -> {
             }
         }
     }
 
-    LaunchedEffect(key1 = deleteFloor) {
-        when (deleteFloor) {
+    LaunchedEffect(key1 = deleteUnit) {
+        when (deleteUnit) {
             is Resource.Failure -> {
-                deleteFloor.returnProperMessage(context).toastLong(context)
+                deleteUnit.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
             is Resource.Success -> {
                 openDeleteDialog.value = false
-                context.resources.getString(R.string.floor_deleted_suucessfully).toastLong(context)
+                context.resources.getString(R.string.unit_deleted_suucessfully).toastLong(context)
             }
             null -> {
             }
@@ -169,24 +166,24 @@ fun floorScreen(
 
                 Text(
                     text = if (isUpdate) {
-                        stringResource(R.string.updateFloor)
+                        stringResource(R.string.updateUnit)
                     } else {
-                        stringResource(R.string.add_new_floor)
+                        stringResource(R.string.add_new_unit)
                     },
                     fontSize = 20.sp,
                     fontFamily = iranSansFamily,
                     fontWeight = FontWeight.Bold,
                 )
                 OutlinedTextField(
-                    value = floor_name,
+                    value = unit_name,
                     onValueChange = {
-                        floor_name = it
+                        unit_name = it
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.spacing.default_margin),
                     label = {
-                        Text(text = stringResource(R.string.floor_name))
+                        Text(text = stringResource(R.string.unit_name))
                     },
                     singleLine = true,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -196,40 +193,20 @@ fun floorScreen(
                 )
                 VerticalDefaultMargin()
 
-                OutlinedTextField(
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    value = floor_number,
-                    onValueChange = {
-                        floor_number = it
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = MaterialTheme.spacing.default_margin),
-                    label = {
-                        Text(text = stringResource(R.string.floor_number))
-                    },
-                    singleLine = true,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = MaterialTheme.colors.surface,
-                        focusedBorderColor = MaterialTheme.colors.secondary,
-                    ),
-                )
-                VerticalDefaultMargin()
+
 
                 ConfirmButton(onclick = {
                     if (isUpdate) {
-                        viewmodel.updateFloor(
-                            floor_name.text,
-                            floor_number.text.toInt(),
-                            floor_id_for_update,
-                            bloc_id,
+                        viewmodel.updateUnit(
+                            unit_name.text,
+                            unit_id_for_update
                         )
                     } else {
-                        viewmodel.createFloor(floor_name.text, floor_number.text.toInt(), bloc_id)
+                        viewmodel.createUnit(unit_name.text, floor_id)
                     }
                 }
                 ) {
-                    if (addFloor is Resource.IsLoading) {
+                    if (addUnit is Resource.IsLoading) {
                         CircularProgressIndicator(modifier = Modifier.size(24.dp))
                     } else {
                         if (isUpdate) {
@@ -250,7 +227,8 @@ fun floorScreen(
         ) {
         Scaffold(
             topBar = {
-            CustomTopAppbar(title = bloc_name, navController = navController)
+            CustomTopAppbar(title = "${bloc_name} > ${floor_name}",
+                navController = navController)
             }
             
         ) {
@@ -261,10 +239,10 @@ fun floorScreen(
 
                     ) {
 
-                    when(floors) {
+                    when(units) {
                         is Resource.Failure -> {
-                            failure(message = floors.message) {
-                                viewmodel.getFloors(bloc_id)
+                            failure(message = units.message) {
+                                viewmodel.getUnits(floor_id)
                             }
                         }
                         Resource.IsLoading ->  {
@@ -272,38 +250,31 @@ fun floorScreen(
                         }
                         is Resource.Success ->  {
                             SwipeRefresh(
-                                state = rememberSwipeRefreshState(floors is Resource.IsLoading),
+                                state = rememberSwipeRefreshState(units is Resource.IsLoading),
                                 onRefresh = {
-                                    viewmodel.getFloors(bloc_id)
+                                    viewmodel.getUnits(floor_id)
                                 }) {
-                                if (floors.result.isEmpty()) {
-                                    empty(message = stringResource(R.string.no_floors))
+                                if (units.result.isEmpty()) {
+                                    empty(message = stringResource(R.string.no_units))
                                 } else {
                                     Box(modifier = Modifier.fillMaxSize()) {
                                         LazyColumn(
                                             modifier = Modifier
                                                 .fillMaxHeight()
                                         ) {
-                                            items(floors.result.size) { position ->
+                                            items(units.result.size) { position ->
                                                 Column() {
                                                     Row(
                                                         modifier = Modifier
                                                             .fillMaxWidth()
                                                             .clickable {
-                                                              navController.navigate(
-                                                                  MainNavigation.Unit.withArgs(
-                                                                      floors.result[position].id.toString(),
-                                                                      floors.result[position].name,
-                                                                      bloc_name
-                                                                  )
-                                                              )
+
                                                             }
                                                             .padding(MaterialTheme.spacing.default_margin),
                                                         horizontalArrangement = Arrangement.SpaceBetween,
                                                     ) {
                                                         Row() {
-                                                            Text(text = floors.result[position].name)
-                                                            Text(text = " (${floors.result[position].number})")
+                                                            Text(text = units.result[position].name)
                                                         }
 
                                                         Row() {
@@ -316,16 +287,12 @@ fun floorScreen(
                                                                         coroutineScope.launch {
                                                                             isUpdate = true
                                                                             sheetState.show()
-                                                                            floor_name =
+                                                                            unit_name =
                                                                                 TextFieldValue(
-                                                                                    floors.result[position].name
+                                                                                    units.result[position].name
                                                                                 )
-                                                                            floor_number =
-                                                                                TextFieldValue(
-                                                                                    floors.result[position].number.toString()
-                                                                                )
-                                                                            floor_id_for_update =
-                                                                                floors.result[position].id
+                                                                            unit_id_for_update =
+                                                                                units.result[position].id
                                                                         }
                                                                     },
                                                             )
@@ -338,23 +305,19 @@ fun floorScreen(
                                                                     .clickable {
                                                                         openDeleteDialog.value =
                                                                             true
-                                                                        floor_id_for_delete =
-                                                                            floors.result[position].id
+                                                                        unit_id_for_delete =
+                                                                            units.result[position].id
                                                                     },
                                                                 tint = Color.Red,
 
                                                                 )
 
-                                                            Icon(
-                                                                modifier = Modifier.mirror(),
-                                                                imageVector = Icons.Default.ChevronRight,
-                                                                contentDescription = null
-                                                            )
+
 
                                                         }
                                                     }
 
-                                                    if (position != floors.result.size - 1) {
+                                                    if (position != units.result.size - 1) {
                                                         customDivider()
                                                     }
 
@@ -385,12 +348,11 @@ fun floorScreen(
                             } else {
                                 sheetState.show()
                             }
-                            floor_name = TextFieldValue("")
-                            floor_number = TextFieldValue("")
+                            unit_name = TextFieldValue("")
                             isUpdate = false
                         }
                     }, content = {
-                        Text(text = stringResource(id = R.string.add_new_floor))
+                        Text(text = stringResource(id = R.string.add_new_unit))
                     })
                     VerticalDefaultMargin()
                 }
@@ -403,10 +365,10 @@ fun floorScreen(
     if (openDeleteDialog.value) {
         CustomAlertDialog(
             onDismiss = { openDeleteDialog.value = false },
-            title = stringResource(id = R.string.delete_floor),
-            text = stringResource(id = R.string.confirm_delete_floor),
+            title = stringResource(id = R.string.delete_unit),
+            text = stringResource(id = R.string.confirm_delete_unit),
             onConfirmButton = {
-                viewmodel.deleteBloc(floor_id_for_delete, bloc_id)
+                viewmodel.deleteUnit(unit_id_for_delete)
             },
         )
     }

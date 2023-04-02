@@ -5,6 +5,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.data.local.room.AppDatabase
 import com.example.data.local.room.daos.BlocDao
+import com.example.data.local.room.daos.FloorDao
+import com.example.data.local.room.daos.UnitDao
 
 import com.example.data.local.room.daos.UserDao
 import com.example.shared.Constants
@@ -38,5 +40,18 @@ object DatabaseModule {
     fun provideBlocDao(appDatabase: AppDatabase) : BlocDao {
         return appDatabase.blocDao()
     }
+
+    @Provides
+    @Singleton
+    fun provideFloorDao(appDatabase: AppDatabase) : FloorDao {
+        return appDatabase.floorDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUnitDao(appDatabase: AppDatabase) : UnitDao {
+        return appDatabase.unitDao()
+    }
+
 
 }

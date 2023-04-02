@@ -8,6 +8,9 @@ sealed class MainNavigation(val route : String) {
     object Bloc : MainNavigation("bloc")
     object Floor : MainNavigation("floor")
 
+    object Unit : MainNavigation("unit")
+
+
     fun withArgs(vararg args:  String ) : String {
         return  buildString {
             append(route)

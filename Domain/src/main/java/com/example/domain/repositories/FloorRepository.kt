@@ -6,7 +6,7 @@ import com.example.shared.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface FloorRepository {
-    fun getFloors(bloc_id:Int) : Flow<MutableList<Floor>>
+    fun getFloors(bloc_id:Int) :  Flow<Resource<MutableList<Floor>>>
 
     fun addFloor(bloc_id:Int,name:String,number:Int) :  Flow<Resource<Floor>>
 
