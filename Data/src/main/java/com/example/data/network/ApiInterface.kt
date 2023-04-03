@@ -1,10 +1,7 @@
 package com.example.data.network
 
-import com.example.data.network.dtos.BlocDto
-import com.example.data.network.dtos.FloorDto
-import com.example.data.network.dtos.UnitDto
+import com.example.data.network.dtos.*
 import com.example.data.network.utils.BaseResponse
-import com.example.data.network.dtos.UserDto
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.Field
@@ -105,6 +102,32 @@ interface ApiInterface {
     @DELETE("unit/{id}")
     suspend fun deleteUnit( @Path("id") id : Int
     ): Response<BaseResponse<Any>>
+
+
+
+    @GET("post")
+    suspend fun getPosts(
+    ): Response<BaseResponse<List<PostDto>>>
+
+
+    @POST("post")
+    @FormUrlEncoded
+    suspend fun createPost(
+        @Field("title") title:String,
+    ): Response<BaseResponse<PostDto>>
+
+
+    @PUT("post/{id}")
+    @FormUrlEncoded
+    suspend fun updatePost(
+        @Field("title") title:String,
+        @Path("id") id:Int
+    ): Response<BaseResponse<PostDto>>
+
+    @DELETE("post/{id}")
+    suspend fun deletePost( @Path("id") id : Int
+    ): Response<BaseResponse<Any>>
+
 
 
 }

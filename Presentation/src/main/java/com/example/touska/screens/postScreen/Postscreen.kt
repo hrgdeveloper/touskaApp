@@ -1,4 +1,4 @@
-package com.example.touska.screens.unitScreen
+package com.example.touska.screens.postScreen
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -43,17 +43,15 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun unitScreen(
+fun postScreen(
     navController: NavController,
-    viewmodel: UnitViewModel = hiltViewModel(),
-    floor_id: Int,
-    floor_name:String,
-    bloc_name:String
+    viewmodel: PostViewModel = hiltViewModel(),
+
 ) {
-    val units = viewmodel.units.observeAsState().value
-    val addUnit = viewmodel.addUnit.observeAsState().value
-    val updateUnit = viewmodel.updateUnit.observeAsState().value
-    val deleteUnit = viewmodel.deleteUnit.observeAsState().value
+    val posts = viewmodel.posts.observeAsState().value
+    val addPost = viewmodel.addPost.observeAsState().value
+    val updatePost = viewmodel.updatePost.observeAsState().value
+    val deletePost = viewmodel.deletePost.observeAsState().value
 
 
 
@@ -65,15 +63,16 @@ fun unitScreen(
         mutableStateOf(false)
     }
 
-    var unit_name by remember {
+
+    var postTitle by remember {
         mutableStateOf(TextFieldValue(""))
     }
 
 
-    var unit_id_for_update by remember {
+    var postIdForUpdate by remember {
         mutableStateOf(0)
     }
-    var unit_id_for_delete by remember {
+    var postIdForDelete by remember {
         mutableStateOf(0)
     }
 
@@ -83,7 +82,7 @@ fun unitScreen(
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewmodel.getUnits(floor_id)
+        viewmodel.getPosts()
     }
 
     val sheetState = rememberModalBottomSheetState(
@@ -96,33 +95,33 @@ fun unitScreen(
         coroutineScope.launch { sheetState.hide() }
     }
 
-    LaunchedEffect(key1 = addUnit) {
-        when (addUnit) {
+    LaunchedEffect(key1 = addPost) {
+        when (addPost) {
             is Resource.Failure -> {
-                addUnit.returnProperMessage(context).toastLong(context)
+                addPost.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
             is Resource.Success -> {
                 sheetState.hide()
-                unit_name = TextFieldValue("")
+                postTitle = TextFieldValue("")
             }
             null -> {
             }
         }
     }
 
-    LaunchedEffect(key1 = updateUnit) {
-        when (updateUnit) {
+    LaunchedEffect(key1 = updatePost) {
+        when (updatePost) {
             is Resource.Failure -> {
-                updateUnit.returnProperMessage(context).toastLong(context)
+                updatePost.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
 
             is Resource.Success -> {
                 sheetState.hide()
-                unit_name = TextFieldValue("")
+                postTitle = TextFieldValue("")
 
             }
             null -> {
@@ -130,16 +129,16 @@ fun unitScreen(
         }
     }
 
-    LaunchedEffect(key1 = deleteUnit) {
-        when (deleteUnit) {
+    LaunchedEffect(key1 = deletePost) {
+        when (deletePost) {
             is Resource.Failure -> {
-                deleteUnit.returnProperMessage(context).toastLong(context)
+                deletePost.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
             is Resource.Success -> {
                 openDeleteDialog.value = false
-                context.resources.getString(R.string.unit_deleted_suucessfully).toastLong(context)
+                context.resources.getString(R.string.post_deleted_suucessfully).toastLong(context)
             }
             null -> {
             }
@@ -166,24 +165,24 @@ fun unitScreen(
 
                 Text(
                     text = if (isUpdate) {
-                        stringResource(R.string.updateUnit)
+                        stringResource(R.string.updatePost)
                     } else {
-                        stringResource(R.string.add_new_unit)
+                        stringResource(R.string.add_new_post)
                     },
                     fontSize = 20.sp,
                     fontFamily = iranSansFamily,
                     fontWeight = FontWeight.Bold,
                 )
                 OutlinedTextField(
-                    value = unit_name,
+                    value = postTitle,
                     onValueChange = {
-                        unit_name = it
+                        postTitle = it
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.spacing.default_margin),
                     label = {
-                        Text(text = stringResource(R.string.unit_name))
+                        Text(text = stringResource(R.string.post_name))
                     },
                     singleLine = true,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -197,16 +196,16 @@ fun unitScreen(
 
                 ConfirmButton(onclick = {
                     if (isUpdate) {
-                        viewmodel.updateUnit(
-                            unit_name.text,
-                            unit_id_for_update
+                        viewmodel.updatePost(
+                            postTitle.text,
+                            postIdForUpdate
                         )
                     } else {
-                        viewmodel.createUnit(unit_name.text, floor_id)
+                        viewmodel.createPost(postTitle.text)
                     }
                 }
                 ) {
-                    if (addUnit is Resource.IsLoading) {
+                    if (addPost is Resource.IsLoading) {
                         CircularProgressIndicator(modifier = Modifier.size(24.dp))
                     } else {
                         if (isUpdate) {
@@ -227,7 +226,7 @@ fun unitScreen(
         ) {
         Scaffold(
             topBar = {
-            CustomTopAppbar(title = "${bloc_name} > ${floor_name}",
+            CustomTopAppbar(title = stringResource(R.string.post_manage),
                 navController = navController)
             }
             
@@ -239,10 +238,10 @@ fun unitScreen(
 
                     ) {
 
-                    when(units) {
+                    when(posts) {
                         is Resource.Failure -> {
-                            failure(message = units.message) {
-                                viewmodel.getUnits(floor_id)
+                            failure(message = posts.message) {
+                                viewmodel.getPosts()
                             }
                         }
                         Resource.IsLoading ->  {
@@ -250,19 +249,19 @@ fun unitScreen(
                         }
                         is Resource.Success ->  {
                             SwipeRefresh(
-                                state = rememberSwipeRefreshState(units is Resource.IsLoading),
+                                state = rememberSwipeRefreshState(posts is Resource.IsLoading),
                                 onRefresh = {
-                                    viewmodel.getUnits(floor_id)
+                                    viewmodel.getPosts()
                                 }) {
-                                if (units.result.isEmpty()) {
-                                    empty(message = stringResource(R.string.no_units))
+                                if (posts.result.isEmpty()) {
+                                    empty(message = stringResource(R.string.no_posts))
                                 } else {
                                     Box(modifier = Modifier.fillMaxSize()) {
                                         LazyColumn(
                                             modifier = Modifier
                                                 .fillMaxHeight()
                                         ) {
-                                            items(units.result.size) { position ->
+                                            items(posts.result.size) { position ->
                                                 Column() {
                                                     Row(
                                                         modifier = Modifier
@@ -274,7 +273,7 @@ fun unitScreen(
                                                         horizontalArrangement = Arrangement.SpaceBetween,
                                                     ) {
                                                         Row() {
-                                                            Text(text = units.result[position].name)
+                                                            Text(text = posts.result[position].title)
                                                         }
 
                                                         Row() {
@@ -287,12 +286,12 @@ fun unitScreen(
                                                                         coroutineScope.launch {
                                                                             isUpdate = true
                                                                             sheetState.show()
-                                                                            unit_name =
+                                                                            postTitle =
                                                                                 TextFieldValue(
-                                                                                    units.result[position].name
+                                                                                    posts.result[position].title
                                                                                 )
-                                                                            unit_id_for_update =
-                                                                                units.result[position].id
+                                                                            postIdForUpdate =
+                                                                                posts.result[position].id
                                                                         }
                                                                     },
                                                             )
@@ -305,8 +304,8 @@ fun unitScreen(
                                                                     .clickable {
                                                                         openDeleteDialog.value =
                                                                             true
-                                                                        unit_id_for_delete =
-                                                                            units.result[position].id
+                                                                        postIdForDelete =
+                                                                            posts.result[position].id
                                                                     },
                                                                 tint = Color.Red,
 
@@ -317,7 +316,7 @@ fun unitScreen(
                                                         }
                                                     }
 
-                                                    if (position != units.result.size - 1) {
+                                                    if (position != posts.result.size - 1) {
                                                         customDivider()
                                                     }
 
@@ -347,11 +346,11 @@ fun unitScreen(
                             } else {
                                 sheetState.show()
                             }
-                            unit_name = TextFieldValue("")
+                            postTitle = TextFieldValue("")
                             isUpdate = false
                         }
                     }, content = {
-                        Text(text = stringResource(id = R.string.add_new_unit))
+                        Text(text = stringResource(id = R.string.add_new_post))
                     })
                     VerticalDefaultMargin()
                 }
@@ -367,7 +366,7 @@ fun unitScreen(
             title = stringResource(id = R.string.delete_unit),
             text = stringResource(id = R.string.confirm_delete_unit),
             onConfirmButton = {
-                viewmodel.deleteUnit(unit_id_for_delete)
+                viewmodel.deletePost(postIdForDelete)
             },
         )
     }

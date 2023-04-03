@@ -41,4 +41,11 @@
     <string name="no_units">هیچ واحدی افزوده نشده است</string>
     <string name="delete_unit">حذف واحد</string>
     <string name="confirm_delete_unit">آیا از حذف این واحد مطمعن میباشید</string>
+    <string name="insert_post_name">لطفا نام پست شغلی را وارد نمایید</string>
+    <string name="post_deleted_suucessfully">موقعیت شفلی با موفقیت حذف گردید</string>
+    <string name="post_name">نام موقعیت شفلی</string>
+    <string name="post_manage">مدیریت پست های شغلی</string>
+    <string name="no_posts">هیچ موقعیت شغلی یافت نشد</string>
+    <string name="add_new_post">افزودن موقعیت شغلی جدید</string>
+    <string name="updatePost">به روز رسانی عنوان موقعیت شغلی</string>
 </resources>

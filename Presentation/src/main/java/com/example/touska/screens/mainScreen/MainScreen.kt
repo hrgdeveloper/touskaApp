@@ -27,6 +27,7 @@ import com.example.touska.navigation.MainNavigation
 import com.example.touska.screens.blocScreen.blocScreen
 import com.example.touska.screens.floorScreen.floorScreen
 import com.example.touska.screens.homeScreen.homeScreen
+import com.example.touska.screens.postScreen.postScreen
 
 import com.example.touska.screens.reportScreen.reportScreen
 import com.example.touska.screens.settingScreen.settingScreen
@@ -177,6 +178,16 @@ fun NavigationGraph(navController: NavHostController) {
                    bloc_name = bloc_name
                 )
         }
+
+
+        composable(route = MainNavigation.Post.route
+        )
+        {
+            postScreen(navController = navController,
+
+            )
+        }
+
 
 
 

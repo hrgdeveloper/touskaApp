@@ -25,3 +25,6 @@ fun FloorDto.toEntity() : FloorEntity {
 fun UnitDto.toEntity() : UnitEntity {
     return UnitEntity(created_at,floor_id,id,name,updated_at)
 }
+fun PostDto.toEntity() : PostEntity {
+    return PostEntity(id,title)
+}

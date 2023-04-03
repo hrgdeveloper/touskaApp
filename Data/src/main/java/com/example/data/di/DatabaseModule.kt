@@ -4,11 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.data.local.room.AppDatabase
-import com.example.data.local.room.daos.BlocDao
-import com.example.data.local.room.daos.FloorDao
-import com.example.data.local.room.daos.UnitDao
+import com.example.data.local.room.daos.*
 
-import com.example.data.local.room.daos.UserDao
 import com.example.shared.Constants
 import dagger.Module
 import dagger.Provides
@@ -52,6 +49,14 @@ object DatabaseModule {
     fun provideUnitDao(appDatabase: AppDatabase) : UnitDao {
         return appDatabase.unitDao()
     }
+
+
+    @Provides
+    @Singleton
+    fun providePostDao(appDatabase: AppDatabase) : PostDao {
+        return appDatabase.postDao()
+    }
+
 
 
 }

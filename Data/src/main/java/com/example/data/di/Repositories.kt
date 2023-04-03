@@ -37,4 +37,11 @@ abstract class Repositories {
     @Singleton
     abstract fun provideUnitRepository(unitRepositoryImpl: UnitRepositoryImpl):
             UnitRepository
+
+    @Binds
+    @Singleton
+    abstract fun providePostRepository(postRepositoryImpl: PostRepositoryImpl):
+            PostRepository
+
+
 }

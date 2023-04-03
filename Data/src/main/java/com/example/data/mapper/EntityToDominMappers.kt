@@ -27,6 +27,11 @@ fun UnitEntity.toDomain() : Unitt{
 }
 
 
+fun PostEntity.toDomain() : Post{
+    return Post(id,title)
+}
+
+
 
 
 
