@@ -8,24 +8,26 @@ import com.example.data.local.room.daos.*
 import com.example.data.local.room.enteties.*
 import com.example.data.local.room.utils.DataConverter
 
-@Database(entities = [ProjectEntity::class,UserEntity::class,BlocEntity::class,
-                     FloorEntity::class,UnitEntity::class,PostEntity::class
-                     ],
-    version = 1,
+@Database(
+    entities = [ProjectEntity::class, UserEntity::class, BlocEntity::class,
+        FloorEntity::class, UnitEntity::class, PostEntity::class,ActivityEntity::class
+    ],
+    version =1,
     exportSchema = true,
-
-)
+    )
 @TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun userDao() : UserDao
+    abstract fun userDao(): UserDao
 
-    abstract fun blocDao() : BlocDao
+    abstract fun blocDao(): BlocDao
 
-    abstract fun floorDao() : FloorDao
+    abstract fun floorDao(): FloorDao
 
-    abstract fun unitDao() : UnitDao
+    abstract fun unitDao(): UnitDao
 
-    abstract fun postDao() : PostDao
+    abstract fun postDao(): PostDao
+
+    abstract fun activityDao(): ActivityDao
 
 }

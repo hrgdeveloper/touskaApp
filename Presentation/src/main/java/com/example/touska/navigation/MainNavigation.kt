@@ -12,6 +12,8 @@ sealed class MainNavigation(val route : String) {
 
     object Post : MainNavigation("post")
 
+    object Activity : MainNavigation("activity")
+
 
     fun withArgs(vararg args:  String ) : String {
         return  buildString {

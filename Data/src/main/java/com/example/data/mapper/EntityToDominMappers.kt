@@ -1,6 +1,7 @@
 package com.example.data.mapper
 
 import com.example.data.local.room.enteties.*
+import com.example.data.network.dtos.ActivityDto
 import com.example.data.network.dtos.FloorDto
 import com.example.data.network.dtos.UnitDto
 import com.example.domain.models.*
@@ -30,6 +31,11 @@ fun UnitEntity.toDomain() : Unitt{
 fun PostEntity.toDomain() : Post{
     return Post(id,title)
 }
+
+fun ActivityEntity.toDomain() : Activity {
+    return Activity(id,title,post_id)
+}
+
 
 
 

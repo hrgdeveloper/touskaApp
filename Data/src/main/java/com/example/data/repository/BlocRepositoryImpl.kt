@@ -4,7 +4,6 @@ import com.example.data.local.room.daos.BlocDao
 import com.example.data.local.room.daos.FloorDao
 import com.example.data.local.room.daos.UserDao
 import com.example.data.mapper.toDomain
-import com.example.data.mapper.toEntitiy
 import com.example.data.mapper.toEntity
 import com.example.data.network.ApiInterface
 import com.example.data.network.utils.CustomExeption
@@ -29,7 +28,7 @@ class BlocRepositoryImpl @Inject constructor(
         val blocs_in_db = blocDao.getBlocs().map { it.toDomain() }
         try {
             val result = safeCall { apiInterface.getBlocs() }
-            blocDao.deleteAndInsert(result.map { it.toEntitiy() })
+            blocDao.deleteAndInsert(result.map { it.toEntity() })
             val blocs = blocDao.getBlocs().map { it.toDomain() }
             emit(Resource.Success(blocs.toMutableList()))
 
@@ -47,7 +46,7 @@ class BlocRepositoryImpl @Inject constructor(
         emit(Resource.IsLoading)
         try {
             val result = safeCall { apiInterface.createBLoc(name) }
-            blocDao.insertSingleBloc(result.toEntitiy())
+            blocDao.insertSingleBloc(result.toEntity())
             emit(Resource.Success(blocDao.getSingleBloc(result.id).toDomain()))
 
         }catch (e:CustomExeption) {
@@ -59,7 +58,7 @@ class BlocRepositoryImpl @Inject constructor(
         emit(Resource.IsLoading)
         try {
             val result = safeCall { apiInterface.updateBloc(name,id) }
-            blocDao.updateBloc(result.toEntitiy())
+            blocDao.updateBloc(result.toEntity())
             val newlist = blocDao.getBlocs().map { it.toDomain() }
             emit(Resource.Success(newlist.toMutableList()))
 

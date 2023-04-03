@@ -1,13 +1,10 @@
-package com.example.touska.screens.postScreen
+package com.example.touska.screens.activityScreen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -44,15 +41,16 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun postScreen(
+fun activityScreen(
     navController: NavController,
-    viewmodel: PostViewModel = hiltViewModel(),
-
+    viewmodel: ActivityviewModel = hiltViewModel(),
+    postId: Int,
+    postTitle:String
 ) {
-    val posts = viewmodel.posts.observeAsState().value
-    val addPost = viewmodel.addPost.observeAsState().value
-    val updatePost = viewmodel.updatePost.observeAsState().value
-    val deletePost = viewmodel.deletePost.observeAsState().value
+    val activities = viewmodel.activities.observeAsState().value
+    val addActivity = viewmodel.addActivity.observeAsState().value
+    val updateActivity = viewmodel.updateActivity.observeAsState().value
+    val deleteActivity = viewmodel.deleteActivity.observeAsState().value
 
 
 
@@ -60,20 +58,19 @@ fun postScreen(
         mutableStateOf(false)
     }
 
-    var isAddUnit by remember {
+    var isAdd by remember {
         mutableStateOf(false)
     }
 
-
-    var postTitle by remember {
+    var activityTitle by remember {
         mutableStateOf(TextFieldValue(""))
     }
 
 
-    var postIdForUpdate by remember {
+    var activityIdForUpdate by remember {
         mutableStateOf(0)
     }
-    var postIdForDelete by remember {
+    var activityIdForDelete by remember {
         mutableStateOf(0)
     }
 
@@ -83,7 +80,7 @@ fun postScreen(
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewmodel.getPosts()
+        viewmodel.getActivities(postId)
     }
 
     val sheetState = rememberModalBottomSheetState(
@@ -96,50 +93,49 @@ fun postScreen(
         coroutineScope.launch { sheetState.hide() }
     }
 
-    LaunchedEffect(key1 = addPost) {
-        when (addPost) {
+    LaunchedEffect(key1 = addActivity) {
+        when (addActivity) {
             is Resource.Failure -> {
-                addPost.returnProperMessage(context).toastLong(context)
+                addActivity.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
             is Resource.Success -> {
                 sheetState.hide()
-                postTitle = TextFieldValue("")
+                activityTitle = TextFieldValue("")
             }
             null -> {
             }
         }
     }
 
-    LaunchedEffect(key1 = updatePost) {
-        when (updatePost) {
+    LaunchedEffect(key1 = updateActivity) {
+        when (updateActivity) {
             is Resource.Failure -> {
-                updatePost.returnProperMessage(context).toastLong(context)
+                updateActivity.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
 
             is Resource.Success -> {
                 sheetState.hide()
-                postTitle = TextFieldValue("")
-
+                activityTitle = TextFieldValue("")
             }
             null -> {
             }
         }
     }
 
-    LaunchedEffect(key1 = deletePost) {
-        when (deletePost) {
+    LaunchedEffect(key1 = deleteActivity) {
+        when (deleteActivity) {
             is Resource.Failure -> {
-                deletePost.returnProperMessage(context).toastLong(context)
+                deleteActivity.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
             }
             is Resource.Success -> {
                 openDeleteDialog.value = false
-                context.resources.getString(R.string.post_deleted_suucessfully).toastLong(context)
+                context.resources.getString(R.string.activity_deleted_suucessfully).toastLong(context)
             }
             null -> {
             }
@@ -166,24 +162,24 @@ fun postScreen(
 
                 Text(
                     text = if (isUpdate) {
-                        stringResource(R.string.updatePost)
+                        stringResource(R.string.updateActivity)
                     } else {
-                        stringResource(R.string.add_new_post)
+                        stringResource(R.string.add_new_activity)
                     },
                     fontSize = 20.sp,
                     fontFamily = iranSansFamily,
                     fontWeight = FontWeight.Bold,
                 )
                 OutlinedTextField(
-                    value = postTitle,
+                    value = activityTitle,
                     onValueChange = {
-                        postTitle = it
+                        activityTitle = it
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.spacing.default_margin),
                     label = {
-                        Text(text = stringResource(R.string.post_name))
+                        Text(text = stringResource(R.string.activity_name))
                     },
                     singleLine = true,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -195,18 +191,19 @@ fun postScreen(
 
 
 
+
                 ConfirmButton(onclick = {
                     if (isUpdate) {
-                        viewmodel.updatePost(
-                            postTitle.text,
-                            postIdForUpdate
+                        viewmodel.updateActivity(
+                            activityTitle.text,
+                            activityIdForUpdate,
                         )
                     } else {
-                        viewmodel.createPost(postTitle.text)
+                        viewmodel.createActivity( activityTitle.text,postId)
                     }
                 }
                 ) {
-                    if (addPost is Resource.IsLoading) {
+                    if (addActivity is Resource.IsLoading) {
                         CircularProgressIndicator(modifier = Modifier.size(24.dp))
                     } else {
                         if (isUpdate) {
@@ -227,8 +224,7 @@ fun postScreen(
         ) {
         Scaffold(
             topBar = {
-            CustomTopAppbar(title = stringResource(R.string.post_manage),
-                navController = navController)
+            CustomTopAppbar(title = postTitle, navController = navController)
             }
             
         ) {
@@ -239,10 +235,10 @@ fun postScreen(
 
                     ) {
 
-                    when(posts) {
+                    when(activities) {
                         is Resource.Failure -> {
-                            failure(message = posts.message) {
-                                viewmodel.getPosts()
+                            failure(message = activities.message) {
+                                viewmodel.getActivities(postId)
                             }
                         }
                         Resource.IsLoading ->  {
@@ -250,34 +246,28 @@ fun postScreen(
                         }
                         is Resource.Success ->  {
                             SwipeRefresh(
-                                state = rememberSwipeRefreshState(posts is Resource.IsLoading),
+                                state = rememberSwipeRefreshState(activities is Resource.IsLoading),
                                 onRefresh = {
-                                    viewmodel.getPosts()
+                                    viewmodel.getActivities(postId)
                                 }) {
-                                if (posts.result.isEmpty()) {
-                                    empty(message = stringResource(R.string.no_posts))
+                                if (activities.result.isEmpty()) {
+                                    empty(message = stringResource(R.string.no_activities))
                                 } else {
                                     Box(modifier = Modifier.fillMaxSize()) {
                                         LazyColumn(
                                             modifier = Modifier
                                                 .fillMaxHeight()
                                         ) {
-                                            items(posts.result.size) { position ->
+                                            items(activities.result.size) { position ->
                                                 Column() {
                                                     Row(
                                                         modifier = Modifier
                                                             .fillMaxWidth()
-                                                            .clickable {
-                                                               navController.navigate(MainNavigation.Activity.withArgs(
-                                                                   posts.result[position].id.toString(),
-                                                                   posts.result[position].title
-                                                               ))
-                                                            }
                                                             .padding(MaterialTheme.spacing.default_margin),
                                                         horizontalArrangement = Arrangement.SpaceBetween,
                                                     ) {
                                                         Row() {
-                                                            Text(text = posts.result[position].title)
+                                                            Text(text = activities.result[position].title)
                                                         }
 
                                                         Row() {
@@ -290,12 +280,13 @@ fun postScreen(
                                                                         coroutineScope.launch {
                                                                             isUpdate = true
                                                                             sheetState.show()
-                                                                            postTitle =
+                                                                            activityTitle =
                                                                                 TextFieldValue(
-                                                                                    posts.result[position].title
+                                                                                    activities.result[position].title
                                                                                 )
-                                                                            postIdForUpdate =
-                                                                                posts.result[position].id
+
+                                                                            activityIdForUpdate =
+                                                                                activities.result[position].id
                                                                         }
                                                                     },
                                                             )
@@ -308,26 +299,11 @@ fun postScreen(
                                                                     .clickable {
                                                                         openDeleteDialog.value =
                                                                             true
-                                                                        postIdForDelete =
-                                                                            posts.result[position].id
+                                                                        activityIdForDelete =
+                                                                            activities.result[position].id
                                                                     },
                                                                 tint = Color.Red,
 
-                                                                )
-
-
-                                                            Icon(
-                                                                imageVector = Icons.Default.ChevronRight,
-                                                                contentDescription = null,
-                                                                modifier = Modifier
-                                                                    .mirror()
-                                                                    .padding(start = MaterialTheme.spacing.small_margin)
-                                                                    .clickable {
-                                                                        openDeleteDialog.value =
-                                                                            true
-                                                                        postIdForDelete =
-                                                                            posts.result[position].id
-                                                                    },
                                                                 )
 
 
@@ -335,7 +311,7 @@ fun postScreen(
                                                         }
                                                     }
 
-                                                    if (position != posts.result.size - 1) {
+                                                    if (position != activities.result.size - 1) {
                                                         customDivider()
                                                     }
 
@@ -355,6 +331,7 @@ fun postScreen(
                     }
 
                 }
+
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
@@ -365,11 +342,11 @@ fun postScreen(
                             } else {
                                 sheetState.show()
                             }
-                            postTitle = TextFieldValue("")
+                            activityTitle = TextFieldValue("")
                             isUpdate = false
                         }
                     }, content = {
-                        Text(text = stringResource(id = R.string.add_new_post))
+                        Text(text = stringResource(id = R.string.add_new_activity))
                     })
                     VerticalDefaultMargin()
                 }
@@ -382,10 +359,10 @@ fun postScreen(
     if (openDeleteDialog.value) {
         CustomAlertDialog(
             onDismiss = { openDeleteDialog.value = false },
-            title = stringResource(id = R.string.delete_unit),
-            text = stringResource(id = R.string.confirm_delete_unit),
+            title = stringResource(id = R.string.delete_activity_title),
+            text = stringResource(id = R.string.delete_activity),
             onConfirmButton = {
-                viewmodel.deletePost(postIdForDelete)
+                viewmodel.deleteActivity(activityIdForDelete)
             },
         )
     }

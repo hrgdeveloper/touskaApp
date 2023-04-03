@@ -14,7 +14,7 @@ fun ProjectDto.toEntity():ProjectEntity {
 }
 
 
-fun BlocDto.toEntitiy():BlocEntity {
+fun BlocDto.toEntity():BlocEntity {
     return BlocEntity(created_at,id,name,project_id,updated_at)
 }
 
@@ -27,4 +27,8 @@ fun UnitDto.toEntity() : UnitEntity {
 }
 fun PostDto.toEntity() : PostEntity {
     return PostEntity(id,title)
+}
+
+fun ActivityDto.toEntity() : ActivityEntity {
+    return ActivityEntity(id,title,post_id)
 }

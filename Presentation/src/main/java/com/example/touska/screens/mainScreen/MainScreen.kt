@@ -23,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.touska.navigation.BottomNavItem
 import com.example.touska.navigation.MainNavigation
+import com.example.touska.screens.activityScreen.activityScreen
 
 import com.example.touska.screens.blocScreen.blocScreen
 import com.example.touska.screens.floorScreen.floorScreen
@@ -187,6 +188,23 @@ fun NavigationGraph(navController: NavHostController) {
 
             )
         }
+
+        composable(route = MainNavigation.Activity.route+"/{post_id}/{post_title}", arguments = listOf(navArgument("post_id"){
+            type= NavType.IntType
+        },
+            navArgument("post_title"){
+                type= NavType.StringType
+            }
+        )
+        )
+        {
+            val postId = it.arguments?.getInt("post_id",0)?:0
+            val postTitle = it.arguments?.getString("post_title","")?:""
+
+            activityScreen(navController = navController, postId = postId, postTitle = postTitle)
+        }
+
+
 
 
 

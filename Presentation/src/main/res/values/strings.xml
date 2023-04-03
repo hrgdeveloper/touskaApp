@@ -48,4 +48,12 @@
     <string name="no_posts">هیچ موقعیت شغلی یافت نشد</string>
     <string name="add_new_post">افزودن موقعیت شغلی جدید</string>
     <string name="updatePost">به روز رسانی عنوان موقعیت شغلی</string>
+    <string name="insert_activity_name">لطفا فیلد نوع فعالیت را وارد نمایید</string>
+    <string name="activity_deleted_suucessfully">نوع فعالیت با موفقیت حذف گردید</string>
+    <string name="updateActivity">به روز رسانی فعالیت</string>
+    <string name="add_new_activity">افزودن فعالیت جدید</string>
+    <string name="activity_name">عنوان فعالیت</string>
+    <string name="no_activities">هیچ فعالیتی اضافه نشده است</string>
+    <string name="delete_activity">آیا از حذف این فعالیت مطمعن میباشید</string>
+    <string name="delete_activity_title">حذف فعالیت</string>
 </resources>

@@ -57,6 +57,10 @@ object DatabaseModule {
         return appDatabase.postDao()
     }
 
-
+    @Provides
+    @Singleton
+    fun provideActivityDao(appDatabase: AppDatabase) : ActivityDao {
+        return appDatabase.activityDao()
+    }
 
 }

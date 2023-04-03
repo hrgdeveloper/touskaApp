@@ -4,7 +4,6 @@ import com.example.data.local.room.daos.BlocDao
 import com.example.data.local.room.daos.FloorDao
 import com.example.data.local.room.daos.UserDao
 import com.example.data.mapper.toDomain
-import com.example.data.mapper.toEntitiy
 import com.example.data.mapper.toEntity
 import com.example.data.network.ApiInterface
 import com.example.data.network.utils.CustomExeption

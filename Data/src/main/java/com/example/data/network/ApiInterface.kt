@@ -129,5 +129,33 @@ interface ApiInterface {
     ): Response<BaseResponse<Any>>
 
 
+    @GET("activity")
+    suspend fun getActivities(
+        @Query("post_id") postId:Int
+    ): Response<BaseResponse<List<ActivityDto>>>
+
+
+    @POST("activity")
+    @FormUrlEncoded
+    suspend fun createActivity(
+        @Field("title") title:String,
+        @Query("post_id") postId:Int
+    ): Response<BaseResponse<ActivityDto>>
+
+
+    @PUT("activity/{id}")
+    @FormUrlEncoded
+    suspend fun updateActivity(
+        @Field("title") title:String,
+        @Path("id") id:Int
+    ): Response<BaseResponse<ActivityDto>>
+
+    @DELETE("activity/{id}")
+    suspend fun deleteActivity( @Path("id") id : Int
+    ): Response<BaseResponse<Any>>
+
+
+
+
 
 }
