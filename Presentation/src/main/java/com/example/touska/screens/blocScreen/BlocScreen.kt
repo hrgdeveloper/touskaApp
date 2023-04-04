@@ -256,7 +256,6 @@ fun blocScreen(
                                                 Row(
                                                     modifier = Modifier
                                                         .fillMaxWidth()
-                                                        .padding(MaterialTheme.spacing.default_margin)
                                                         .clickable {
                                                             navController.navigate(
                                                                 MainNavigation.Floor.withArgs(
@@ -265,6 +264,8 @@ fun blocScreen(
                                                                 )
                                                             )
                                                         }
+                                                        .padding(MaterialTheme.spacing.default_margin)
+
                                                     ,
                                                     horizontalArrangement = Arrangement.SpaceBetween
                                                 ) {
