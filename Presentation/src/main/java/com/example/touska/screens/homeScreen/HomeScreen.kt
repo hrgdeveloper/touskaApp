@@ -138,6 +138,9 @@ fun homeScreen(
             Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack) {
                 Row(modifier = Modifier
                     .fillMaxWidth()
+                    .clickable {
+                        navController.navigate(MainNavigation.Contract.route)
+                    }
                     .padding(MaterialTheme.spacing.default_margin),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {

@@ -32,3 +32,7 @@ fun PostDto.toEntity() : PostEntity {
 fun ActivityDto.toEntity() : ActivityEntity {
     return ActivityEntity(id,title,post_id)
 }
+
+fun ContractDto.toEntity() : ContractEntity {
+    return ContractEntity(id,title)
+}

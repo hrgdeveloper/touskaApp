@@ -55,4 +55,9 @@
     <string name="no_activities">هیچ فعالیتی اضافه نشده است</string>
     <string name="delete_activity">آیا از حذف این فعالیت مطمعن میباشید</string>
     <string name="delete_activity_title">حذف فعالیت</string>
+    <string name="insert_contract_name">لطفا عنوان قرارداد  را وارد نمایید</string>
+    <string name="add_new_Contract">افزودن قرار داد جدید</string>
+    <string name="delete_contract">حذف قرارداد</string>
+    <string name="confirm_delete_contract">آیا از حذف این نوع قرارداد اطمینان دارید</string>
+    <string name="contract_name">عنوان قرارداد</string>
 </resources>

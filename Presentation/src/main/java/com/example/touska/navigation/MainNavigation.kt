@@ -14,6 +14,7 @@ sealed class MainNavigation(val route : String) {
 
     object Activity : MainNavigation("activity")
 
+    object Contract : MainNavigation("contract")
 
     fun withArgs(vararg args:  String ) : String {
         return  buildString {

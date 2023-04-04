@@ -10,10 +10,12 @@ import com.example.data.local.room.utils.DataConverter
 
 @Database(
     entities = [ProjectEntity::class, UserEntity::class, BlocEntity::class,
-        FloorEntity::class, UnitEntity::class, PostEntity::class,ActivityEntity::class
+        FloorEntity::class, UnitEntity::class, PostEntity::class,ActivityEntity::class,
+       ContractEntity::class
     ],
-    version =1,
+    version =2,
     exportSchema = true,
+    autoMigrations = [AutoMigration(1,2)]
     )
 @TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -30,4 +32,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun activityDao(): ActivityDao
 
+    abstract fun contractDao(): ContractDao
 }

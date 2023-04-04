@@ -35,7 +35,9 @@ fun PostEntity.toDomain() : Post{
 fun ActivityEntity.toDomain() : Activity {
     return Activity(id,title,post_id)
 }
-
+fun ContractEntity.toDomain() : Contract{
+    return Contract(id,title)
+}
 
 
 

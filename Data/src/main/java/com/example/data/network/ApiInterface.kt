@@ -156,6 +156,28 @@ interface ApiInterface {
 
 
 
+    @GET("contract")
+    suspend fun getContracts(
+    ): Response<BaseResponse<List<ContractDto>>>
+
+
+    @POST("contract")
+    @FormUrlEncoded
+    suspend fun createContract(
+        @Field("title") title:String,
+    ): Response<BaseResponse<ContractDto>>
+
+
+    @PUT("contract/{id}")
+    @FormUrlEncoded
+    suspend fun updateContract(
+        @Field("title") title:String,
+        @Path("id") id:Int
+    ): Response<BaseResponse<ContractDto>>
+
+    @DELETE("contract/{id}")
+    suspend fun deleteContract( @Path("id") id : Int
+    ): Response<BaseResponse<Any>>
 
 
 }

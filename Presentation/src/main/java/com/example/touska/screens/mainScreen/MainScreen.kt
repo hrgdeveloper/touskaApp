@@ -26,6 +26,7 @@ import com.example.touska.navigation.MainNavigation
 import com.example.touska.screens.activityScreen.activityScreen
 
 import com.example.touska.screens.blocScreen.blocScreen
+import com.example.touska.screens.contractScreen.contractScreen
 import com.example.touska.screens.floorScreen.floorScreen
 import com.example.touska.screens.homeScreen.homeScreen
 import com.example.touska.screens.postScreen.postScreen
@@ -204,7 +205,13 @@ fun NavigationGraph(navController: NavHostController) {
             activityScreen(navController = navController, postId = postId, postTitle = postTitle)
         }
 
+        composable(route = MainNavigation.Contract.route
+        )
+        {
+            contractScreen(navController = navController,
 
+                )
+        }
 
 
 

@@ -63,4 +63,9 @@ object DatabaseModule {
         return appDatabase.activityDao()
     }
 
+    @Provides
+    @Singleton
+    fun provideContractDao(appDatabase: AppDatabase) : ContractDao {
+        return appDatabase.contractDao()
+    }
 }
