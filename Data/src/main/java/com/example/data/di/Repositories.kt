@@ -54,5 +54,11 @@ abstract class Repositories {
     abstract fun provideContractRepository(contractRepositoryImpl: ContractRepositoryImpl):
             ContractRepository
 
+    @Binds
+    @Singleton
+    abstract fun provideWorkingTimeRepository(workingTimeRepositoryImpl: WorkingTimeRepositoryImpl):
+            WorkingTimeRepository
+
+
 
 }

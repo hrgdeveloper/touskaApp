@@ -180,4 +180,33 @@ interface ApiInterface {
     ): Response<BaseResponse<Any>>
 
 
+
+    @GET("workingTime")
+    suspend fun getWorkingTimes(
+    ): Response<BaseResponse<List<WorkingTimeDto>>>
+
+
+    @POST("workingTime")
+    @FormUrlEncoded
+    suspend fun createWorkingTime(
+        @Field("title") title:String,
+        @Field("start_time") startTime:String,
+        @Field("end_time") endTime:String
+    ): Response<BaseResponse<WorkingTimeDto>>
+
+
+    @PUT("workingTime/{id}")
+    @FormUrlEncoded
+    suspend fun updateWorkingTime(
+        @Field("title") title:String,
+        @Field("start_time") startTime:String,
+        @Field("end_time") endTime:String,
+        @Path("id") id:Int
+    ): Response<BaseResponse<WorkingTimeDto>>
+
+    @DELETE("workingTime/{id}")
+    suspend fun deleteWorkingTime( @Path("id") id : Int
+    ): Response<BaseResponse<Any>>
+
+
 }

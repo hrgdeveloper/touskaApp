@@ -68,4 +68,11 @@ object DatabaseModule {
     fun provideContractDao(appDatabase: AppDatabase) : ContractDao {
         return appDatabase.contractDao()
     }
+    @Provides
+    @Singleton
+    fun provideWorkingTimeDao(appDatabase: AppDatabase) : WorkingTimeDao {
+        return appDatabase.workingTimeDao()
+    }
+
+
 }

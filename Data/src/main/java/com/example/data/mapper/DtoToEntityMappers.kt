@@ -36,3 +36,6 @@ fun ActivityDto.toEntity() : ActivityEntity {
 fun ContractDto.toEntity() : ContractEntity {
     return ContractEntity(id,title)
 }
+fun WorkingTimeDto.toEntity() : WorkingTimeEntity {
+    return WorkingTimeEntity(id,title,startTime,endTime)
+}

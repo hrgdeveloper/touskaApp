@@ -58,9 +58,6 @@ fun activityScreen(
         mutableStateOf(false)
     }
 
-    var isAdd by remember {
-        mutableStateOf(false)
-    }
 
     var activityTitle by remember {
         mutableStateOf(TextFieldValue(""))

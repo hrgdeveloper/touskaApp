@@ -60,4 +60,18 @@
     <string name="delete_contract">حذف قرارداد</string>
     <string name="confirm_delete_contract">آیا از حذف این نوع قرارداد اطمینان دارید</string>
     <string name="contract_name">عنوان قرارداد</string>
+    <string name="insert_working_time_title">لطفا عنوان ساعت کاری را مشخص نمایید</string>
+    <string name="insert_start_time_title">لطفا ساعت شروع را وارد نمایید</string>
+    <string name="insert_end_time_title">لطفا ساعت پایان را وارد نمایید</string>
+    <string name="working_time_deleted">ساعت کاری با موفقیت حذف گردید</string>
+    <string name="update_working_time">به روز رسانی ساعت کاری</string>
+    <string name="add_new_working_time">افزودنی ساعت کار جدید</string>
+    <string name="working_timne_title">عنوان ساعت کاری</string>
+    <string name="chose_start_time">انتخاب ساعت شروع</string>
+    <string name="chose_end_time">انتخاب ساعت پایان</string>
+    <string name="manage_working_times">مدیریت ساعات کاری</string>
+    <string name="no_working_times">هیچ ساعت کاری اضافه نشده است</string>
+    <string name="delete_working_time">آیا از حذف این ساعت کاری مطمعن میباشید</string>
+    <string name="delete_working_time_title">حذف ساعت کاری</string>
+    <string name="start_time_greater_than_end_time">زمان شروع باید کوچکتر از زمان پایان باشد</string>
 </resources>

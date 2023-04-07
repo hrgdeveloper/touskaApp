@@ -4,6 +4,7 @@ import com.example.data.local.room.enteties.*
 import com.example.data.network.dtos.ActivityDto
 import com.example.data.network.dtos.FloorDto
 import com.example.data.network.dtos.UnitDto
+import com.example.data.network.dtos.WorkingTimeDto
 import com.example.domain.models.*
 
 
@@ -39,6 +40,9 @@ fun ContractEntity.toDomain() : Contract{
     return Contract(id,title)
 }
 
+fun WorkingTimeEntity.toDomain() : WorkingTime {
+    return WorkingTime(id,title,startTime,endTime)
+}
 
 
 

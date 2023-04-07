@@ -16,6 +16,9 @@ sealed class MainNavigation(val route : String) {
 
     object Contract : MainNavigation("contract")
 
+    object WorkingTime : MainNavigation("workingTime")
+
+
     fun withArgs(vararg args:  String ) : String {
         return  buildString {
             append(route)

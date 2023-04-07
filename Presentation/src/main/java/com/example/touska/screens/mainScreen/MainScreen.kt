@@ -34,6 +34,7 @@ import com.example.touska.screens.postScreen.postScreen
 import com.example.touska.screens.reportScreen.reportScreen
 import com.example.touska.screens.settingScreen.settingScreen
 import com.example.touska.screens.unitScreen.unitScreen
+import com.example.touska.screens.workingTimeScreen.workingTimeScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -213,7 +214,12 @@ fun NavigationGraph(navController: NavHostController) {
                 )
         }
 
-
+        composable(route = MainNavigation.WorkingTime.route
+        )
+        {
+            workingTimeScreen(navController = navController,
+                )
+        }
 
 
     }
