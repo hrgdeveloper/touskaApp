@@ -8,7 +8,7 @@ val background_light = Color(0xFFf6f6f6)
 val textColor_light = Color(0xFF121212)
 val gray_light = Color(0xFF666666)
 val card_back_light = Color(0xFFE2E1E1)
-val top_bar_light = Color(0xFFE2E1E1)
+val top_bar_light = Color(0xFFF0F0F0)
 val devider_light = Color(0xFFE2DEDE)
 
 

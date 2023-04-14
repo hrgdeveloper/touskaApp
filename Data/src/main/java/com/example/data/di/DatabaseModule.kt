@@ -75,4 +75,11 @@ object DatabaseModule {
     }
 
 
+    @Provides
+    @Singleton
+    fun provideUserManageDao(appDatabase: AppDatabase) : UserManageDao {
+        return appDatabase.userManageDao()
+    }
+
+
 }

@@ -39,3 +39,8 @@ fun ContractDto.toEntity() : ContractEntity {
 fun WorkingTimeDto.toEntity() : WorkingTimeEntity {
     return WorkingTimeEntity(id,title,startTime,endTime)
 }
+fun UserManageDto.toEntity() : UserManageEntity {
+    return UserManageEntity(contractTypeId, createdAt, email, emailVerifiedAt, id, mobile, name, postId, projectId, roleId, status, updatedAt,
+          profile,contractType,postTitle
+        )
+}

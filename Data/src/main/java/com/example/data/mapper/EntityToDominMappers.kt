@@ -44,7 +44,11 @@ fun WorkingTimeEntity.toDomain() : WorkingTime {
     return WorkingTime(id,title,startTime,endTime)
 }
 
-
+fun UserManageEntity.toDomain() : UserManage {
+    return UserManage(contract_type_id, created_at, email, email_verified_at, id, mobile, name, post_id, project_id, role_id, status, updated_at,
+        profile,contract_type,post_title
+        )
+}
 
 
 

@@ -11,11 +11,11 @@ import com.example.data.local.room.utils.DataConverter
 @Database(
     entities = [ProjectEntity::class, UserEntity::class, BlocEntity::class,
         FloorEntity::class, UnitEntity::class, PostEntity::class,ActivityEntity::class,
-       ContractEntity::class,WorkingTimeEntity::class
+       ContractEntity::class,WorkingTimeEntity::class,UserManageEntity::class
     ],
-    version =3,
+    version =4,
     exportSchema = true,
-    autoMigrations = [AutoMigration(1,2),AutoMigration(2,3)]
+    autoMigrations = [AutoMigration(1,2),AutoMigration(2,3),AutoMigration(3,4)]
     )
 @TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -35,5 +35,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun contractDao(): ContractDao
 
     abstract fun workingTimeDao(): WorkingTimeDao
+
+    abstract fun userManageDao(): UserManageDao
+
 
 }

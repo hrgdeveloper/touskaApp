@@ -38,12 +38,13 @@ android {
         local {
             dimension "env"
             buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:8000/api/\""
+            buildConfigField "String", "BASE_IMAGE", "\"http://10.0.2.2:8000/storage/\""
 
         }
         online {
             dimension "env"
             buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:8000/api/\""
-
+            buildConfigField "String", "BASE_IMAGE", "\"http://10.0.2.2:8000/storage/\""
         }
     }
 

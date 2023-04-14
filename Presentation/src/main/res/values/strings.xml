@@ -78,4 +78,27 @@
     <string name="delete_working_time">آیا از حذف این ساعت کاری مطمعن میباشید</string>
     <string name="delete_working_time_title">حذف ساعت کاری</string>
     <string name="start_time_greater_than_end_time">زمان شروع باید کوچکتر از زمان پایان باشد</string>
+    <string name="users_manage">مدیریت کاربران</string>
+    <string name="manage_users">مدیریت کاربران</string>
+    <string name="managers">مدیران</string>
+    <string name="owners">مالکان</string>
+    <string name="observers">ناظران</string>
+    <string name="workers">کارگران</string>
+    <string name="no_user_found">هیچ کاربری اضافه نشده است</string>
+    <string name="no_user_in_this_section">هیچ کاربری در این بخش یافت نشد</string>
+    <string name="contract_type">نوع  قرار داد</string>
+    <string name="post_title">پست شغلی</string>
+    <string name="add_new_user">افزودن کاربر جدید</string>
+    <string name="name_and_family">نام و نام خانوادگی</string>
+    <string name="mobile">شماره همراه</string>
+    <string name="insert_name">لطفا نام و نام خانوادگی را وارد نمایید</string>
+    <string name="weak_password">رمز عبور وارد شده باید حداقل دارای 6 کاراکتر باشید</string>
+    <string name="invalid_email">ایمیل وارد شده صحیح نمیباشد</string>
+    <string name="bad_mobile">موبایل وارد شده صحیح نمیباشد</string>
+    <string name="contracts">قرارداد ها</string>
+    <string name="post_type">نوع پست شغلی</string>
+    <string name="define_contract_type">لطفا نوع قرارداد را مشخص نمایید</string>
+    <string name="define_post_type">لطفا نوع پست شغلی را مشخص نمایید</string>
+    <string name="registered_successfully">ثبت نام با موفقیت انجام شد</string>
+    <string name="name_email_mobile">نام / موبایل /ایمیل</string>
 </resources>

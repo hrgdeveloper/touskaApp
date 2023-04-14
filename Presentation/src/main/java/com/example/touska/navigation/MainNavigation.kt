@@ -18,6 +18,10 @@ sealed class MainNavigation(val route : String) {
 
     object WorkingTime : MainNavigation("workingTime")
 
+    object UserManage : MainNavigation("userManage")
+
+    object Register : MainNavigation("register")
+
 
     fun withArgs(vararg args:  String ) : String {
         return  buildString {

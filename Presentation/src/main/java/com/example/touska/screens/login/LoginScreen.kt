@@ -65,7 +65,6 @@ fun loginScreen(
     LaunchedEffect(loginState)   {
         when(loginState) {
             is Resource.Failure -> {
-
                 loginState.returnProperMessage(context).toastLong(context)
             }
 

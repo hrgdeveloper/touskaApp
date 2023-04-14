@@ -5,8 +5,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.example.touska.ui.theme.customColorsPalette
+import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
 import kotlinx.coroutines.launch
 
@@ -29,7 +34,9 @@ fun VerticalDefaultMarginBigger(){
 fun customDivider() {
     Divider(
         color = MaterialTheme.customColorsPalette.divider_color,
-        modifier = Modifier.height(0.8.dp).fillMaxWidth()
+        modifier = Modifier
+            .height(0.8.dp)
+            .fillMaxWidth()
     )
 }
 
@@ -50,12 +57,33 @@ fun ConfirmButton( onclick : ()->Unit,
         },
         Modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(48.dp)
             .padding(horizontal = MaterialTheme.spacing.default_margin),
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
         shape = RoundedCornerShape(4.dp)
     ) {
        content()
+    }
+}
+
+@Composable
+fun DrawableText(text:String,icon : Painter,style: TextStyle = TextStyle(fontFamily = iranSansFamily )) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(painter = icon, contentDescription =null, modifier = Modifier.size(16.dp),
+             tint = MaterialTheme.colors.surface
+            )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(text = text, style = style)
+    }
+}
+@Composable
+fun DrawableText(text:String,icon : ImageVector,style: TextStyle = TextStyle(fontFamily =  iranSansFamily)) {
+    Row() {
+        Icon(imageVector = icon, contentDescription =null, modifier = Modifier.size(16.dp),
+            tint = MaterialTheme.colors.surface
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(text = text, style = style)
     }
 }
 

@@ -87,6 +87,32 @@ fun homeScreen(
                         }
                     )
             }
+
+            VerticalDefaultMargin()
+
+            //Users Card
+            Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack,
+                modifier = Modifier.clickable {
+                    navController.navigate(MainNavigation.UserManage.route)
+                }
+            ) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.spacing.default_margin)
+                    ,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row() {
+                        Icon(painter = painterResource(id = R.drawable.ic_users), contentDescription =null)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = stringResource(R.string.users_manage))
+                    }
+                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+
+                }
+            }
+
+
             VerticalDefaultMargin()
 
             //Blocs Card
@@ -177,13 +203,6 @@ fun homeScreen(
             }
 
             VerticalDefaultMargin()
-
-
-
-
-
-
-
 
 
         }

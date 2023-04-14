@@ -30,10 +30,12 @@ import com.example.touska.screens.contractScreen.contractScreen
 import com.example.touska.screens.floorScreen.floorScreen
 import com.example.touska.screens.homeScreen.homeScreen
 import com.example.touska.screens.postScreen.postScreen
+import com.example.touska.screens.registerScreen.registerScreen
 
 import com.example.touska.screens.reportScreen.reportScreen
 import com.example.touska.screens.settingScreen.settingScreen
 import com.example.touska.screens.unitScreen.unitScreen
+import com.example.touska.screens.usermanageScreen.userManageScreen
 import com.example.touska.screens.workingTimeScreen.workingTimeScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -220,6 +222,31 @@ fun NavigationGraph(navController: NavHostController) {
             workingTimeScreen(navController = navController,
                 )
         }
+
+        composable(route = MainNavigation.UserManage.route
+        )
+        {
+            userManageScreen(navController = navController,
+            )
+        }
+
+        composable(route = MainNavigation.Register.route+"?role_id={role_id}&userManage={userManage}",
+            arguments = listOf(navArgument("role_id"){
+            type= NavType.IntType
+        },
+            navArgument("userManage"){
+                type= NavType.StringType
+                nullable=true
+                defaultValue=null
+            }
+        )
+        )
+        {
+            val roleId = it.arguments?.getInt("role_id",0)?:0
+            val usermanage = it.arguments?.getString("userManage",null)
+            registerScreen(navController = navController, role_id = roleId, usermanageJson = usermanage)
+        }
+
 
 
     }

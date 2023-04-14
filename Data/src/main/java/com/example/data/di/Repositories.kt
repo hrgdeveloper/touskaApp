@@ -59,6 +59,9 @@ abstract class Repositories {
     abstract fun provideWorkingTimeRepository(workingTimeRepositoryImpl: WorkingTimeRepositoryImpl):
             WorkingTimeRepository
 
-
+    @Binds
+    @Singleton
+    abstract fun provideUserManageRepository(userManageRepositoryImpl: UserManageRepositoryImpl):
+            UserManageRepository
 
 }
