@@ -20,6 +20,10 @@ interface UserManageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend  fun insertUser(user: UserManageEntity)
 
+    @Update
+    suspend  fun updateUser(user: UserManageEntity)
+
+
 
     @Transaction
     suspend fun deleteAndInsert(users: List<UserManageEntity>){

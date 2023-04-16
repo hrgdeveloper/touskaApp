@@ -20,6 +20,17 @@ interface UserManageRepository {
         profile:File?
     ) : Flow<Resource<String>>
 
+    fun updateUser(
+        name:String,
+        email:String,
+        mobile:String,
+        contract_type_id:Int?,
+        post_id:Int?,
+        profile:File?,
+        id:Int
+    ) : Flow<Resource<String>>
+
+
     fun registerNeeds(): Flow<Resource<RegisterNeed>>
 
 

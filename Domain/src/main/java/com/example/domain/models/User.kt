@@ -9,7 +9,6 @@ data class User(
     val post_id: Int?,
     val role_id: Int,
     val status: Int,
-
     val role:String,
     val project : Project
 )

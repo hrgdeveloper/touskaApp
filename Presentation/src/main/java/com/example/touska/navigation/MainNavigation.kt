@@ -22,6 +22,7 @@ sealed class MainNavigation(val route : String) {
 
     object Register : MainNavigation("register")
 
+    object UpdateUser : MainNavigation("updateUser")
 
     fun withArgs(vararg args:  String ) : String {
         return  buildString {

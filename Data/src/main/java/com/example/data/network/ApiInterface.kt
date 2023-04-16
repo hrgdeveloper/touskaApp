@@ -217,6 +217,15 @@ interface ApiInterface {
         @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>
     ): Response<BaseResponse<UserManageDto>>
 
+    @POST("update-user/{id}")
+    @Multipart
+    suspend fun updateUser(
+        @Part file: MultipartBody.Part?,
+        @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Path("id") id:Int
+    ): Response<BaseResponse<UserManageDto>>
+
+
     @GET("registerNeeds")
     suspend fun registerNeeds(
     ): Response<BaseResponse<RegisterNeedDto>>

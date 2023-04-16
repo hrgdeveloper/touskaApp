@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "d77e6071320907e51d968749f3676583",
+    "identityHash": "5059f6f31d975fdc6601bddc7c20ed07",
     "entities": [
       {
         "tableName": "ProjectEntity",
@@ -414,7 +414,7 @@
       },
       {
         "tableName": "UserManage",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contract_type_id` INTEGER, `created_at` TEXT NOT NULL, `email` TEXT NOT NULL, `email_verified_at` INTEGER, `id` INTEGER NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `project_id` INTEGER NOT NULL, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `updated_at` TEXT NOT NULL, `profile` TEXT, `contract_type` TEXT, `post_title` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contract_type_id` INTEGER, `created_at` TEXT NOT NULL, `email` TEXT NOT NULL, `email_verified_at` INTEGER, `id` INTEGER NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `project_id` INTEGER NOT NULL, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `updated_at` TEXT NOT NULL, `profile` TEXT, `contract_type` TEXT, `post_title` TEXT, `qr_code` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "contract_type_id",
@@ -505,6 +505,12 @@
             "columnName": "post_title",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "qr_code",
+            "columnName": "qr_code",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -520,7 +526,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd77e6071320907e51d968749f3676583')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5059f6f31d975fdc6601bddc7c20ed07')"
     ]
   }
 }

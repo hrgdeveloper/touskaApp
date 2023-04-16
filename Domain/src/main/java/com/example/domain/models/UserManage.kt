@@ -15,5 +15,6 @@ data class UserManage(
     val updatedAt: String,
     val profile : String?,
     val contractType : String?,
-    val postTitle:String?
+    val postTitle:String?,
+    val qrCode : String?
 )

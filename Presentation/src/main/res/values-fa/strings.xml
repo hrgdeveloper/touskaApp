@@ -96,4 +96,6 @@
     <string name="define_post_type">لطفا نوع پست شغلی را مشخص نمایید</string>
     <string name="registered_successfully">ثبت نام با موفقیت انجام شد</string>
     <string name="name_email_mobile">نام / موبایل / ایمیل</string>
+    <string name="updated_successfully">به روز رسانی با موفقیت انجام شد</string>
+    <string name="update_user">به روز رسانی کاربر</string>
 </resources>

@@ -35,6 +35,7 @@ import com.example.touska.screens.registerScreen.registerScreen
 import com.example.touska.screens.reportScreen.reportScreen
 import com.example.touska.screens.settingScreen.settingScreen
 import com.example.touska.screens.unitScreen.unitScreen
+import com.example.touska.screens.updateUserScreen.updateScreen
 import com.example.touska.screens.usermanageScreen.userManageScreen
 import com.example.touska.screens.workingTimeScreen.workingTimeScreen
 
@@ -230,23 +231,32 @@ fun NavigationGraph(navController: NavHostController) {
             )
         }
 
-        composable(route = MainNavigation.Register.route+"?role_id={role_id}&userManage={userManage}",
+        composable(route = MainNavigation.Register.route+"?role_id={role_id}",
             arguments = listOf(navArgument("role_id"){
             type= NavType.IntType
         },
-            navArgument("userManage"){
-                type= NavType.StringType
-                nullable=true
-                defaultValue=null
-            }
         )
         )
         {
             val roleId = it.arguments?.getInt("role_id",0)?:0
-            val usermanage = it.arguments?.getString("userManage",null)
-            registerScreen(navController = navController, role_id = roleId, usermanageJson = usermanage)
+            registerScreen(navController = navController, role_id = roleId)
         }
-
+        composable(route = MainNavigation.UpdateUser.route+"?role_id={role_id}&userManage={userManage}",
+            arguments = listOf(navArgument("role_id"){
+                type= NavType.IntType
+            },
+                navArgument("userManage"){
+                    type= NavType.StringType
+                    defaultValue=null
+                    nullable=true
+                }
+            )
+        )
+        {
+            val roleId = it.arguments?.getInt("role_id",0)?:0
+            val usermanage = it.arguments?.getString("userManage")?:""
+            updateScreen(navController = navController, role_id = roleId, usermanageJson = usermanage)
+        }
 
 
     }

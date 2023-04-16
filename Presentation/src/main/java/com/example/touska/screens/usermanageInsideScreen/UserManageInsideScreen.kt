@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.debugInspectorInfo
@@ -44,12 +45,14 @@ import com.example.data.BuildConfig
 import com.example.shared.Resource
 import com.example.touska.R
 import com.example.touska.components.*
+import com.example.touska.navigation.MainNavigation
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.spacing
 import com.example.touska.utils.UserTypes
 
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.google.gson.Gson
 
 
 import kotlinx.coroutines.*
@@ -71,7 +74,7 @@ fun userManageInsideScreen(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewmodel.getSpeceficUsers(role_id,searchQuery.text)
+        viewmodel.getSpeceficUsers(role_id, searchQuery.text)
     }
 
 
@@ -83,16 +86,22 @@ fun userManageInsideScreen(
             value = searchQuery,
             onValueChange = {
                 searchQuery = it
-                viewmodel.getSpeceficUsers(role_id,searchQuery.text)
+                viewmodel.getSpeceficUsers(role_id, searchQuery.text)
             },
 
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.spacing.small_margin, vertical = MaterialTheme.spacing.small_margin)
-            ,
+                .padding(
+                    top = MaterialTheme.spacing.small_margin,
+                    start = MaterialTheme.spacing.small_margin,
+                    end = MaterialTheme.spacing.small_margin
+                ),
             placeholder = {
-                Text(text = stringResource(R.string.name_email_mobile), color = MaterialTheme.colors.surface, fontSize = 12.sp
-                    )
+                Text(
+                    text = stringResource(R.string.name_email_mobile),
+                    color = MaterialTheme.colors.surface,
+                    fontSize = 12.sp
+                )
             },
 
             leadingIcon = {
@@ -112,41 +121,50 @@ fun userManageInsideScreen(
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(users.size) { position ->
-                        Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack,
+                        Card(
+                            backgroundColor = MaterialTheme.customColorsPalette.cardBack,
                             modifier = Modifier.padding(8.dp)
                         ) {
-                            Column(modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            ) {
 
 
-
-                                Row(horizontalArrangement = Arrangement.SpaceBetween,
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Column() {
-                                        DrawableText(text = users[position].email,Icons.Default.Email)
+                                        DrawableText(
+                                            text = users[position].email,
+                                            Icons.Default.Email
+                                        )
                                         Spacer(modifier = Modifier.height(4.dp))
-                                        DrawableText(text = users[position].name,Icons.Default.Person)
+                                        DrawableText(
+                                            text = users[position].name,
+                                            Icons.Default.Person
+                                        )
                                         Spacer(modifier = Modifier.height(4.dp))
-                                        DrawableText(text = users[position].mobile,Icons.Default.Phone)
+                                        DrawableText(
+                                            text = users[position].mobile,
+                                            Icons.Default.Phone
+                                        )
 
                                     }
 
 
                                     Image(
                                         painter =
-                                        if (users[position].profile!=null) {
-                                            rememberImagePainter(BuildConfig.BASE_IMAGE+users[position].profile)
-                                        }else {
+                                        if (users[position].profile != null) {
+                                            rememberImagePainter(BuildConfig.BASE_IMAGE + users[position].profile)
+                                        } else {
                                             painterResource(id = R.drawable.ic_profile)
 
-                                        }
-
-                                        ,
-                                        contentScale = ContentScale.FillBounds
-                                        ,
-                                        contentDescription =null,
+                                        },
+                                        contentScale = ContentScale.FillBounds,
+                                        contentDescription = null,
                                         modifier = Modifier
                                             .size(60.dp)
                                             .clip(CircleShape)
@@ -154,23 +172,46 @@ fun userManageInsideScreen(
                                     )
                                 }
 
-                                if (users[position].roleId==UserTypes.Worker.role_id) {
+                                if (users[position].roleId == UserTypes.Worker.role_id) {
                                     VerticalSmallSpacer()
                                     customDivider()
                                     VerticalSmallSpacer()
                                     Row() {
                                         Column(modifier = Modifier.weight(1f)) {
-                                            Text(text = stringResource(R.string.contract_type), color = MaterialTheme.colors.surface, fontSize = 10.sp)
-                                            Text(text = users[position].contractType?:"")
+                                            Text(
+                                                text = stringResource(R.string.contract_type),
+                                                color = MaterialTheme.colors.surface,
+                                                fontSize = 10.sp
+                                            )
+                                            Text(text = users[position].contractType ?: "")
                                         }
                                         Column(modifier = Modifier.weight(1f)) {
-                                            Text(text = stringResource(R.string.post_title),color = MaterialTheme.colors.surface, fontSize = 10.sp)
-                                            Text(text = users[position].postTitle?:"")
+                                            Text(
+                                                text = stringResource(R.string.post_title),
+                                                color = MaterialTheme.colors.surface,
+                                                fontSize = 10.sp
+                                            )
+                                            Text(text = users[position].postTitle ?: "")
                                         }
 
 
                                     }
                                 }
+
+                                //update Button
+                                OutlinedButton(
+                                    modifier = Modifier.align(Alignment.End),
+                                    onClick = {
+                                    navController.navigate(MainNavigation.UpdateUser.route+"?role_id=${users[position].roleId}&" +
+                                            "userManage=${Gson().toJson(users[position])}",
+                                        )
+                                },
+                                colors = ButtonDefaults.buttonColors(Color.Transparent)
+
+                                ) {
+                                    Text(text = "به روز رسانی")
+                                }
+
                             }
                         }
 
@@ -181,9 +222,6 @@ fun userManageInsideScreen(
         }
 
     }
-
-
-
 
 
 }

@@ -117,42 +117,50 @@ class UserManageRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun updateUser(
+        name: String,
+        email: String,
+        mobile: String,
+        contract_type_id: Int?,
+        post_id: Int?,
+        profile: File?,
+        id:Int
+    ): Flow<Resource<String>> = flow {
+        try {
+            var pic_part : MultipartBody.Part? =null
+            profile?.let {
+                val requestFile= profile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                pic_part=MultipartBody.Part.createFormData("pic", profile.name, requestFile)
+            }
+
+            val params = mutableMapOf<String, RequestBody>()
+            params["name"] = name.toRequestBody(MultipartBody.FORM)
+            params["email"] = email.toRequestBody(MultipartBody.FORM)
+            params["mobile"] = mobile.toRequestBody(MultipartBody.FORM)
+
+            if (contract_type_id!=null) {
+                params["contract_type_id"] = contract_type_id.toString().toRequestBody(MultipartBody.FORM)
+            }
+
+            if (post_id!=null) {
+                params["post_id"] = post_id.toString().toRequestBody(MultipartBody.FORM)
+            }
 
 
-//    override fun addContract(title: String): Flow<Resource<Contract>> = flow {
-//        emit(Resource.IsLoading)
-//        try {
-//            val result = safeCall { apiInterface.createContract(title) }
-//            contractDao.insertSingleContract(result.toEntity())
-//            emit(Resource.Success(contractDao.getSingleContract(result.id).toDomain()))
-//
-//        }catch (e:CustomExeption) {
-//            emit(Resource.Failure(e.errorMessage,e.status))
-//        }
-//    }
-//
-//    override fun updateContract(title: String, id: Int): Flow<Resource<MutableList<Contract>>> = flow {
-//        emit(Resource.IsLoading)
-//        try {
-//            val result = safeCall { apiInterface.updateContract(title,id) }
-//            contractDao.updateContract(result.toEntity())
-//            val newlist = contractDao.getContract().map { it.toDomain() }
-//            emit(Resource.Success(newlist.toMutableList()))
-//        }catch (e:CustomExeption) {
-//            emit(Resource.Failure(e.errorMessage,e.status))
-//        }
-//    }
-//
-//    override fun deleteContract(id: Int): Flow<Resource<MutableList<Contract>>> = flow {
-//        emit(Resource.IsLoading)
-//        try {
-//            safeCall { apiInterface.deleteContract(id) }
-//            contractDao.deleteContract(id)
-//            val newlist = contractDao.getContract().map { it.toDomain() }
-//            emit(Resource.Success(newlist.toMutableList()))
-//        }catch (e:CustomExeption) {
-//            emit(Resource.Failure(e.errorMessage,e.status))
-//        }
-//    }
+            val result = safeCall {
+                apiInterface.updateUser(
+                    pic_part,params,id
+                )
+            }
+            userManageDao.updateUser(result.toEntity())
+            emit(Resource.Success("Sucesss"))
+
+        }catch (e:CustomExeption) {
+            emit(Resource.Failure(e.errorMessage,e.status))
+        }
+    }
+
+
+
 
 }

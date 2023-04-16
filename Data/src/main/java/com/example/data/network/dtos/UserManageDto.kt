@@ -26,5 +26,7 @@ data class UserManageDto(
     @SerializedName("contract_type")
     val contractType : String?,
     @SerializedName("post_title")
-    val postTitle:String?
+    val postTitle:String?,
+    @SerializedName("qr_code")
+    val qrCode:String
 )
