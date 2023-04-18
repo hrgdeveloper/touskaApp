@@ -308,7 +308,7 @@ fun contractScreen(
                                                     }
 
                                                     if (position != contracts.result.size - 1) {
-                                                        customDivider()
+                                                        CustomDivider()
                                                     }
 
 

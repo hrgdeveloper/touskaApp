@@ -230,4 +230,8 @@ interface ApiInterface {
     suspend fun registerNeeds(
     ): Response<BaseResponse<RegisterNeedDto>>
 
+    @GET("getUser")
+    suspend fun getUser(@Query("qr_code") qrCode:String
+    ): Response<BaseResponse<UserManageDto>>
+
 }

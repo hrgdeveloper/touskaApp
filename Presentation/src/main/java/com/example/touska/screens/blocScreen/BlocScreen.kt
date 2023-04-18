@@ -318,7 +318,7 @@ fun blocScreen(
 
                                                 }
                                                 if (position != blocs.result.size - 1) {
-                                                    customDivider()
+                                                    CustomDivider()
                                                 }
 
                                             }

@@ -31,11 +31,11 @@ fun VerticalDefaultMarginBigger(){
 }
 
 @Composable
-fun customDivider() {
+fun CustomDivider() {
     Divider(
         color = MaterialTheme.customColorsPalette.divider_color,
         modifier = Modifier
-            .height(0.8.dp)
+            .height(1.dp)
             .fillMaxWidth()
     )
 }
@@ -78,7 +78,7 @@ fun DrawableText(text:String,icon : Painter,style: TextStyle = TextStyle(fontFam
 }
 @Composable
 fun DrawableText(text:String,icon : ImageVector,style: TextStyle = TextStyle(fontFamily =  iranSansFamily)) {
-    Row() {
+    Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(imageVector = icon, contentDescription =null, modifier = Modifier.size(16.dp),
             tint = MaterialTheme.colors.surface
         )

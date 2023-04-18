@@ -12,6 +12,7 @@ data class CustomColorsPalette(
     val cardBack: Color = Color.Unspecified,
     val divider_color : Color   = Color.Unspecified,
     val top_bar : Color   = Color.Unspecified
+
 )
 
 val LocalCustomColorsPalette = staticCompositionLocalOf { CustomColorsPalette() }

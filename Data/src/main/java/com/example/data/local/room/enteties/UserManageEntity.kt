@@ -21,5 +21,6 @@ data class UserManageEntity(
     val profile :String?,
     val contract_type : String? ,
     val post_title : String?,
-    val qr_code:String
+    val qr_code:String,
+    val role_title:String,
 )

@@ -46,6 +46,12 @@ interface UserManageDao {
     @Query("select * from usermanage")
     suspend fun getAllUsers():List<UserManageEntity>
 
+    @Query("select * from usermanage where qr_code like :qrCode")
+    suspend fun getUser(qrCode:String): UserManageEntity?
+
+
+
+
 //
 //
 //    @Query("select * from Contract where id = :id")

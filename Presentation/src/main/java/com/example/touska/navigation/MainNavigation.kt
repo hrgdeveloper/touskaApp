@@ -24,6 +24,8 @@ sealed class MainNavigation(val route : String) {
 
     object UpdateUser : MainNavigation("updateUser")
 
+    object Profile : MainNavigation("profile")
+
     fun withArgs(vararg args:  String ) : String {
         return  buildString {
             append(route)

@@ -318,7 +318,7 @@ fun unitScreen(
                                                     }
 
                                                     if (position != units.result.size - 1) {
-                                                        customDivider()
+                                                        CustomDivider()
                                                     }
 
 

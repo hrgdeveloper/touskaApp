@@ -309,7 +309,7 @@ fun activityScreen(
                                                     }
 
                                                     if (position != activities.result.size - 1) {
-                                                        customDivider()
+                                                        CustomDivider()
                                                     }
 
 

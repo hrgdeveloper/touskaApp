@@ -336,7 +336,7 @@ fun postScreen(
                                                     }
 
                                                     if (position != posts.result.size - 1) {
-                                                        customDivider()
+                                                        CustomDivider()
                                                     }
 
 

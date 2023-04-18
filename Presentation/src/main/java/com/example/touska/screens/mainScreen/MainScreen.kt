@@ -30,7 +30,8 @@ import com.example.touska.screens.contractScreen.contractScreen
 import com.example.touska.screens.floorScreen.floorScreen
 import com.example.touska.screens.homeScreen.homeScreen
 import com.example.touska.screens.postScreen.postScreen
-import com.example.touska.screens.registerScreen.registerScreen
+import com.example.touska.screens.profileScreen.profileScreen
+import com.example.touska.screens.mainScreen.registerScreen.registerScreen
 
 import com.example.touska.screens.reportScreen.reportScreen
 import com.example.touska.screens.settingScreen.settingScreen
@@ -49,9 +50,9 @@ fun mainScreen() {
     }
 
     showBottomBar.value = when (navBackStackEntry.value?.destination?.route) {
-         MainNavigation.Home.route -> true //
-         MainNavigation.Report.route -> true //
-         MainNavigation.Setting.route -> true //
+        MainNavigation.Home.route -> true //
+        MainNavigation.Report.route -> true //
+        MainNavigation.Setting.route -> true //
         else -> false // in all other cases show bottom bar
     }
 
@@ -148,114 +149,151 @@ fun NavigationGraph(navController: NavHostController) {
             blocScreen(navController = navController)
         }
 
-        composable(route = MainNavigation.Floor.route+"/{bloc_id}/{bloc_name}", arguments = listOf(navArgument("bloc_id"){
-            type= NavType.IntType
-        },
-            navArgument("bloc_name"){
-                type= NavType.StringType
-            }
-            )
-         )
-             {
-            val bloc_id = it.arguments?.getInt("bloc_id",0)?:0
-            val bloc_name = it.arguments?.getString("bloc_name","")?:""
-
-            floorScreen(navController = navController, bloc_id = bloc_id, bloc_name = bloc_name)
-        }
-
-        composable(route = MainNavigation.Unit.route+"/{floor_id}/{floor_name}/{bloc_name}", arguments =
-        listOf(navArgument("floor_id"){
-            type= NavType.IntType
-        },
-            navArgument("floor_name"){
-                type= NavType.StringType
+        composable(route = MainNavigation.Floor.route + "/{bloc_id}/{bloc_name}",
+            arguments = listOf(navArgument("bloc_id") {
+                type = NavType.IntType
             },
-            navArgument("bloc_name"){
-                type= NavType.StringType
-            }
-        )
-        )
-        {
-            val floor_id = it.arguments?.getInt("floor_id",0)?:0
-            val floor_name = it.arguments?.getString("floor_name","")?:""
-            val bloc_name = it.arguments?.getString("bloc_name","")?:""
-
-            unitScreen(navController = navController, floor_id = floor_id, floor_name =floor_name,
-                   bloc_name = bloc_name
-                )
-        }
-
-
-        composable(route = MainNavigation.Post.route
-        )
-        {
-            postScreen(navController = navController,
-
-            )
-        }
-
-        composable(route = MainNavigation.Activity.route+"/{post_id}/{post_title}", arguments = listOf(navArgument("post_id"){
-            type= NavType.IntType
-        },
-            navArgument("post_title"){
-                type= NavType.StringType
-            }
-        )
-        )
-        {
-            val postId = it.arguments?.getInt("post_id",0)?:0
-            val postTitle = it.arguments?.getString("post_title","")?:""
-
-            activityScreen(navController = navController, postId = postId, postTitle = postTitle)
-        }
-
-        composable(route = MainNavigation.Contract.route
-        )
-        {
-            contractScreen(navController = navController,
-
-                )
-        }
-
-        composable(route = MainNavigation.WorkingTime.route
-        )
-        {
-            workingTimeScreen(navController = navController,
-                )
-        }
-
-        composable(route = MainNavigation.UserManage.route
-        )
-        {
-            userManageScreen(navController = navController,
-            )
-        }
-
-        composable(route = MainNavigation.Register.route+"?role_id={role_id}",
-            arguments = listOf(navArgument("role_id"){
-            type= NavType.IntType
-        },
-        )
-        )
-        {
-            val roleId = it.arguments?.getInt("role_id",0)?:0
-            registerScreen(navController = navController, role_id = roleId)
-        }
-        composable(route = MainNavigation.UpdateUser.route+"?role_id={role_id}&userManage={userManage}",
-            arguments = listOf(navArgument("role_id"){
-                type= NavType.IntType
-            },
-                navArgument("userManage"){
-                    type= NavType.StringType
-                    defaultValue=null
-                    nullable=true
+                navArgument("bloc_name") {
+                    type = NavType.StringType
                 }
             )
         )
         {
-            val roleId = it.arguments?.getInt("role_id",0)?:0
-            val usermanage = it.arguments?.getString("userManage")?:""
-            updateScreen(navController = navController, role_id = roleId, usermanageJson = usermanage)
+            val bloc_id = it.arguments?.getInt("bloc_id", 0) ?: 0
+            val bloc_name = it.arguments?.getString("bloc_name", "") ?: ""
+
+            floorScreen(navController = navController, bloc_id = bloc_id, bloc_name = bloc_name)
+        }
+
+        composable(route = MainNavigation.Unit.route + "/{floor_id}/{floor_name}/{bloc_name}",
+            arguments =
+            listOf(navArgument("floor_id") {
+                type = NavType.IntType
+            },
+                navArgument("floor_name") {
+                    type = NavType.StringType
+                },
+                navArgument("bloc_name") {
+                    type = NavType.StringType
+                }
+            )
+        )
+        {
+            val floor_id = it.arguments?.getInt("floor_id", 0) ?: 0
+            val floor_name = it.arguments?.getString("floor_name", "") ?: ""
+            val bloc_name = it.arguments?.getString("bloc_name", "") ?: ""
+
+            unitScreen(
+                navController = navController, floor_id = floor_id, floor_name = floor_name,
+                bloc_name = bloc_name
+            )
+        }
+
+
+        composable(
+            route = MainNavigation.Post.route
+        )
+        {
+            postScreen(
+                navController = navController,
+
+                )
+        }
+
+        composable(route = MainNavigation.Activity.route + "/{post_id}/{post_title}",
+            arguments = listOf(navArgument("post_id") {
+                type = NavType.IntType
+            },
+                navArgument("post_title") {
+                    type = NavType.StringType
+                }
+            )
+        )
+        {
+            val postId = it.arguments?.getInt("post_id", 0) ?: 0
+            val postTitle = it.arguments?.getString("post_title", "") ?: ""
+
+            activityScreen(navController = navController, postId = postId, postTitle = postTitle)
+        }
+
+        composable(
+            route = MainNavigation.Contract.route
+        )
+        {
+            contractScreen(
+                navController = navController,
+
+                )
+        }
+
+        composable(
+            route = MainNavigation.WorkingTime.route
+        )
+        {
+            workingTimeScreen(
+                navController = navController,
+            )
+        }
+
+        composable(
+            route = MainNavigation.UserManage.route
+        )
+        {
+            userManageScreen(
+                navController = navController,
+            )
+        }
+
+        composable(
+            route = MainNavigation.Register.route + "?role_id={role_id}",
+            arguments = listOf(
+                navArgument("role_id") {
+                    type = NavType.IntType
+                },
+            )
+        )
+        {
+            val roleId = it.arguments?.getInt("role_id", 0) ?: 0
+            registerScreen(navController = navController, role_id = roleId)
+        }
+        composable(route = MainNavigation.UpdateUser.route + "?role_id={role_id}&userManage={userManage}",
+            arguments = listOf(navArgument("role_id") {
+                type = NavType.IntType
+            },
+                navArgument("userManage") {
+                    type = NavType.StringType
+                    defaultValue = null
+                    nullable = true
+                }
+            )
+        )
+        {
+            val roleId = it.arguments?.getInt("role_id", 0) ?: 0
+            val usermanage = it.arguments?.getString("userManage") ?: ""
+            updateScreen(
+                navController = navController,
+                role_id = roleId,
+                usermanageJson = usermanage
+            )
+        }
+
+        composable(
+            route = MainNavigation.Profile.route + "/{qr_code}",
+
+            arguments = listOf(
+                navArgument("qr_code") {
+                    type = NavType.IntType
+                },
+                navArgument("qr_code") {
+                    type = NavType.StringType
+                },
+            ),
+            deepLinks = listOf(NavDeepLink("https://touska.com/{qr_code}"))
+        )
+        {
+            val qrCode = it.arguments?.getString("qr_code", "") ?: ""
+
+            profileScreen(navController = navController, qrCode = qrCode)
         }
 
 

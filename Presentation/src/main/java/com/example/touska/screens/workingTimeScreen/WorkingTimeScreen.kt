@@ -472,7 +472,7 @@ fun workingTimeScreen(
                                                     }
 
                                                     if (position != workingTimes.result.size - 1) {
-                                                        customDivider()
+                                                        CustomDivider()
                                                     }
 
 

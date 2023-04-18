@@ -68,6 +68,24 @@ class UserManageRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getUser(qrCode: String): Flow<Resource<UserManage>> = flow {
+        emit(Resource.IsLoading)
+        val sotredInDb = userManageDao.getUser(qrCode)
+        try {
+            val result = safeCall { apiInterface.getUser(qrCode) }
+            userManageDao.updateUser(result.toEntity())
+            val user = userManageDao.getUser(qrCode)
+            emit(Resource.Success(user!!.toDomain()))
+
+        }catch (e:CustomExeption) {
+            if (sotredInDb==null) {
+                emit(Resource.Failure(e.errorMessage,e.status))
+            }else {
+                emit(Resource.Success(sotredInDb.toDomain()))
+            }
+        }
+    }
+
 
     override fun register(
         name: String,

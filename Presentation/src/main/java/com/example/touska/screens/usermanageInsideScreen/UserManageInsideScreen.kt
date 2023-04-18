@@ -8,6 +8,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 
@@ -123,7 +124,9 @@ fun userManageInsideScreen(
                     items(users.size) { position ->
                         Card(
                             backgroundColor = MaterialTheme.customColorsPalette.cardBack,
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier.padding(8.dp).clickable {
+                                navController.navigate(MainNavigation.Profile.withArgs(users[position].qrCode!!))
+                            }
                         ) {
                             Column(
                                 modifier = Modifier
@@ -174,7 +177,7 @@ fun userManageInsideScreen(
 
                                 if (users[position].roleId == UserTypes.Worker.role_id) {
                                     VerticalSmallSpacer()
-                                    customDivider()
+                                    CustomDivider()
                                     VerticalSmallSpacer()
                                     Row() {
                                         Column(modifier = Modifier.weight(1f)) {
@@ -198,19 +201,8 @@ fun userManageInsideScreen(
                                     }
                                 }
 
-                                //update Button
-                                OutlinedButton(
-                                    modifier = Modifier.align(Alignment.End),
-                                    onClick = {
-                                    navController.navigate(MainNavigation.UpdateUser.route+"?role_id=${users[position].roleId}&" +
-                                            "userManage=${Gson().toJson(users[position])}",
-                                        )
-                                },
-                                colors = ButtonDefaults.buttonColors(Color.Transparent)
 
-                                ) {
-                                    Text(text = "به روز رسانی")
-                                }
+
 
                             }
                         }

@@ -269,6 +269,7 @@ fun floorScreen(
                         }
                         Resource.IsLoading ->  {
                             CircularProgressBox()
+
                         }
                         is Resource.Success ->  {
                             SwipeRefresh(
@@ -355,7 +356,7 @@ fun floorScreen(
                                                     }
 
                                                     if (position != floors.result.size - 1) {
-                                                        customDivider()
+                                                        CustomDivider()
                                                     }
 
 

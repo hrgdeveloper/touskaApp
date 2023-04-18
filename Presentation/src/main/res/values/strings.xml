@@ -103,4 +103,9 @@
     <string name="name_email_mobile">نام / موبایل /ایمیل</string>
     <string name="updated_successfully">به روز رسانی با موفقیت انجام شد</string>
     <string name="update_user">به روز رسانی کاربر</string>
+    <string name="submit_report">ثبت گزارش</string>
+    <string name="see_reports">مشاهده گزارشات</string>
+    <string name="share_qr_code">اشتراک کیو ار کد</string>
+    <string name="user_type">نوع کاربر</string>
+    <string name="share_user">اشتراک گذاری کاربر</string>
 </resources>

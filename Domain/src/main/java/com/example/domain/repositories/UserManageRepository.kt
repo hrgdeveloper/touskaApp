@@ -33,6 +33,8 @@ interface UserManageRepository {
 
     fun registerNeeds(): Flow<Resource<RegisterNeed>>
 
+    fun getUser(qrCode:String) : Flow<Resource<UserManage>>
+
 
 
 }

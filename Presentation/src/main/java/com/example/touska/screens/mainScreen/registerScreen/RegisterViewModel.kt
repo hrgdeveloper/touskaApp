@@ -1,4 +1,4 @@
-package com.example.touska.screens.registerScreen
+package com.example.touska.screens.mainScreen.registerScreen
 
 import android.content.Context
 import android.net.Uri

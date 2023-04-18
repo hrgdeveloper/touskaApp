@@ -25,4 +25,4 @@ val devider_dark = Color(0xFF353434)
 //common
 val primaryVariant = Color(0xFFffbe00)
 val secondary = Color(0xFF0ca1f3d)
-
+val transBack = Color(0x44222222)
