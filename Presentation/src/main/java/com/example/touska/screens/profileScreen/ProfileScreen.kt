@@ -1,6 +1,7 @@
 package com.example.touska.screens.profileScreen
 
 import android.annotation.SuppressLint
+import android.content.Intent
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
@@ -198,6 +200,13 @@ fun profileScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(46.dp)
+                                    .clickable {
+                                        val shareIntent = Intent()
+                                        shareIntent.action = Intent.ACTION_SEND
+                                        shareIntent.type="text/plain"
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, "https://touska.com/${user.result.qrCode}");
+                                        startActivity(context,shareIntent,null)
+                                    }
                             ) {
                                 DrawableText(
                                     text = stringResource(R.string.share_user),
