@@ -33,6 +33,7 @@ import com.example.touska.navigation.MainNavigation
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
+import com.example.touska.utils.mirror
 
 @Composable
 fun homeScreen(
@@ -107,7 +108,7 @@ fun homeScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(text = stringResource(R.string.users_manage))
                     }
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+                    Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, modifier = Modifier.mirror())
 
                 }
             }
@@ -132,7 +133,7 @@ fun homeScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(text = stringResource(R.string.blocks_manage))
                     }
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+                    Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null,Modifier.mirror())
 
                 }
             }
@@ -153,7 +154,7 @@ fun homeScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(text = stringResource(R.string.posts_manage))
                     }
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+                    Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null,Modifier.mirror())
 
                 }
             }
@@ -175,7 +176,7 @@ fun homeScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(stringResource(R.string.contract_manage))
                     }
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+                    Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null,Modifier.mirror())
 
                 }
             }
@@ -197,7 +198,7 @@ fun homeScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(text = stringResource(R.string.manage_working_time))
                     }
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = null)
+                    Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null,Modifier.mirror())
 
                 }
             }
