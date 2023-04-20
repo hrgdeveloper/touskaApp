@@ -6,6 +6,8 @@ import android.util.Log
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.hilt.navigation.compose.hiltViewModel
 
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,6 +22,7 @@ import com.example.touska.screens.mainScreen.mainScreen
 
 import com.example.touska.ui.theme.TouskaTheme
 import com.example.touska.utils.LocaleHelper
+import com.example.touska.utils.ThemeTypes
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
@@ -28,23 +31,37 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject lateinit var prefManager: PrefManager
-
+    @Inject
+    lateinit var prefManager: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TouskaTheme {
+            val mainViewModel: MainViewModel = hiltViewModel()
+            var isDarkTheme = when (mainViewModel.them.value) {
+                ThemeTypes.LIGHT -> {
+                    false
+                }
+                ThemeTypes.DARK -> {
+                    true
+                }
+                else ->{
+                    isSystemInDarkTheme()
+                }
+
+            }
+
+            TouskaTheme(darkTheme = isDarkTheme) {
                 val navController = rememberNavController()
-                val loginState = prefManager.getValue(PrefManager.IS_LOGIN,Boolean::class,false)
+                val loginState = prefManager.getValue(PrefManager.IS_LOGIN, Boolean::class, false)
                 val route = if (loginState) Navigation.Main.route else Navigation.Login.route
 
                 NavHost(navController = navController, startDestination = route) {
                     composable(route = Navigation.Login.route) {
                         loginScreen(navController = navController)
                     }
-                    composable(route=Navigation.Main.route) {
-                        mainScreen()
+                    composable(route = Navigation.Main.route) {
+                        mainScreen(mainViewModel)
                     }
 
                 }
@@ -53,12 +70,10 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun attachBaseContext(newBase: Context) {
-        Log.e("Callingasfaf","hereCalling")
         super.attachBaseContext(
             LocaleHelper.setLocale(newBase, MyApp.instance.language)
         )
     }
-
 
 
 }

@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.touska.MainViewModel
 import com.example.touska.R
 import com.example.touska.navigation.BottomNavItem
 import com.example.touska.navigation.MainNavigation
@@ -44,7 +45,7 @@ import com.example.touska.screens.workingTimeScreen.workingTimeScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun mainScreen() {
+fun mainScreen( mainViewModel: MainViewModel) {
     val navController = rememberNavController()
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     var showBottomBar = remember {
@@ -70,7 +71,7 @@ fun mainScreen() {
         Box(modifier = Modifier.padding(0.dp, 0.dp, 0.dp, paddingValues.calculateBottomPadding())) {
             NavigationGraph(
                 navController = navController,
-
+                 mainViewModel
                 )
         }
 
@@ -133,7 +134,7 @@ fun BottomNavigation(navController: NavController) {
 
 
 @Composable
-fun NavigationGraph(navController: NavHostController) {
+fun NavigationGraph(navController: NavHostController,mainViewModel: MainViewModel) {
     NavHost(navController, startDestination = MainNavigation.Home.route) {
         composable(route = MainNavigation.Home.route) {
             homeScreen(navController = navController)
@@ -144,7 +145,7 @@ fun NavigationGraph(navController: NavHostController) {
         }
 
         composable(route = MainNavigation.Setting.route) {
-            settingScreen(navController = navController)
+            settingScreen(navController = navController, mainViewModel =mainViewModel )
         }
 
         composable(route = MainNavigation.Bloc.route) {

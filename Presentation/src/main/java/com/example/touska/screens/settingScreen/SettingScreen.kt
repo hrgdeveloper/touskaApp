@@ -10,6 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.SettingsSystemDaydream
+import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,12 +29,14 @@ import androidx.navigation.NavController
 import com.example.data.local.sharedpref.PrefManager
 import com.example.shared.Resource
 import com.example.touska.MainActivity
+import com.example.touska.MainViewModel
 import com.example.touska.MyApp
 import com.example.touska.R
 import com.example.touska.components.*
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
+import com.example.touska.utils.ThemeTypes
 import com.example.touska.utils.mirror
 import com.example.touska.utils.returnProperMessage
 import com.example.touska.utils.toastLong
@@ -41,7 +45,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun settingScreen(navController: NavController,
-                  settingViewModel: SettingViewModel = hiltViewModel()
+                  settingViewModel: SettingViewModel = hiltViewModel(),
+                  mainViewModel: MainViewModel
                   ) {
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState(
@@ -77,10 +82,8 @@ fun settingScreen(navController: NavController,
 
                 }
                 VerticalSmallSpacer()
-
-                var isPersian = settingViewModel.prefManager.getValue(PrefManager.Language,String::class,"fa").equals("fa")
-
                 if (type==0) {
+                    var isPersian = settingViewModel.prefManager.getValue(PrefManager.Language,String::class,"fa").equals("fa")
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
@@ -114,6 +117,54 @@ fun settingScreen(navController: NavController,
                         .padding(horizontal = MaterialTheme.spacing.default_margin)
                         .height(56.dp), contentAlignment = Alignment.CenterStart) {
                          DrawableTextImage(text = stringResource(R.string.english), painterResource(id = R.drawable.ic_england))
+                    }
+
+                }else if (type==1) {
+                    val theme = settingViewModel.prefManager.getValue(PrefManager.THEME,String::class,ThemeTypes.SYSTEM)
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            coroutineScope.launch {
+                                settingViewModel.prefManager.setValue(PrefManager.THEME,ThemeTypes.LIGHT)
+                                mainViewModel.setTheme(ThemeTypes.LIGHT)
+                            }
+                        }
+                        .padding(horizontal = MaterialTheme.spacing.default_margin)
+                        .border( 1.dp,if (theme.equals(ThemeTypes.LIGHT)) MaterialTheme.colors.primaryVariant else Color.Transparent, RoundedCornerShape(5.dp))
+                        .padding(horizontal = MaterialTheme.spacing.default_margin)
+                        .height(56.dp)
+                        , contentAlignment = Alignment.CenterStart)
+
+                    {
+                        DrawableText(text = stringResource(R.string.light), Icons.Default.WbSunny)
+                    }
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            coroutineScope.launch {
+                                settingViewModel.prefManager.setValue(PrefManager.THEME,ThemeTypes.DARK)
+                                mainViewModel.setTheme(ThemeTypes.DARK)
+                            }
+                        }
+                        .padding(horizontal = MaterialTheme.spacing.default_margin)
+                        .border(1.dp,if (theme.equals(ThemeTypes.DARK))  MaterialTheme.colors.primaryVariant else Color.Transparent, RoundedCornerShape(8.dp))
+                        .padding(horizontal = MaterialTheme.spacing.default_margin)
+                        .height(56.dp), contentAlignment = Alignment.CenterStart) {
+                        DrawableText(text = stringResource(R.string.dark), painterResource(id = R.drawable.ic_moon))
+                    }
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            coroutineScope.launch {
+                                settingViewModel.prefManager.setValue(PrefManager.THEME,ThemeTypes.SYSTEM)
+                                mainViewModel.setTheme(ThemeTypes.SYSTEM)
+                            }
+                        }
+                        .padding(horizontal = MaterialTheme.spacing.default_margin)
+                        .border(1.dp, if (theme.equals(ThemeTypes.SYSTEM))  MaterialTheme.colors.primaryVariant else Color.Transparent, RoundedCornerShape(8.dp))
+                        .padding(horizontal = MaterialTheme.spacing.default_margin)
+                        .height(56.dp), contentAlignment = Alignment.CenterStart) {
+                         DrawableText(text = stringResource(R.string.based_on_system), Icons.Default.SettingsSystemDaydream)
                     }
 
                 }
@@ -150,6 +201,7 @@ fun settingScreen(navController: NavController,
                 .fillMaxWidth()
                 .clickable {
                     coroutineScope.launch {
+                        type=1
                         sheetState.show()
                     }
                 }

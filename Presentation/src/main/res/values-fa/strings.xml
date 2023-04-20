@@ -110,4 +110,7 @@
     <string name="theme">حالت نمایش</string>
     <string name="home">خانه</string>
     <string name="reports">گزارشات</string>
+    <string name="light">روشن</string>
+    <string name="dark">تاریک</string>
+    <string name="based_on_system">سیستمی</string>
 </resources>

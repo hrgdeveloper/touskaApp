@@ -115,4 +115,7 @@
     <string name="theme">Theme</string>
     <string name="home">Home</string>
     <string name="reports">Reports</string>
+    <string name="light">روشن</string>
+    <string name="dark">تاریک</string>
+    <string name="based_on_system">سیستمی</string>
 </resources>
