@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.*
@@ -21,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.touska.R
 import com.example.touska.navigation.BottomNavItem
 import com.example.touska.navigation.MainNavigation
 import com.example.touska.screens.activityScreen.activityScreen
@@ -79,15 +81,15 @@ fun mainScreen() {
 fun BottomNavigation(navController: NavController) {
     val items = listOf(
         BottomNavItem(
-            Icons.Default.Home, "Home", MainNavigation.Home.route,
+            Icons.Default.Home, stringResource(R.string.home), MainNavigation.Home.route,
 
             ),
         BottomNavItem(
-            Icons.Default.Report, "Report", MainNavigation.Report.route,
+            Icons.Default.Report, stringResource(R.string.reports), MainNavigation.Report.route,
 
             ),
         BottomNavItem(
-            Icons.Default.Settings, "Settings", MainNavigation.Setting.route,
+            Icons.Default.Settings, stringResource(id = R.string.settings), MainNavigation.Setting.route,
 
             )
     )

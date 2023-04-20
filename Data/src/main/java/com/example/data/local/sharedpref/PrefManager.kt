@@ -3,11 +3,11 @@ package com.example.data.local.sharedpref
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
+import org.intellij.lang.annotations.Language
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
 class PrefManager @Inject constructor(val sharedPreferences: SharedPreferences,val editor: Editor) {
-
 
      fun <T> setValue(key: String, value: T) {
           when (value) {
@@ -36,6 +36,7 @@ class PrefManager @Inject constructor(val sharedPreferences: SharedPreferences,v
      companion object  {
           const val IS_LOGIN ="is_login"
           const val TOKEN ="token"
+          const val Language ="language"
      }
 
 }

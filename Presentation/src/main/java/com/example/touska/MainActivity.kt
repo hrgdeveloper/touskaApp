@@ -1,6 +1,8 @@
 package com.example.touska
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.data.di.PrefModule
 import com.example.data.local.sharedpref.PrefManager
 
 import com.example.touska.navigation.Navigation
@@ -16,7 +19,9 @@ import com.example.touska.screens.homeScreen.homeScreen
 import com.example.touska.screens.mainScreen.mainScreen
 
 import com.example.touska.ui.theme.TouskaTheme
+import com.example.touska.utils.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
 
@@ -28,7 +33,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             TouskaTheme {
                 val navController = rememberNavController()
@@ -47,5 +51,15 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun attachBaseContext(newBase: Context) {
+        Log.e("Callingasfaf","hereCalling")
+        super.attachBaseContext(
+            LocaleHelper.setLocale(newBase, MyApp.instance.language)
+        )
+    }
+
+
+
 }
 

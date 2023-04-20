@@ -15,12 +15,12 @@ import com.example.touska.utils.mirror
 
 
 @Composable
-fun CustomTopAppbar(title: String, navController: NavController,elevation : Dp = 4.dp) {
+fun CustomTopAppbar(title: String, navController: NavController,elevation : Dp = 4.dp,showBack:Boolean=true) {
     TopAppBar(
         backgroundColor = MaterialTheme.customColorsPalette.top_bar,
         title = { Text(text = title) },
         elevation = elevation,
-        navigationIcon = if (navController.previousBackStackEntry != null) {
+        navigationIcon = if (navController.previousBackStackEntry != null && showBack) {
             {
                 IconButton(onClick = { navController.navigateUp() }) {
                     Icon(

@@ -1,14 +1,17 @@
 package com.example.touska.components
+
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
+
 import androidx.compose.ui.unit.dp
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
@@ -16,17 +19,18 @@ import com.example.touska.ui.theme.spacing
 import kotlinx.coroutines.launch
 
 @Composable
-fun VerticalSmallSpacer(){
+fun VerticalSmallSpacer() {
     Spacer(modifier = Modifier.height(MaterialTheme.spacing.small_margin))
 }
 
 
 @Composable
-fun VerticalDefaultMargin(){
+fun VerticalDefaultMargin() {
     Spacer(modifier = Modifier.height(MaterialTheme.spacing.default_margin))
 }
+
 @Composable
-fun VerticalDefaultMarginBigger(){
+fun VerticalDefaultMarginBigger() {
     Spacer(modifier = Modifier.height(MaterialTheme.spacing.default_margin_bigger))
 }
 
@@ -48,9 +52,10 @@ fun CircularProgressBox() {
 }
 
 @Composable
-fun ConfirmButton( onclick : ()->Unit,
-                   content : @Composable ()->Unit
-                  ) {
+fun ConfirmButton(
+    onclick: () -> Unit,
+    content: @Composable () -> Unit
+) {
     Button(
         onClick = {
             onclick()
@@ -62,28 +67,86 @@ fun ConfirmButton( onclick : ()->Unit,
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
         shape = RoundedCornerShape(4.dp)
     ) {
-       content()
+        content()
     }
 }
 
 @Composable
-fun DrawableText(text:String,icon : Painter,style: TextStyle = TextStyle(fontFamily = iranSansFamily )) {
+fun DrawableText(
+    text: String,
+    icon: Painter,
+    style: TextStyle = TextStyle(fontFamily = iranSansFamily),
+    tint: Color? = MaterialTheme.colors.surface
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(painter = icon, contentDescription =null, modifier = Modifier.size(16.dp),
-             tint = MaterialTheme.colors.surface
+        tint?.let {
+            Icon(
+                painter = icon, contentDescription = null,
+                modifier = Modifier.size(16.dp),
+                tint = tint
             )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(text = text, style = style)
-    }
-}
-@Composable
-fun DrawableText(text:String,icon : ImageVector,style: TextStyle = TextStyle(fontFamily =  iranSansFamily)) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(imageVector = icon, contentDescription =null, modifier = Modifier.size(16.dp),
-            tint = MaterialTheme.colors.surface
-        )
+        }?: kotlin.run {
+            Icon(
+                painter = icon, contentDescription = null,
+                modifier = Modifier.size(16.dp),
+            )
+        }
+
         Spacer(modifier = Modifier.width(4.dp))
         Text(text = text, style = style)
     }
 }
 
+@Composable
+fun DrawableText(
+    text: String,
+    icon: ImageVector,
+    style: TextStyle = TextStyle(fontFamily = iranSansFamily),
+    tint: Color? = MaterialTheme.colors.surface
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        tint?.let {
+            Icon(
+                imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp),
+                tint = MaterialTheme.colors.surface
+            )
+        }?: kotlin.run {
+            Icon(
+                imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp),
+            )
+        }
+
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(text = text, style = style)
+    }
+}
+
+@Composable
+fun DrawableTextImage(
+    text: String,
+    icon: ImageVector,
+    style: TextStyle = TextStyle(fontFamily = iranSansFamily),
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+
+            Image(imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp))
+           Spacer(modifier = Modifier.width(4.dp))
+            Text(text = text, style = style)
+
+
+    }
+}
+@Composable
+fun DrawableTextImage(
+    text: String,
+    icon: Painter,
+    style: TextStyle = TextStyle(fontFamily = iranSansFamily),
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Image(painter = icon, contentDescription = null, modifier = Modifier.size(16.dp))
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(text = text, style = style)
+
+
+    }
+}

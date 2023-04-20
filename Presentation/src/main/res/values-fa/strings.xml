@@ -103,4 +103,11 @@
     <string name="share_qr_code">اشتراک کیو ار کد</string>
     <string name="user_type">نوع کاربر</string>
     <string name="share_user">اشتراک گذاری کاربر</string>
+    <string name="settings">تنظیمات</string>
+    <string name="persian">فارسی</string>
+    <string name="english">انگلیسی</string>
+    <string name="language">زبان</string>
+    <string name="theme">حالت نمایش</string>
+    <string name="home">خانه</string>
+    <string name="reports">گزارشات</string>
 </resources>
