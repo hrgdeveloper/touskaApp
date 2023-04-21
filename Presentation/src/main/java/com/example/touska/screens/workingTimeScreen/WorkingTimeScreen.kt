@@ -162,9 +162,9 @@ fun workingTimeScreen(
         context,
         {_, mHour : Int, mMinute: Int ->
             if (isForStartTime) {
-                startTime = "${mHour.toString().padStart(2,'0')}:${mMinute.toString().padStart(2,'0')}"
+                startTime = "${mHour.toString().padStart(2,'0')}:${mMinute.toString().padStart(2,'0')}:00"
             }else {
-                endTime = "${mHour.toString().padStart(2,'0')}:${mMinute.toString().padStart(2,'0')}"
+                endTime = "${mHour.toString().padStart(2,'0')}:${mMinute.toString().padStart(2,'0')}:00"
             }
 
         }, mHour, mMinute, true
@@ -450,7 +450,7 @@ fun workingTimeScreen(
                                                     ) {
                                                         Column(modifier = Modifier.weight(1f)) {
                                                             Text(
-                                                                text = "ساعت شروع  ",
+                                                                text = stringResource(R.string.start_time),
                                                                 color = MaterialTheme.colors.surface
                                                             )
                                                             Text(
@@ -460,7 +460,7 @@ fun workingTimeScreen(
                                                         }
                                                         Column(modifier = Modifier.weight(1f)) {
                                                             Text(
-                                                                text = "ساعت پایان  ",
+                                                                text = stringResource(R.string.end_time),
                                                                 color = MaterialTheme.colors.surface
                                                             )
                                                             Text(

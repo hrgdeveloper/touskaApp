@@ -131,6 +131,7 @@ fun contractScreen(
                 deleteContract.returnProperMessage(context).toastLong(context)
             }
             Resource.IsLoading -> {
+
             }
             is Resource.Success -> {
                 openDeleteDialog.value = false
