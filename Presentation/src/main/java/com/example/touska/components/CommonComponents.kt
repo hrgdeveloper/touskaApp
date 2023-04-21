@@ -82,13 +82,13 @@ fun DrawableText(
         tint?.let {
             Icon(
                 painter = icon, contentDescription = null,
-                modifier = Modifier.size(16.dp),
+                modifier = Modifier.size(24.dp),
                 tint = tint
             )
         }?: kotlin.run {
             Icon(
                 painter = icon, contentDescription = null,
-                modifier = Modifier.size(16.dp),
+                modifier = Modifier.size(24.dp),
                 tint = MaterialTheme.colors.surface
             )
         }
@@ -108,12 +108,12 @@ fun DrawableText(
     Row(verticalAlignment = Alignment.CenterVertically) {
         tint?.let {
             Icon(
-                imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp),
+                imageVector = icon, contentDescription = null, modifier = Modifier.size(24.dp),
                 tint = tint
             )
         }?: kotlin.run {
             Icon(
-                imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colors.surface,
+                imageVector = icon, contentDescription = null, modifier = Modifier.size(24.dp), tint = MaterialTheme.colors.surface,
             )
         }
 

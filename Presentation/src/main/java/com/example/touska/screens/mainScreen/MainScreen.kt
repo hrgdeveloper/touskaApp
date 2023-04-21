@@ -27,6 +27,7 @@ import com.example.touska.R
 import com.example.touska.navigation.BottomNavItem
 import com.example.touska.navigation.MainNavigation
 import com.example.touska.screens.activityScreen.activityScreen
+import com.example.touska.screens.addReportScreen.addReportScreen
 
 import com.example.touska.screens.blocScreen.blocScreen
 import com.example.touska.screens.contractScreen.contractScreen
@@ -260,26 +261,9 @@ fun NavigationGraph(navController: NavHostController,mainViewModel: MainViewMode
             val roleId = it.arguments?.getInt("role_id", 0) ?: 0
             registerScreen(navController = navController, role_id = roleId)
         }
-        composable(route = MainNavigation.UpdateUser.route + "?role_id={role_id}&userManage={userManage}",
-            arguments = listOf(navArgument("role_id") {
-                type = NavType.IntType
-            },
-                navArgument("userManage") {
-                    type = NavType.StringType
-                    defaultValue = null
-                    nullable = true
-                }
-            )
-        )
-        {
-            val roleId = it.arguments?.getInt("role_id", 0) ?: 0
-            val usermanage = it.arguments?.getString("userManage") ?: ""
-            updateScreen(
-                navController = navController,
-                role_id = roleId,
-                usermanageJson = usermanage
-            )
-        }
+
+
+
 
         composable(
             route = MainNavigation.Profile.route + "/{qr_code}",
@@ -307,6 +291,42 @@ fun NavigationGraph(navController: NavHostController,mainViewModel: MainViewMode
             workerListScreen(
                 navController = navController,
             )
+        }
+
+
+        composable(route = MainNavigation.UpdateUser.route + "?role_id={role_id}&userManage={userManage}",
+            arguments = listOf(navArgument("role_id") {
+                type = NavType.IntType
+            },
+                navArgument("userManage") {
+                    type = NavType.StringType
+                    defaultValue = null
+                    nullable = true
+                }
+            )
+        )
+        {
+            val roleId = it.arguments?.getInt("role_id", 0) ?: 0
+            val usermanage = it.arguments?.getString("userManage") ?: ""
+            updateScreen(
+                navController = navController,
+                role_id = roleId,
+                usermanageJson = usermanage
+            )
+        }
+
+
+        composable(
+            route = MainNavigation.AddReport.route + "?worker={worker}",
+            arguments = listOf(
+                navArgument("worker") {
+                    type = NavType.StringType
+                },
+            )
+        )
+        {
+            val worker = it.arguments?.getString("worker", "")?:""
+            addReportScreen(navController = navController, worker = worker)
         }
 
 

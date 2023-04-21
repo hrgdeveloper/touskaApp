@@ -121,4 +121,9 @@
     <string name="add_new_report">ثبت گزارش جدید</string>
     <string name="apply_filters">اعمال فیلتر</string>
     <string name="chose_worker">انتخاب کارگر</string>
+    <string name="chose_block">انتخاب بلوک</string>
+    <string name="descriptions">توضیحات</string>
+    <string name="add_working_time">افزودن ساعت کاری</string>
+    <string name="chose_floor">انتخاب طبقه</string>
+    <string name="chose_unit">انتخاب واحد</string>
 </resources>

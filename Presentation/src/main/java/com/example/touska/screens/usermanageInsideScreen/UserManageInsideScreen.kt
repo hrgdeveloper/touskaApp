@@ -171,7 +171,7 @@ fun userManageInsideScreen(
                                         modifier = Modifier
                                             .size(60.dp)
                                             .clip(CircleShape)
-                                            .border(1.dp, MaterialTheme.colors.surface)
+                                            .border(1.dp, MaterialTheme.colors.surface, CircleShape)
                                     )
                                 }
 

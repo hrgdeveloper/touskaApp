@@ -38,6 +38,7 @@ import com.example.touska.screens.usermanageInsideScreen.UserManageInsideViewMod
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.spacing
 import com.example.touska.utils.UserTypes
+import com.google.gson.Gson
 
 
 import kotlinx.coroutines.*
@@ -120,6 +121,10 @@ fun workerListScreen(
                                 )
                             },
                             singleLine = true,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                unfocusedBorderColor = MaterialTheme.colors.surface,
+                                focusedBorderColor = MaterialTheme.colors.secondary
+                            )
 
                             )
                         Spacer(modifier = Modifier.width(4.dp))
@@ -188,10 +193,7 @@ fun workerListScreen(
                                             .padding(8.dp)
                                             .clickable {
                                                 navController.navigate(
-                                                    MainNavigation.Profile.withArgs(
-                                                        users[position].qrCode!!
-                                                    )
-                                                )
+                                                    MainNavigation.AddReport.route + "?worker=${Gson().toJson(users[position])}")
                                             }
                                     ) {
                                         Column(
@@ -237,7 +239,8 @@ fun workerListScreen(
                                                     modifier = Modifier
                                                         .size(60.dp)
                                                         .clip(CircleShape)
-                                                        .border(1.dp, MaterialTheme.colors.surface)
+                                                        .border(1.dp, MaterialTheme.colors.surface,
+                                                            CircleShape)
                                                 )
                                             }
 

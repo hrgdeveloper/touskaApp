@@ -5,5 +5,6 @@ data class Bloc(
     val id: Int,
     val name: String,
     val project_id: Int,
-    val updated_at: String
+    val updated_at: String,
+    val floors : List<Floor>?
 )

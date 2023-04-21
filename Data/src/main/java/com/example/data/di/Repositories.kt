@@ -64,4 +64,10 @@ abstract class Repositories {
     abstract fun provideUserManageRepository(userManageRepositoryImpl: UserManageRepositoryImpl):
             UserManageRepository
 
+    @Binds
+    @Singleton
+    abstract fun provideReportRepository(reportRepositoryImpl: ReportRepositoryImpl):
+            ReportRepository
+
+
 }

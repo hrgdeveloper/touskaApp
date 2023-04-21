@@ -9,5 +9,6 @@ data class Floor(
     val name: String,
     val number: Int,
     val updated_at: String,
-    var is_open : Boolean = true
+    var is_open : Boolean = true,
+    val unit : List<Unitt>?
 )

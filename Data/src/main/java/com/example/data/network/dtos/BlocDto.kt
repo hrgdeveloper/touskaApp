@@ -6,5 +6,6 @@ data class BlocDto(
     val id: Int,
     val name: String,
     val project_id: Int,
-    val updated_at: String
+    val updated_at: String,
+
 )

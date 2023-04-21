@@ -234,4 +234,24 @@ interface ApiInterface {
     suspend fun getUser(@Query("qr_code") qrCode:String
     ): Response<BaseResponse<UserManageDto>>
 
+    @POST("report")
+    @FormUrlEncoded
+    suspend fun addReport(@Field("worker_id") workerId : Int ,
+                          @Field("supervisor_id") superVisorId : Int,
+                          @Field("activity_id") activityId : Int,
+                          @Field("bloc_id") blockId : Int,
+                          @Field("floor_id") floorId : Int,
+                          @Field("unit_id") unitId : Int,
+                          @Field("post_id") postId : Int,
+                          @Field("description") description : String,
+                          @Field("times") times:String
+    ): Response<BaseResponse<String>>
+
+    @GET("report-needs")
+    suspend fun reportNeeds(
+        @Query("worker_id") worker_id :Int
+    ): Response<BaseResponse<ReportNeedDto>>
+
+
+
 }

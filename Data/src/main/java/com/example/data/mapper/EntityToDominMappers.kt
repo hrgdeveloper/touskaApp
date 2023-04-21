@@ -17,11 +17,11 @@ fun ProjectEntity.toDomain() : Project{
 }
 
 fun BlocEntity.toDomain():Bloc {
-  return  Bloc(created_at,id,name,project_id,updated_at)
+  return  Bloc(created_at,id,name,project_id,updated_at,null)
 }
 
 fun FloorEntity.toDomain() : Floor {
-    return Floor(bloc_id,created_at,id,name,number,updated_at,false)
+    return Floor(bloc_id,created_at,id,name,number,updated_at,false,null)
 }
 
 fun UnitEntity.toDomain() : Unitt{

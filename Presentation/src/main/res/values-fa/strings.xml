@@ -48,14 +48,16 @@
     <string name="no_posts">هیچ موقعیت شغلی یافت نشد</string>
     <string name="add_new_post">افزودن موقعیت شغلی جدید</string>
     <string name="updatePost">به روز رسانی عنوان موقعیت شغلی</string>
+    <string name="insert_activity_name">لطفا نوع فعالیت را وارد نمایید</string>
     <string name="activity_deleted_suucessfully">نوع فعالیت با موفقیت حذف گردید</string>
     <string name="updateActivity">به روز رسانی فعالیت</string>
     <string name="add_new_activity">افزودن فعالیت جدید</string>
-    <string name="activity_name">عنوان فعالیت</string>
+    <string name="activity_name">نوع فعالیت</string>
     <string name="no_activities">هیچ فعالیتی اضافه نشده است</string>
     <string name="delete_activity">آیا از حذف این فعالیت مطمعن میباشید</string>
     <string name="delete_activity_title">حذف فعالیت</string>
     <string name="insert_contract_name">لطفا عنوان قرارداد  را وارد نمایید</string>
+    <string name="contract_deleted_suucessfully">قرارداد با موفقیت حذف شد</string>
     <string name="add_new_Contract">افزودن قرار داد جدید</string>
     <string name="delete_contract">حذف قرارداد</string>
     <string name="confirm_delete_contract">آیا از حذف این نوع قرارداد اطمینان دارید</string>
@@ -77,6 +79,7 @@
     <string name="users_manage">مدیریت کاربران</string>
     <string name="manage_users">مدیریت کاربران</string>
     <string name="managers">مدیران</string>
+    <string name="owners">مالکان</string>
     <string name="observers">ناظران</string>
     <string name="workers">کارگران</string>
     <string name="no_user_found">هیچ کاربری اضافه نشده است</string>
@@ -116,4 +119,8 @@
     <string name="add_new_report">ثبت گزارش جدید</string>
     <string name="apply_filters">اعمال فیلتر</string>
     <string name="chose_worker">انتخاب کارگر</string>
+    <string name="chose_block">انتخاب بلوک</string>
+    <string name="descriptions">توضیحات</string>
+    <string name="add_working_time">افزودن ساعت کاری</string>
+    <string name="chose_floor">انتخاب طبقه</string>
 </resources>

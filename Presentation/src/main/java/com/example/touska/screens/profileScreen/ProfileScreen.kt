@@ -164,7 +164,10 @@ fun profileScreen(
                                     fontWeight = FontWeight.Black
                                 )
                                 Button(
-                                    onClick = { }, colors = ButtonDefaults.buttonColors(
+                                    onClick = {
+                                              navController.navigate(MainNavigation.AddReport.route + "?worker=${Gson().toJson(user.result)}")
+
+                                    }, colors = ButtonDefaults.buttonColors(
                                         backgroundColor = MaterialTheme.colors.primaryVariant,
                                         contentColor = Color.White
                                     ),
