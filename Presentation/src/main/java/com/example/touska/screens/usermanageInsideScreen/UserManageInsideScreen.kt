@@ -75,7 +75,7 @@ fun userManageInsideScreen(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewmodel.getSpeceficUsers(role_id, searchQuery.text)
+        viewmodel.getSpeceficUsers(role_id, searchQuery.text,0)
     }
 
 
@@ -87,7 +87,7 @@ fun userManageInsideScreen(
             value = searchQuery,
             onValueChange = {
                 searchQuery = it
-                viewmodel.getSpeceficUsers(role_id, searchQuery.text)
+                viewmodel.getSpeceficUsers(role_id, searchQuery.text,0)
             },
 
             Modifier

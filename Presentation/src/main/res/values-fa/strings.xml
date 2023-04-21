@@ -91,7 +91,7 @@
     <string name="invalid_email">ایمیل وارد شده صحیح نمیباشد</string>
     <string name="bad_mobile">موبایل وارد شده صحیح نمیباشد</string>
     <string name="contracts">قرارداد ها</string>
-    <string name="post_type">نوع پست شغلی</string>
+    <string name="post_type"> پست شغلی</string>
     <string name="define_contract_type">لطفا نوع قرارداد را مشخص نمایید</string>
     <string name="define_post_type">لطفا نوع پست شغلی را مشخص نمایید</string>
     <string name="registered_successfully">ثبت نام با موفقیت انجام شد</string>
@@ -113,4 +113,7 @@
     <string name="light">روشن</string>
     <string name="dark">تاریک</string>
     <string name="based_on_system">سیستمی</string>
+    <string name="add_new_report">ثبت گزارش جدید</string>
+    <string name="apply_filters">اعمال فیلتر</string>
+    <string name="chose_worker">انتخاب کارگر</string>
 </resources>

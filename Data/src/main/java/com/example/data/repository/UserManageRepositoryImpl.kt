@@ -46,16 +46,9 @@ class UserManageRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSpeceficUsers(role_id: Int,searchQuery:String): Flow<MutableList<UserManage>> = flow {
-        if (searchQuery.isEmpty()) {
-            val users = userManageDao.getSpeceficUsers(role_id).map { it.toDomain() }
+    override fun getSpeceficUsers(role_id: Int,searchQuery:String,post_id: Int): Flow<MutableList<UserManage>> = flow {
+            val users = userManageDao.getSpeceficUsers(role_id,post_id,searchQuery).map { it.toDomain() }
             emit(users.toMutableList())
-        }else {
-            val users = userManageDao.getSpeceficUsersWithSearch(role_id,searchQuery).map { it.toDomain() }
-            emit(users.toMutableList())
-        }
-
-
     }
 
     override fun registerNeeds(): Flow<Resource<RegisterNeed>> = flow {

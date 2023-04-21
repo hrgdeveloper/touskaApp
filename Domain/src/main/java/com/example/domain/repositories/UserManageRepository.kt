@@ -7,7 +7,7 @@ import java.io.File
 
 interface UserManageRepository {
     fun getAllusers() : Flow<Resource<MutableList<UserManage>>>
-    fun getSpeceficUsers(role_id:Int,searchQuery:String) : Flow<MutableList<UserManage>>
+    fun getSpeceficUsers(role_id:Int,searchQuery:String,post_id: Int) : Flow<MutableList<UserManage>>
     fun register(
         name:String,
         email:String,

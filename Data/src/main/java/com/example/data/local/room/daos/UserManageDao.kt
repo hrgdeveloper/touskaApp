@@ -34,13 +34,9 @@ interface UserManageDao {
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    suspend  fun insertSingleContract(contractEntity: ContractEntity)
 
-   @Query("select * from usermanage where role_id = :role_id")
-   suspend fun getSpeceficUsers(role_id:Int):List<UserManageEntity>
+   @Query("select * from usermanage where role_id = :role_id AND (:postId =0  OR post_id = :postId) And (:searchQuery = '' OR email LIKE '%' || :searchQuery || '%' OR mobile LIKE '%' || :searchQuery || '%' OR name LIKE '%' || :searchQuery || '%')")
+   suspend fun getSpeceficUsers(role_id:Int ,postId :Int,searchQuery:String):List<UserManageEntity>
 
-
-
-    @Query("SELECT * FROM usermanage WHERE role_id = :role_id AND (email LIKE '%' || :searchQuery || '%' OR mobile LIKE '%' || :searchQuery || '%' OR name LIKE '%' || :searchQuery || '%')")
-    suspend fun getSpeceficUsersWithSearch(role_id:Int,searchQuery:String):List<UserManageEntity>
 
 
     @Query("select * from usermanage")

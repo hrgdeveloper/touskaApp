@@ -137,11 +137,6 @@ fun registerScreen(
     }
 
 
-
-
-
-
-
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {

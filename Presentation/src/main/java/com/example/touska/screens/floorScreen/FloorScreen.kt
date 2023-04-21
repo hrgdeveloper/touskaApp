@@ -397,8 +397,7 @@ fun floorScreen(
                 }
             }
         }
-        
-   
+
     }
 
     if (openDeleteDialog.value) {

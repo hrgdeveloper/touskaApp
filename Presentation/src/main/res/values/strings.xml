@@ -96,7 +96,7 @@
     <string name="invalid_email">The entered email is not valid</string>
     <string name="bad_mobile">The entered mobile number is not valid</string>
     <string name="contracts">Contracts</string>
-    <string name="post_type">Job post type</string>
+    <string name="post_type">Job type</string>
     <string name="define_contract_type">Please define the contract type</string>
     <string name="define_post_type">Please define the job post type</string>
     <string name="registered_successfully">Registered successfully</string>
@@ -118,4 +118,7 @@
     <string name="light">روشن</string>
     <string name="dark">تاریک</string>
     <string name="based_on_system">سیستمی</string>
+    <string name="add_new_report">ثبت گزارش جدید</string>
+    <string name="apply_filters">اعمال فیلتر</string>
+    <string name="chose_worker">انتخاب کارگر</string>
 </resources>

@@ -63,12 +63,11 @@ import kotlinx.coroutines.*
 @Composable
 fun userManageScreen(
     navController: NavController,
-    viewmodel: UserManageViewModel = hiltViewModel()
+    viewmodel: UserManageViewModel = hiltViewModel(),
+
 ) {
     val users = viewmodel.allUsers.observeAsState().value
-    val addActivity = viewmodel.addActivity.observeAsState().value
-    val updateActivity = viewmodel.updateActivity.observeAsState().value
-    val deleteActivity = viewmodel.deleteActivity.observeAsState().value
+
 
 
     val context = LocalContext.current
@@ -99,17 +98,11 @@ fun userManageScreen(
                             CircularProgressBox()
                         }
                         is Resource.Success ->  {
-//                            SwipeRefresh(
-//                                state = rememberSwipeRefreshState(users is Resource.IsLoading),
-//                                onRefresh = {
-//                               //     viewmodel.getActivities(postId)
-//                                }) {
                                 if (users.result.isEmpty()) {
                                     empty(message = stringResource(R.string.no_user_found))
                                 } else {
                                     TabLayout(navController)
                                 }
-                       //     }
 
                         }
                         null -> {

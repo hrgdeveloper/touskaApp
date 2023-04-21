@@ -36,9 +36,9 @@ class UserManageInsideViewModel @Inject constructor(
     val deleteActivity : LiveData<Resource<Any>> get() = deleteActivity_
 
 
-    fun getSpeceficUsers(role_id: Int,searchQuery:String) {
+    fun getSpeceficUsers(role_id: Int,searchQuery:String,post_id:Int) {
         viewModelScope.launch {
-            getSpeceficUserUseCase(role_id,searchQuery).collect {
+            getSpeceficUserUseCase(role_id,searchQuery,post_id).collect {
                 users_.postValue(it)
             }
         }

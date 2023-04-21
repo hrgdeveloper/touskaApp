@@ -25,6 +25,7 @@ sealed class MainNavigation(val route : String) {
     object UpdateUser : MainNavigation("updateUser")
 
     object Profile : MainNavigation("profile")
+    object WorkerList : MainNavigation("workerList")
 
     fun withArgs(vararg args:  String ) : String {
         return  buildString {

@@ -41,6 +41,7 @@ import com.example.touska.screens.settingScreen.settingScreen
 import com.example.touska.screens.unitScreen.unitScreen
 import com.example.touska.screens.updateUserScreen.updateScreen
 import com.example.touska.screens.usermanageScreen.userManageScreen
+import com.example.touska.screens.workerList.workerListScreen
 import com.example.touska.screens.workingTimeScreen.workingTimeScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -297,6 +298,15 @@ fun NavigationGraph(navController: NavHostController,mainViewModel: MainViewMode
             val qrCode = it.arguments?.getString("qr_code", "") ?: ""
 
             profileScreen(navController = navController, qrCode = qrCode)
+        }
+
+        composable(
+            route = MainNavigation.WorkerList.route
+        )
+        {
+            workerListScreen(
+                navController = navController,
+            )
         }
 
 

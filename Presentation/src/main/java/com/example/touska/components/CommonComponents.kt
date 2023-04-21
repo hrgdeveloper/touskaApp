@@ -76,7 +76,7 @@ fun DrawableText(
     text: String,
     icon: Painter,
     style: TextStyle = TextStyle(fontFamily = iranSansFamily),
-    tint: Color? = MaterialTheme.colors.surface
+    tint: Color? = null
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         tint?.let {
@@ -89,6 +89,7 @@ fun DrawableText(
             Icon(
                 painter = icon, contentDescription = null,
                 modifier = Modifier.size(16.dp),
+                tint = MaterialTheme.colors.surface
             )
         }
 
@@ -102,17 +103,17 @@ fun DrawableText(
     text: String,
     icon: ImageVector,
     style: TextStyle = TextStyle(fontFamily = iranSansFamily),
-    tint: Color? = MaterialTheme.colors.surface
+    tint: Color? = null
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         tint?.let {
             Icon(
                 imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp),
-                tint = MaterialTheme.colors.surface
+                tint = tint
             )
         }?: kotlin.run {
             Icon(
-                imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp),
+                imageVector = icon, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colors.surface,
             )
         }
 

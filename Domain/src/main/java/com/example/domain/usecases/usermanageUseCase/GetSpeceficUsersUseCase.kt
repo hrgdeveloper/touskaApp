@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class GetSpeceficUsersUseCase @Inject constructor(val userManageRepository: UserManageRepository) {
 
-    operator fun invoke(role_id:Int,searchQuery : String ) : Flow<MutableList<UserManage>> {
-        return userManageRepository.getSpeceficUsers(role_id,searchQuery)
+    operator fun invoke(role_id:Int,searchQuery : String,post_id:Int ) : Flow<MutableList<UserManage>> {
+        return userManageRepository.getSpeceficUsers(role_id,searchQuery,post_id)
     }
 
 }
