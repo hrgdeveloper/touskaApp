@@ -6,5 +6,15 @@ import com.example.shared.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface ReportRepository {
-    fun reportNeeds(worker_id:Int): Flow<Resource<ReportNeed>>
+    fun reportNeeds(worker_id: Int): Flow<Resource<ReportNeed>>
+    fun addReport(
+        workerId: Int,
+        superVisorId: Int,
+        activityId: Int,
+        blockId: Int,
+        floorId: Int?,
+        unitId: Int?,
+        description: String?,
+        times: String
+    ): Flow<Resource<String>>
 }

@@ -35,4 +35,23 @@ class ReportRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun addReport(
+        workerId: Int,
+        superVisorId: Int,
+        activityId: Int,
+        blockId: Int,
+        floorId: Int?,
+        unitId: Int?,
+        description: String?,
+        times: String
+    ): Flow<Resource<String>> = flow {
+        emit(Resource.IsLoading)
+        try {
+             safeCall { apiInterface.addReport(workerId, superVisorId, activityId, blockId, floorId, unitId, description, times) }
+            emit(Resource.Success("Report has Added Successfully"))
+        }catch (customExeption : CustomExeption) {
+            emit(Resource.Failure(customExeption.errorMessage,customExeption.status))
+        }
+    }
+
 }

@@ -127,4 +127,6 @@
     <string name="end_time">ساعت پایان </string>
     <string name="time_alert">زمان شروع انتخابی باید از زمان پایان اخرین آیتم بزگتر باشد</string>
     <string name="custom">دستی</string>
+    <string name="insert_adlast_one_time">لطفا حداقل یک زمان کاری را وارد نمایید</string>
+    <string name="reported_successfully">گزارش با موفقیت ثبت شد</string>
 </resources>

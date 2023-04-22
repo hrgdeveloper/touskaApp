@@ -47,6 +47,8 @@ import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
 import com.example.touska.utils.mirror
+import com.example.touska.utils.returnProperMessage
+import com.example.touska.utils.toastLong
 
 import com.google.gson.Gson
 
@@ -65,6 +67,8 @@ fun addReportScreen(
     worker: String,
 ) {
     val needs = viewmodel.needs.observeAsState().value
+
+    val addReport = viewmodel.addReport.observeAsState().value
 
     val worker = Gson().fromJson(worker, UserManage::class.java)
 
@@ -140,6 +144,22 @@ fun addReportScreen(
     var isForStartTime by remember {
         mutableStateOf(true)
     }
+    LaunchedEffect(key1 = addReport) {
+        when (addReport) {
+            is Resource.Failure -> {
+                addReport.returnProperMessage(context).toastLong(context)
+            }
+
+            is Resource.Success -> {
+                Toast.makeText(context,  context.getString(R.string.reported_successfully) , Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+
+            }
+        }
+    }
+
+
 
     //this variable define if we click on setStrat Time or End Time
     // Creating a TimePicker dialod
@@ -156,14 +176,9 @@ fun addReportScreen(
 
         }, mHour, mMinute, true
     )
-
-
-
-
     LaunchedEffect(Unit) {
         viewmodel.getReportNeeds(worker.id)
     }
-
 
     when (needs) {
         is Resource.Failure -> {
@@ -797,17 +812,16 @@ fun addReportScreen(
                             )
                         ) {
                             ConfirmButton(onclick = {
-
-
+                                viewmodel.submitReport(worker.id,13,activityId,blocId,floorId,unitId,description.text,workingTimes)
                             }) {
-//                            if (register is Resource.IsLoading) {
-//                                CircularProgressIndicator(
-//                                    color = Color.White,
-//                                    modifier = Modifier.size(24.dp)
-//                                )
-//                            } else {
+                            if (addReport is Resource.IsLoading) {
+                                CircularProgressIndicator(
+                                    color = Color.White,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            } else {
                                 Text(text = stringResource(id = R.string.submit_report))
-                                //    }
+                                    }
 
                             }
                         }

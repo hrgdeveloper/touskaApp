@@ -7,9 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.data.mapper.toDto
 import com.example.data.utils.FileUtils
 import com.example.domain.models.RegisterNeed
 import com.example.domain.models.ReportNeed
+import com.example.domain.models.WorkingTime
+import com.example.domain.usecases.reportUseCase.AddReportUseCase
 import com.example.domain.usecases.reportUseCase.ReportNeedsUseCase
 
 import com.example.domain.usecases.usermanageUseCase.RegisterNeedsUseCase
@@ -17,6 +20,7 @@ import com.example.domain.usecases.usermanageUseCase.RegisterUsersUseCase
 import com.example.shared.Resource
 import com.example.touska.R
 import com.example.touska.utils.isValidEmail
+import com.google.gson.Gson
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -26,19 +30,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReportViewModel @Inject constructor(
-   val reportNeedsUseCase: ReportNeedsUseCase,
-   val registerUsersUseCase: RegisterUsersUseCase
+    val reportNeedsUseCase: ReportNeedsUseCase,
+    val addReportUseCase: AddReportUseCase
 
 ) : ViewModel() {
     private val needs_ = MutableLiveData<Resource<ReportNeed>>()
     val needs: LiveData<Resource<ReportNeed>> get() = needs_
 
 
-    private val register_ = MutableLiveData<Resource<String>>()
-    val register: LiveData<Resource<String>> get() = register_
+    private val addReport_ = MutableLiveData<Resource<String>>()
+    val addReport: LiveData<Resource<String>> get() = addReport_
 
 
-    fun getReportNeeds(worker_id:Int) {
+    fun getReportNeeds(worker_id: Int) {
         viewModelScope.launch {
             reportNeedsUseCase(worker_id).collect {
                 needs_.postValue(it)
@@ -46,55 +50,44 @@ class ReportViewModel @Inject constructor(
         }
     }
 
+    fun submitReport(
+        workerId: Int,
+        superVisorId: Int,
+        activityId: Int,
+        blockId: Int,
+        floorId: Int,
+        unitId: Int,
+        description: String,
+        times: List<WorkingTime>
+    ) {
+        if (activityId == 0) {
+            addReport_.postValue(Resource.Failure("", 400, R.string.insert_activity_name))
+            return
+        }
+        if (blockId == 0) {
+            addReport_.postValue(Resource.Failure("", 400, R.string.insert_bloc_name))
+            return
+        }
 
+        if (times.isEmpty()) {
+            addReport_.postValue(Resource.Failure("", 400, R.string.insert_adlast_one_time))
+            return
+        }
+        viewModelScope.launch {
+            addReportUseCase(
+                workerId,
+                superVisorId,
+                activityId,
+                blockId, if (floorId == 0) null else floorId,
+                if (unitId == 0) null else unitId,
+                if (description.isEmpty()) null else description,
+                Gson().toJson(times.map { it.toDto() })
+            ).collect {
+                addReport_.postValue(it)
+            }
+        }
 
-
-//    fun register(name:String,password:String,email:String,mobile:String,role_id:Int,uri: Uri?,contract_type_id : Int?,
-//                 post_id:Int?,project_id:Int,context:Context
-//                 ){
-//
-//        var profile : File?=null
-//        uri?.let {
-//            profile= FileUtils.getFile(context,uri)
-//        }
-//        if (name.isEmpty()) {
-//            register_.postValue(Resource.Failure("",400, R.string.insert_name))
-//            return
-//        }
-//        if (password.length<6) {
-//            register_.postValue(Resource.Failure("",400, R.string.weak_password))
-//            return
-//        }
-//
-//        if (!email.isValidEmail()) {
-//            register_.postValue(Resource.Failure("",400, R.string.invalid_email))
-//            return
-//        }
-//
-//        if (!mobile.startsWith("09") || mobile.length!=11) {
-//            register_.postValue(Resource.Failure("",400, R.string.bad_mobile))
-//            return
-//        }
-//
-//        if (contract_type_id!=null && contract_type_id==0) {
-//            register_.postValue(Resource.Failure("",400, R.string.define_contract_type))
-//            return
-//        }
-//
-//        if (post_id!=null && post_id==0) {
-//            register_.postValue(Resource.Failure("",400, R.string.define_post_type))
-//            return
-//        }
-//
-//
-//        viewModelScope.launch {
-//            registerUsersUseCase(name,email,password,mobile,role_id,contract_type_id,project_id,post_id,profile).collect {
-//                register_.postValue(it)
-//            }
-//        }
-//
-//    }
-
+    }
 
 
 }

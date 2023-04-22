@@ -240,12 +240,11 @@ interface ApiInterface {
                           @Field("supervisor_id") superVisorId : Int,
                           @Field("activity_id") activityId : Int,
                           @Field("bloc_id") blockId : Int,
-                          @Field("floor_id") floorId : Int,
-                          @Field("unit_id") unitId : Int,
-                          @Field("post_id") postId : Int,
-                          @Field("description") description : String,
+                          @Field("floor_id") floorId : Int?,
+                          @Field("unit_id") unitId : Int?,
+                          @Field("description") description : String?,
                           @Field("times") times:String
-    ): Response<BaseResponse<String>>
+    ): Response<BaseResponse<ReportDto>>
 
     @GET("report-needs")
     suspend fun reportNeeds(
