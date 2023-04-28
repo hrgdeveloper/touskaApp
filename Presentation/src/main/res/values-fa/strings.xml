@@ -129,4 +129,13 @@
     <string name="custom">دستی</string>
     <string name="insert_adlast_one_time">لطفا حداقل یک زمان کاری را وارد نمایید</string>
     <string name="reported_successfully">گزارش با موفقیت ثبت شد</string>
+    <string name="worker_name">نام کارگر</string>
+    <string name="block">بلوک</string>
+    <string name="floor">طبقه</string>
+    <string name="unit">واحد</string>
+    <string name="post">سمت</string>
+    <string name="activity_type">نوع فعالیت</string>
+    <string name="total_working_time">مجموع ساعت کاری</string>
+    <string name="date_submited">تاریخ ثبت</string>
+    <string name="supervisor_name">نام ناظر</string>
 </resources>

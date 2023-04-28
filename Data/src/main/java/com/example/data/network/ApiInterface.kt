@@ -1,13 +1,11 @@
 package com.example.data.network
 
-import com.example.data.local.room.daos.UserManageDao
 import com.example.data.network.dtos.*
 import com.example.data.network.utils.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
-import java.io.File
 
 interface ApiInterface {
     @POST("login")
@@ -250,6 +248,26 @@ interface ApiInterface {
     suspend fun reportNeeds(
         @Query("worker_id") worker_id :Int
     ): Response<BaseResponse<ReportNeedDto>>
+
+
+    @GET("report-needs-full")
+    suspend fun reportNeedsFull(
+    ): Response<BaseResponse<ReportNeedFullDto>>
+
+
+    @GET("report")
+    suspend fun getReports(
+       @Query("block_id")  blockId: Int?,
+       @Query("floor_id") floorId: Int?,
+       @Query("unit_id")  unitId: Int?,
+       @Query("supervisor_id")   superVisorId: Int?,
+       @Query("worker_id")  workerId: Int?,
+       @Query("post_id")  postId:Int?,
+       @Query("activity_id")  activityId: Int?,
+       @Query("contract_type_id") contractTypeId:Int?,
+       @Query("start_date") startDate:String?,
+       @Query("end_date")  endDate:String?
+    ): Response<BaseResponse<List<ReportDto>>>
 
 
 

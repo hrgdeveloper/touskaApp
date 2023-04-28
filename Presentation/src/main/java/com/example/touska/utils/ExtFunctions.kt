@@ -27,6 +27,23 @@ fun Resource.Failure.returnProperMessage(context: Context) : String {
     }
 }
 
+fun Int.requestValue() : Int?{
+    return if (this==0) {
+        null
+    }else {
+        this
+    }
+}
+fun String.requestValue() : String?{
+    return if (this.isEmpty()) {
+        null
+    }else {
+        this
+    }
+}
+
+
+
 @Stable
 fun Modifier.mirror(): Modifier = composed {
     if (LocalLayoutDirection.current == LayoutDirection.Rtl)

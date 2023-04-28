@@ -6,6 +6,6 @@ data class FloorDto(
     val id: Int,
     val name: String,
     val number: Int,
-    val units: List<UnitDto>,
+    val units: List<UnitDto>?,
     val updated_at: String
 )

@@ -25,13 +25,23 @@ import javax.inject.Inject
 class ReportRepositoryImpl @Inject constructor(
     val apiInterface: ApiInterface,
 ) : ReportRepository, SafeApiCall() {
-    override fun reportNeeds(worker_id:Int): Flow<Resource<ReportNeed>> = flow {
+    override fun reportNeeds(worker_id: Int): Flow<Resource<ReportNeed>> = flow {
         emit(Resource.IsLoading)
         try {
             val result = safeCall { apiInterface.reportNeeds(worker_id) }.toDomain()
             emit(Resource.Success(result))
-        }catch (customExeption : CustomExeption) {
-            emit(Resource.Failure(customExeption.errorMessage,customExeption.status))
+        } catch (customExeption: CustomExeption) {
+            emit(Resource.Failure(customExeption.errorMessage, customExeption.status))
+        }
+    }
+
+    override fun reportNeedsFull(): Flow<Resource<ReportNeedFull>>  = flow{
+        emit(Resource.IsLoading)
+        try {
+            val result = safeCall { apiInterface.reportNeedsFull() }.toDomain()
+            emit(Resource.Success(result))
+        } catch (customExeption: CustomExeption) {
+            emit(Resource.Failure(customExeption.errorMessage, customExeption.status))
         }
     }
 
@@ -47,10 +57,54 @@ class ReportRepositoryImpl @Inject constructor(
     ): Flow<Resource<String>> = flow {
         emit(Resource.IsLoading)
         try {
-             safeCall { apiInterface.addReport(workerId, superVisorId, activityId, blockId, floorId, unitId, description, times) }
+            safeCall {
+                apiInterface.addReport(
+                    workerId,
+                    superVisorId,
+                    activityId,
+                    blockId,
+                    floorId,
+                    unitId,
+                    description,
+                    times
+                )
+            }
             emit(Resource.Success("Report has Added Successfully"))
-        }catch (customExeption : CustomExeption) {
-            emit(Resource.Failure(customExeption.errorMessage,customExeption.status))
+        } catch (customExeption: CustomExeption) {
+            emit(Resource.Failure(customExeption.errorMessage, customExeption.status))
+        }
+    }
+
+    override fun getReports(
+        blockId: Int?,
+        floorId: Int?,
+        unitId: Int?,
+        superVisorId: Int?,
+        workerId: Int?,
+        postId: Int?,
+        activityId: Int?,
+        contractTypeId: Int?,
+        startDate: String?,
+        endDate: String?
+    ): Flow<Resource<MutableList<Report>>> = flow {
+        emit(Resource.IsLoading)
+        try {
+            emit(Resource.IsLoading)
+            val result =  safeCall { apiInterface.getReports(
+                blockId,
+                floorId,
+                unitId,
+                superVisorId,
+                workerId,
+                postId,
+                activityId,
+                contractTypeId,
+                startDate,
+                endDate
+            ) }
+            emit(Resource.Success(result.map { it.toDomain() }.toMutableList()))
+        } catch (e:CustomExeption) {
+            emit(Resource.Failure(e.errorMessage,e.status))
         }
     }
 
