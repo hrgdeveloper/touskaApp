@@ -138,4 +138,11 @@
     <string name="total_working_time">مجموع ساعت کاری</string>
     <string name="date_submited">تاریخ ثبت</string>
     <string name="supervisor_name">نام ناظر</string>
+    <string name="block_filter">فیلتر بلوک</string>
+    <string name="select_filter">انتخاب کنید</string>
+    <string name="floor_filter">فیلتر طبقه</string>
+    <string name="unit_filter">فیلتر واحد</string>
+    <string name="post_filter">فیلتر سمت</string>
+    <string name="activity_filter">فیلتر نوع فعالیت</string>
+    <string name="contract_filter">فیلتر نوع قرارداد</string>
 </resources>

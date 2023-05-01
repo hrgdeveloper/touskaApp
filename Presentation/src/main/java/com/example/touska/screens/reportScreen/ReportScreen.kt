@@ -2,6 +2,7 @@ package com.example.touska.screens.reportScreen
 
 import android.annotation.SuppressLint
 import android.widget.TableLayout
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -20,15 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,11 +43,9 @@ import com.example.touska.navigation.MainNavigation
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
-import com.example.touska.utils.mirror
+import com.example.touska.utils.FilterModel
+import com.example.touska.utils.FilterTypes
 import com.example.touska.utils.returnProperMessage
-import com.example.touska.utils.toastLong
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -63,6 +59,11 @@ fun reportScreen(
 
     val reports = viewmodel.reports.observeAsState().value
     val context = LocalContext.current
+
+    var filterType by remember {
+       mutableStateOf(FilterTypes.BLOCK.type)
+    }
+
 
 
 
@@ -94,29 +95,29 @@ fun reportScreen(
 
     val cellWidth: (Int) -> Dp = { index ->
         when (index) {
-            0 -> 150.dp
-            1 -> 80.dp
+            1 -> 150.dp
             2 -> 80.dp
             3 -> 80.dp
             4 -> 80.dp
-            5 -> 100.dp
+            5 -> 80.dp
             6 -> 100.dp
-            7 -> 150.dp
-            8 -> 100.dp
+            7 -> 100.dp
+            8 -> 150.dp
+            9 -> 100.dp
             else -> 100.dp
         }
     }
     val headerCellTitle: @Composable (Int) -> Unit = { index ->
         val value = when (index) {
-            0 -> stringResource(R.string.worker_name)
-            1 -> stringResource(R.string.block)
-            2 -> stringResource(R.string.floor)
-            3 -> stringResource(R.string.unit)
-            4 -> stringResource(R.string.post)
-            5 -> stringResource(R.string.activity_type)
-            6 -> stringResource(R.string.total_working_time)
-            7 -> stringResource(R.string.supervisor_name)
-            8 -> stringResource(R.string.date_submited)
+            1 -> stringResource(R.string.worker_name)
+            2 -> stringResource(R.string.block)
+            3 -> stringResource(R.string.floor)
+            4 -> stringResource(R.string.unit)
+            5 -> stringResource(R.string.post)
+            6 -> stringResource(R.string.activity_type)
+            7 -> stringResource(R.string.total_working_time)
+            8 -> stringResource(R.string.supervisor_name)
+            9 -> stringResource(R.string.date_submited)
 
             else -> ""
         }
@@ -135,15 +136,15 @@ fun reportScreen(
     }
     val cellText: @Composable (Int, Report) -> Unit = { index, report ->
         val value = when (index) {
-            0 -> report.workerName
-            1 -> report.blockName
-            2 -> report.floorName ?: " - "
-            3 -> report.unitName ?: " - "
-            4 -> report.post
-            5 -> report.activity
-            6 -> report.totalTime
-            7 -> report.supervisorName ?: ""
-            8 -> report.submitted
+            1 -> report.workerName
+            2 -> report.blockName
+            3 -> report.floorName ?: " - "
+            4 -> report.unitName ?: " - "
+            5 -> report.post
+            6 -> report.activity
+            7 -> report.totalTime
+            8 -> report.supervisorName ?: ""
+            9 -> report.submitted
             else -> ""
         }
 
@@ -178,21 +179,123 @@ fun reportScreen(
                 }
                 VerticalDefaultMargin()
                 if (needs is Resource.Success) {
-                    LazyColumn{
-                        items(needs.result.blocs) {
-                            Surface(selected = false, onClick = {
-                                viewmodel.blockId.value=it.id
-                                viewmodel.blockName.value=it.name
-                                viewmodel.fetchReports()
-                                coroutineScope.launch {
-                                    sheetStateSelect.hide()
+                    if (filterType==FilterTypes.BLOCK.type) {
+                        LazyColumn{
+                            items(needs.result.blocs) {
+                                Surface(selected = false, onClick = {
+                                    viewmodel.blockId.value=it.id
+                                    viewmodel.blockName.value=it.name
+                                    viewmodel.fetchReports()
+                                    viewmodel.addToFilterList(FilterModel(R.string.block_filter,FilterTypes.BLOCK.type))
+                                    coroutineScope.launch {
+                                        sheetStateSelect.hide()
+                                    }
+                                }, color = Color.Transparent, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = MaterialTheme.spacing.default_margin)) {
+                                    Text(text = it.name)
                                 }
-                            }, color = Color.Transparent, modifier = Modifier.fillMaxWidth().padding(horizontal = MaterialTheme.spacing.default_margin)) {
-                                Text(text = it.name)
+                                CustomDivider()
                             }
-                            CustomDivider()
+                        }
+                    }else if (filterType==FilterTypes.FLOOR.type) {
+                        LazyColumn{
+                            items(needs.result.floors) {
+                                Surface(selected = false, onClick = {
+                                    viewmodel.floorId.value=it.id
+                                    viewmodel.floorName.value=it.name
+                                    viewmodel.fetchReports()
+                                    viewmodel.addToFilterList(FilterModel(R.string.floor_filter,FilterTypes.FLOOR.type))
+                                    coroutineScope.launch {
+                                        sheetStateSelect.hide()
+                                    }
+                                }, color = Color.Transparent, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = MaterialTheme.spacing.default_margin)) {
+                                    Text(text = it.name)
+                                }
+                                CustomDivider()
+                            }
+                        }
+                    }else if (filterType==FilterTypes.UNIT.type){
+                        LazyColumn{
+                            items(needs.result.units) {
+                                Surface(selected = false, onClick = {
+                                    viewmodel.unitId.value=it.id
+                                    viewmodel.unitName.value=it.name
+                                    viewmodel.fetchReports()
+                                    viewmodel.addToFilterList(FilterModel(R.string.unit_filter,FilterTypes.UNIT.type))
+                                    coroutineScope.launch {
+                                        sheetStateSelect.hide()
+                                    }
+                                }, color = Color.Transparent, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = MaterialTheme.spacing.default_margin)) {
+                                    Text(text = it.name)
+                                }
+                                CustomDivider()
+                            }
+                        }
+                    }else if (filterType==FilterTypes.POST.type){
+                        LazyColumn{
+                            items(needs.result.posts) {
+                                Surface(selected = false, onClick = {
+                                    viewmodel.postId.value=it.id
+                                    viewmodel.postTitle.value=it.title
+                                    viewmodel.fetchReports()
+                                    viewmodel.addToFilterList(FilterModel(R.string.post_filter,FilterTypes.POST.type))
+                                    coroutineScope.launch {
+                                        sheetStateSelect.hide()
+                                    }
+                                }, color = Color.Transparent, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = MaterialTheme.spacing.default_margin)) {
+                                    Text(text = it.title)
+                                }
+                                CustomDivider()
+                            }
+                        }
+                    }else if (filterType==FilterTypes.ACTIVITY.type){
+                        LazyColumn{
+                            items(needs.result.activities) {
+                                Surface(selected = false, onClick = {
+                                    viewmodel.activityId.value=it.id
+                                    viewmodel.activityName.value=it.title
+                                    viewmodel.fetchReports()
+                                    viewmodel.addToFilterList(FilterModel(R.string.post_filter,FilterTypes.ACTIVITY.type))
+                                    coroutineScope.launch {
+                                        sheetStateSelect.hide()
+                                    }
+                                }, color = Color.Transparent, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = MaterialTheme.spacing.default_margin)) {
+                                    Text(text = it.title)
+                                }
+                                CustomDivider()
+                            }
+                        }
+                    }else if (filterType==FilterTypes.CONTRACT.type){
+                        LazyColumn{
+                            items(needs.result.contracts) {
+                                Surface(selected = false, onClick = {
+                                    viewmodel.contractTypeId.value=it.id
+                                    viewmodel.contractTypeName.value=it.title
+                                    viewmodel.fetchReports()
+                                    viewmodel.addToFilterList(FilterModel(R.string.contract_filter,FilterTypes.CONTRACT.type))
+                                    coroutineScope.launch {
+                                        sheetStateSelect.hide()
+                                    }
+                                }, color = Color.Transparent, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = MaterialTheme.spacing.default_margin)) {
+                                    Text(text = it.title)
+                                }
+                                CustomDivider()
+                            }
                         }
                     }
+
+
                 }
 
 
@@ -224,52 +327,66 @@ fun reportScreen(
                     }
                     if (needs is Resource.Success) {
                         VerticalDefaultMargin()
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(MaterialTheme.spacing.default_margin)
-                                .height(48.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .border(
-                                    1.dp, MaterialTheme.customColorsPalette.cardBack,
-                                    RoundedCornerShape(8.dp)
-                                )
-                                .clickable {
-                                   coroutineScope.launch {
-                                       sheetStateSelect.show()
-                                   }
-                                }
-                        ) {
-                            Row(
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(horizontal = MaterialTheme.spacing.default_margin),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                DrawableText(
-                                    text = if (viewmodel.blockName.value.isEmpty())
-                                        stringResource(id = R.string.block)
-                                    else viewmodel.blockName.value,
-                                    icon = painterResource(
-                                        id = R.drawable.ic_blocs
-                                    ),
-                                    style = TextStyle(color = if (viewmodel.blockName.value.isEmpty()) MaterialTheme.colors.surface else
-                                        MaterialTheme.colors.primary, fontFamily = iranSansFamily
-                                    )
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.ArrowDropDown,
-                                    contentDescription = null
-                                )
-                            }
+                        FilterBox(title = R.string.block_filter, text = viewmodel.blockName.value) {
+                            coroutineScope.launch {
+                                filterType=FilterTypes.BLOCK.type
+                                sheetStateSelect.show()
 
+                            }
                         }
+                        VerticalDefaultMargin()
+                        FilterBox(title = R.string.floor_filter, text = viewmodel.floorName.value) {
+                            coroutineScope.launch {
+                                filterType=FilterTypes.FLOOR.type
+                                sheetStateSelect.show()
+
+                            }
+                        }
+                        VerticalDefaultMargin()
+                        FilterBox(title = R.string.unit_filter, text = viewmodel.unitName.value) {
+                            coroutineScope.launch {
+                                filterType=FilterTypes.UNIT.type
+                                sheetStateSelect.show()
+
+                            }
+                        }
+
+                        VerticalDefaultMargin()
+                        FilterBox(title = R.string.post_filter, text = viewmodel.postTitle.value) {
+                            coroutineScope.launch {
+                                filterType=FilterTypes.POST.type
+                                sheetStateSelect.show()
+
+                            }
+                        }
+
+
+                        VerticalDefaultMargin()
+                        FilterBox(title = R.string.activity_filter, text = viewmodel.activityName.value) {
+                                coroutineScope.launch {
+                                    filterType=FilterTypes.ACTIVITY.type
+                                    sheetStateSelect.show()
+
+                                }
+                        }
+
+                        VerticalDefaultMargin()
+                        FilterBox(title = R.string.contract_filter, text = viewmodel.contractTypeName.value) {
+                            coroutineScope.launch {
+                                filterType=FilterTypes.CONTRACT.type
+                                sheetStateSelect.show()
+
+                            }
+                        }
+
+
                     }
 
-                    VerticalDefaultMargin()
-
                 }
+
+
+
+
             },
             modifier = Modifier
                 .fillMaxSize(),
@@ -324,12 +441,35 @@ fun reportScreen(
                         }
                     }) {
                         Column(modifier = Modifier.fillMaxSize()) {
+                            LazyRow (modifier = Modifier.padding(start = 8.dp, top = 8.dp)){
+                             items(viewmodel.filtersList) {
+                                 Card(backgroundColor = MaterialTheme.customColorsPalette.cardBack,
+                                     modifier = Modifier.clickable {
+                                         viewmodel.removeFromFilterList(it)
+                                         viewmodel.fetchReports()
+                                     },
+                                     shape = RoundedCornerShape(25.dp)
+
+                                 ) {
+                                     Row(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp,),
+                                        verticalAlignment = Alignment.CenterVertically
+                                         ) {
+                                         Text(text = stringResource(id = it.stringRes))
+                                         Spacer(modifier = Modifier.width(2.dp))
+                                         Icon(imageVector =Icons.Default.Close , contentDescription = null, modifier = Modifier.size(14.dp))
+                                     }
+
+                                 }
+                                 Spacer(modifier = Modifier.width(4.dp))
+                             }
+                            }
+
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
                                 VerticalSmallSpacer()
                                 Table(
-                                    columnCount = 9,
+                                    columnCount = 10,
                                     cellWidth = cellWidth,
                                     data = reports.result,
                                     modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -385,6 +525,7 @@ fun <T> Table(
         ) {
             items((0 until columnCount).toList()) { columnIndex ->
                 if (columnIndex == 0) {
+                    //show number column at index 0
                     Column(
                         modifier = Modifier
                             .width(30.dp)

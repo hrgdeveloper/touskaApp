@@ -102,6 +102,7 @@ fun workerListScreen(
                             Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
+                                .height(56.dp)
                                 .padding(
                                     top = MaterialTheme.spacing.small_margin,
                                 ),
@@ -131,14 +132,14 @@ fun workerListScreen(
 
                    //     post dropdownn
                         ExposedDropdownMenuBox(
-                            modifier = Modifier.width(160.dp),
+                            modifier = Modifier.width(160.dp).height(56.dp),
                             expanded = expandedPost,
                             onExpandedChange = {
                                 expandedPost = !expandedPost
                             }
                         ) {
                             OutlinedTextField(
-                                modifier =Modifier.width(160.dp),
+                                modifier =Modifier.width(160.dp).height(56.dp),
                                 readOnly = true,
                                 value = selectedPostText,
                                 onValueChange = { },

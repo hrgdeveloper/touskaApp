@@ -3,6 +3,7 @@ package com.example.touska.screens.reportScreen
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +23,8 @@ import com.example.domain.usecases.reportUseCase.ReportNeedsFullUseCase
 import com.example.domain.usecases.reportUseCase.ReportNeedsUseCase
 import com.example.shared.Resource
 import com.example.touska.R
+import com.example.touska.utils.FilterModel
+import com.example.touska.utils.FilterTypes
 import com.example.touska.utils.requestValue
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,22 +49,35 @@ class ReportViewModel @Inject constructor(
     private val reports_ = MutableLiveData<Resource<MutableList<Report>>>()
     val reports: LiveData<Resource<MutableList<Report>>> get() = reports_
 
-    var blockId = mutableStateOf(0)
-    var blockName = mutableStateOf("")
+    val filtersList = mutableStateListOf<FilterModel>()
 
+
+
+    var blockName = mutableStateOf("")
+    var floorName = mutableStateOf("")
+    var unitName = mutableStateOf("")
+    var superVisorName = mutableStateOf("")
+    var postTitle = mutableStateOf("")
+    var activityName = mutableStateOf("")
+    var contractTypeName = mutableStateOf("")
+    var workerName = mutableStateOf("")
+
+
+    var blockId = mutableStateOf(0)
     var floorId = mutableStateOf(0)
     var unitId = mutableStateOf(0)
     var superVisorId = mutableStateOf(0)
     var postId = mutableStateOf(0)
     var activityId = mutableStateOf(0)
     var contractTypeId = mutableStateOf(0)
+    var workerId = mutableStateOf(0)
     var startDate = mutableStateOf("")
     var endDate = mutableStateOf("")
 
     fun fetchReports() {
         viewModelScope.launch {
             getReports(blockId.value.requestValue(),floorId.value.requestValue(), unitId.value.requestValue(),
-                superVisorId.value.requestValue(),postId.value.requestValue(),postId.value.requestValue(),
+                superVisorId.value.requestValue(),workerId.value.requestValue(),postId.value.requestValue(),
                 activityId.value.requestValue(),contractTypeId.value.requestValue(),startDate.value.requestValue(),
                 endDate.value.requestValue()
                 ).collect {
@@ -76,6 +92,37 @@ class ReportViewModel @Inject constructor(
                 _reportsNeeds.postValue(it)
             }
         }
+    }
+
+    fun addToFilterList(filterModel: FilterModel) {
+        if (!filtersList.contains(filterModel)) {
+            filtersList.add(filterModel)
+        }
+    }
+    fun removeFromFilterList(filterModel: FilterModel) {
+          filtersList.remove(filterModel)
+          if (filterModel.filterType==FilterTypes.BLOCK.type) {
+              blockName.value=""
+              blockId.value=0
+          }else if (filterModel.filterType==FilterTypes.FLOOR.type) {
+              floorName.value=""
+              floorId.value=0
+          }
+          else if (filterModel.filterType==FilterTypes.UNIT.type) {
+              unitName.value=""
+              unitId.value=0
+          }
+          else if (filterModel.filterType==FilterTypes.POST.type) {
+              postTitle.value=""
+              postId.value=0
+          }
+          else if (filterModel.filterType==FilterTypes.ACTIVITY.type) {
+              activityName.value=""
+              activityId.value=0
+          }else if (filterModel.filterType==FilterTypes.CONTRACT.type) {
+              contractTypeName.value=""
+              contractTypeId.value=0
+          }
     }
 
 
