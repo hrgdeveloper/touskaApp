@@ -124,6 +124,9 @@ dependencies {
     def coil_version = "1.4.0"
     implementation "io.coil-kt:coil-compose:$coil_version"
 
+    implementation 'com.github.aliab:Persian-Date-Picker-Dialog:1.8.0'
+
+
 
 
 }

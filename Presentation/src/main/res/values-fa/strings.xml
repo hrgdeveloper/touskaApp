@@ -145,4 +145,9 @@
     <string name="post_filter">فیلتر سمت</string>
     <string name="activity_filter">فیلتر نوع فعالیت</string>
     <string name="contract_filter">فیلتر نوع قرارداد</string>
+    <string name="startDate">تاریخ شروع</string>
+    <string name="endDate">تاریخ پایان</string>
+    <string name="today">امروز</string>
+    <string name="start_time_filter">فیلتر شروع تاریخ</string>
+    <string name="end_time_filter">فیلتر پایان تاریخ</string>
 </resources>

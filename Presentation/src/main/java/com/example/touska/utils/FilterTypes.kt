@@ -7,4 +7,8 @@ sealed class FilterTypes(val type:Int){
     object POST : FilterTypes(4)
     object ACTIVITY : FilterTypes(5)
     object CONTRACT : FilterTypes(6)
+
+    object START_TIME : FilterTypes(7)
+
+    object END_TIME : FilterTypes(8)
 }

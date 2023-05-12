@@ -71,6 +71,9 @@ class ReportViewModel @Inject constructor(
     var activityId = mutableStateOf(0)
     var contractTypeId = mutableStateOf(0)
     var workerId = mutableStateOf(0)
+
+    var startDatePersian = mutableStateOf("")
+    var endDatePersian = mutableStateOf("")
     var startDate = mutableStateOf("")
     var endDate = mutableStateOf("")
 
@@ -122,6 +125,12 @@ class ReportViewModel @Inject constructor(
           }else if (filterModel.filterType==FilterTypes.CONTRACT.type) {
               contractTypeName.value=""
               contractTypeId.value=0
+          }else if (filterModel.filterType==FilterTypes.START_TIME.type) {
+              startDatePersian.value=""
+              startDate.value=""
+          }else if (filterModel.filterType==FilterTypes.END_TIME.type){
+              endDate.value=""
+              endDatePersian.value=""
           }
     }
 
