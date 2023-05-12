@@ -1,6 +1,7 @@
 package com.example.data.mapper
 
 import com.example.data.network.dtos.*
+import com.example.data.utils.convertGregorianToPersian
 import com.example.domain.models.*
 
 
@@ -67,7 +68,7 @@ fun ReportDto.toDomain(): Report {
         post,
         post_id,
         report_times.map { it.toDomain() },
-        submitted,
+        submitted.convertGregorianToPersian(),
         supervisor_id,
         total_time,
         unit_id,
