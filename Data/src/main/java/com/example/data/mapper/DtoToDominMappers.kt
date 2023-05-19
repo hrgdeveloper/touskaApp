@@ -4,9 +4,16 @@ import com.example.data.network.dtos.*
 import com.example.data.utils.convertGregorianToPersian
 import com.example.domain.models.*
 
+fun UserDto.toDomain() : User{
+  return  User(id,contract_type_id,created_at,email,mobile,name,post_id,role_id,
+          status,role,null,contractor_id
+        )
+}
 
 fun RegisterNeedDto.toDomain(): RegisterNeed {
-    return RegisterNeed(posts.map { it.toDomain() }, contracts.map { it.toDomain() })
+    return RegisterNeed(posts.map { it.toDomain() }, contracts.map { it.toDomain() },
+           contractors.map { it.toDomain() }
+        )
 }
 
 fun ReportNeedDto.toDomain(): ReportNeed {

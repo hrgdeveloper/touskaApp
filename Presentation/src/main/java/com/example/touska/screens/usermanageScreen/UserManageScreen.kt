@@ -145,10 +145,7 @@ fun TabLayout(navController: NavController) {
                 Text(text = stringResource(R.string.add_new_user))
             })
 
-            }
-
-
-
+        }
     }
 }
 
@@ -160,7 +157,8 @@ fun Tabs(pagerState: PagerState) {
         stringResource(R.string.managers),
         stringResource(R.string.owners),
         stringResource(R.string.observers),
-        stringResource(R.string.workers)
+        stringResource(R.string.workers),
+        stringResource(R.string.contractors)
     )
 
     val coroutineScope = rememberCoroutineScope()
@@ -221,7 +219,7 @@ fun Tabs(pagerState: PagerState) {
 
 @Composable
 fun TabsContent(pagerState: PagerState,navController : NavController) {
-    HorizontalPager(pageCount = 4, state = pagerState) { page ->
+    HorizontalPager(pageCount = 5, state = pagerState) { page ->
         // Our page content
         when (page) {
             // on below line we are calling tab content screen
@@ -235,6 +233,8 @@ fun TabsContent(pagerState: PagerState,navController : NavController) {
             2 -> userManageInsideScreen(navController = navController,role_id = UserTypes.Observer.role_id)
 
             3 -> userManageInsideScreen(navController = navController, role_id = UserTypes.Worker.role_id)
+
+            4 -> userManageInsideScreen(navController = navController, role_id = UserTypes.Contractor.role_id)
 
         }
     }

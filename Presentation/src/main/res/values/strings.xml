@@ -154,4 +154,6 @@
     <string name="confirm">تایید</string>
     <string name="start_time_filter">فیلتر شروع تاریخ</string>
     <string name="end_time_filter">فیلتر پایان تاریخ</string>
+    <string name="contractors">پیمانکاران</string>
+    <string name="select_contractor">انتخاب پیمان کار</string>
 </resources>

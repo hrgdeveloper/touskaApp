@@ -18,11 +18,12 @@ class RegisterUsersUseCase @Inject constructor(val userManageRepository: UserMan
         contract_type_id: Int?,
         project_id: Int,
         post_id: Int?,
-        profile: File?
+        profile: File?,
+        contractorId :Int?
     ): Flow<Resource<String> > {
         return userManageRepository.register(
             name, email, password, mobile, role_id, contract_type_id,
-            project_id, post_id, profile
+            project_id, post_id, profile,contractorId
         )
     }
 

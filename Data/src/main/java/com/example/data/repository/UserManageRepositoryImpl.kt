@@ -89,7 +89,8 @@ class UserManageRepositoryImpl @Inject constructor(
         contract_type_id: Int?,
         project_id: Int,
         post_id: Int?,
-        profile: File?
+        profile: File?,
+        contractorId:Int?
     ): Flow<Resource<String> > = flow {
         emit(Resource.IsLoading)
         try {
@@ -110,8 +111,12 @@ class UserManageRepositoryImpl @Inject constructor(
                 params["contract_type_id"] = contract_type_id.toString().toRequestBody(MultipartBody.FORM)
             }
 
-            if (post_id!=null) {
-                params["post_id"] = post_id.toString().toRequestBody(MultipartBody.FORM)
+            post_id?.let {
+                params["post_id"] = it.toString().toRequestBody(MultipartBody.FORM)
+            }
+
+            contractorId?.let {
+                params["contractor_id"] = it.toString().toRequestBody(MultipartBody.FORM)
             }
 
 

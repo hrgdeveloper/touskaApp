@@ -80,7 +80,7 @@ fun homeScreen(
                         }
                     )
 
-                Text(text = user.project.name, fontSize = 18.sp, fontFamily = iranSansFamily, fontWeight = FontWeight.Bold,
+                Text(text = user.project!!.name, fontSize = 18.sp, fontFamily = iranSansFamily, fontWeight = FontWeight.Bold,
                     modifier = Modifier.constrainAs(tv_project){
                         top.linkTo(iv_profile.bottom)
                         start.linkTo(parent.start,16.dp)

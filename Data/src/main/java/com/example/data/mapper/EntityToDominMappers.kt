@@ -9,7 +9,9 @@ import com.example.domain.models.*
 
 
 fun UserEntity.toDomain():User {
-    return User(contract_type_id,created_at,email,mobile,name,post_id,role_id,status,role,project.toDomain())
+    return User(id,contract_type_id,created_at,email,mobile,name,post_id,role_id,status,role,project.toDomain(),
+     contractor_id
+        )
 }
 
 fun ProjectEntity.toDomain() : Project{

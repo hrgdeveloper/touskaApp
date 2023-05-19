@@ -12,7 +12,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.foundation.text.KeyboardOptions
 
@@ -53,6 +56,7 @@ import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
 import com.example.touska.utils.UserTypes
+import com.example.touska.utils.requestValue
 import com.example.touska.utils.returnProperMessage
 import com.example.touska.utils.toastLong
 import com.google.gson.Gson
@@ -110,6 +114,10 @@ fun registerScreen(
 
 
     val contextt = LocalContext.current
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
+    )
 
 
     val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
@@ -146,7 +154,6 @@ fun registerScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
-
     when (needs) {
         is Resource.Failure -> {
             failure(message = needs.message) {
@@ -163,238 +170,339 @@ fun registerScreen(
                     navController = navController
                 )
             }) {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    Column(
-                        modifier = Modifier
-                            .verticalScroll(rememberScrollState())
-                            .weight(1f)
-                            .padding(horizontal = MaterialTheme.spacing.default_margin),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        Spacer(modifier = Modifier.height(30.dp))
-
-                        selectedImageBitmap.value?.let { myBitmap ->
-                            Image(
-                                bitmap = myBitmap.asImageBitmap(),
-                                contentDescription = null,
-                                contentScale = ContentScale.FillBounds,
-                                modifier = Modifier
-                                    .size(80.dp)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        pickImage.launch("image/*")
-                                    }
-                            )
-                        } ?: kotlin.run {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_profile),
-                                contentDescription = null,
-                                contentScale = ContentScale.FillBounds,
-                                modifier = Modifier
-                                    .size(80.dp)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        pickImage.launch("image/*")
-                                    }
-                            )
-                        }
-
-                        //profile picture
-                        VerticalDefaultMargin()
-                        //name text field
-                        OutlinedTextField(
-                            value = name,
-                            onValueChange = {
-                                name = it
-                            },
-
-                            Modifier
-                                .fillMaxWidth(),
-                            label = {
-                                Text(text = stringResource(R.string.name_and_family))
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Person, contentDescription = null,
-                                    Modifier.size(16.dp),
-                                    tint = MaterialTheme.colors.surface
-                                )
-                            },
-                            singleLine = true,
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = MaterialTheme.colors.surface,
-                                focusedBorderColor = MaterialTheme.colors.secondary
-                            ),
-                        )
-
-                        VerticalDefaultMargin()
-                        //email text field
-                        OutlinedTextField(
-                            value = email,
-                            onValueChange = {
-                                email = it
-                            },
-
-                            Modifier
-                                .fillMaxWidth(),
-                            label = {
-                                Text(text = stringResource(R.string.email))
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Email, contentDescription = null,
-                                    Modifier.size(16.dp),
-                                    tint = MaterialTheme.colors.surface
-                                )
-                            },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                            singleLine = true,
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = MaterialTheme.colors.surface,
-                                focusedBorderColor = MaterialTheme.colors.secondary
-                            ),
-                        )
-                        VerticalDefaultMargin()
-
-                        //password text field
-                        OutlinedTextField(
-                            value = password,
-                            onValueChange = {
-                                password = it
-                            },
-
-                            Modifier
-                                .fillMaxWidth(),
-                            label = {
-                                Text(text = stringResource(R.string.password))
-                            },
-                            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                            leadingIcon = {
-                                val icon =
-                                    if (passwordVisibility) ImageVector.vectorResource(id = R.drawable.ic_hide_eye) else ImageVector.vectorResource(
-                                        id = R.drawable.ic_visible_eye
-                                    )
-                                IconButton(
-                                    {
-                                        passwordVisibility = !passwordVisibility
-                                    },
-                                    Modifier.size(16.dp),
-                                    content = {
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = null,
-                                            tint = Color.Gray
-                                        )
-                                    }
-                                )
-                            },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                            singleLine = true,
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = MaterialTheme.colors.surface,
-                                focusedBorderColor = MaterialTheme.colors.secondary
-                            ),
-                        )
-
-                        VerticalDefaultMargin()
-
-                        //mobile text field
-                        OutlinedTextField(
-                            value = mobile,
-                            onValueChange = {
-                                mobile = it
-                            },
-
-                            Modifier
-                                .fillMaxWidth(),
-                            label = {
-                                Text(text = stringResource(R.string.mobile))
-                            },
-
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Phone, contentDescription = null,
-                                    Modifier.size(16.dp),
-                                    tint = MaterialTheme.colors.surface
-                                )
-                            },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                            singleLine = true,
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = MaterialTheme.colors.surface,
-                                focusedBorderColor = MaterialTheme.colors.secondary
-                            ),
-                        )
-                        if (role_id == 3 || role_id == 4) {
+                ModalBottomSheetLayout(
+                    sheetState = sheetState,
+                    sheetShape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp),
+                    sheetBackgroundColor = MaterialTheme.customColorsPalette.cardBack,
+                    sheetContent = {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
                             VerticalDefaultMargin()
-                            //contracts types
-                            ExposedDropdownMenuBox(
-                                modifier = Modifier.fillMaxWidth(),
-                                expanded = expandedContract,
-                                onExpandedChange = {
-                                    expandedContract = !expandedContract
-                                }
+                            Card(
+                                Modifier
+                                    .width(60.dp)
+                                    .height(4.dp),
+                                backgroundColor = MaterialTheme.colors.surface,
                             ) {
-                                OutlinedTextField(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    readOnly = true,
-                                    value = selectedContractText,
-                                    onValueChange = { },
-                                    label = { Text(stringResource(R.string.contract_type)) },
-                                    trailingIcon = {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                            expanded = expandedContract
-                                        )
-                                    },
-                                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                                        unfocusedBorderColor = MaterialTheme.colors.surface,
-                                        focusedBorderColor = MaterialTheme.colors.secondary,
-
-                                        )
-                                )
-                                ExposedDropdownMenu(
-                                    modifier = Modifier
+                            }
+                            VerticalSmallSpacer()
+                            LazyColumn {
+                                items(needs.result.contractors) {
+                                    Column(modifier = Modifier
                                         .fillMaxWidth()
-                                        .background(color = MaterialTheme.customColorsPalette.cardBack),
+                                        .clickable {
+                                            coroutineScope.launch {
+                                                sheetState.hide()
+                                                viewmodel.contractorName.value = it.name
+                                                viewmodel.contractorId.value = it.id
+                                            }
+                                        }
+                                    ) {
+                                        Text(it.name, modifier = Modifier
+                                            .padding(
+                                                vertical = MaterialTheme.spacing.small_margin,
+                                                horizontal =
+                                                MaterialTheme.spacing.default_margin
+                                            )
+                                            .fillMaxWidth())
+                                        CustomDivider()
+                                    }
+                                }
+                            }
+                            VerticalSmallSpacer()
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxSize(),
+
+                    ) {
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        Column(
+                            modifier = Modifier
+                                .verticalScroll(rememberScrollState())
+                                .weight(1f)
+                                .padding(horizontal = MaterialTheme.spacing.default_margin),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+
+                            Spacer(modifier = Modifier.height(30.dp))
+
+                            selectedImageBitmap.value?.let { myBitmap ->
+                                Image(
+                                    bitmap = myBitmap.asImageBitmap(),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillBounds,
+                                    modifier = Modifier
+                                        .size(80.dp)
+                                        .clip(CircleShape)
+                                        .clickable {
+                                            pickImage.launch("image/*")
+                                        }
+                                )
+                            } ?: kotlin.run {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_profile),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillBounds,
+                                    modifier = Modifier
+                                        .size(80.dp)
+                                        .clip(CircleShape)
+                                        .clickable {
+                                            pickImage.launch("image/*")
+                                        }
+                                )
+                            }
+
+                            //profile picture
+                            VerticalDefaultMargin()
+                            //name text field
+                            OutlinedTextField(
+                                value = name,
+                                onValueChange = {
+                                    name = it
+                                },
+
+                                Modifier
+                                    .fillMaxWidth(),
+                                label = {
+                                    Text(text = stringResource(R.string.name_and_family))
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Person, contentDescription = null,
+                                        Modifier.size(16.dp),
+                                        tint = MaterialTheme.colors.surface
+                                    )
+                                },
+                                singleLine = true,
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    unfocusedBorderColor = MaterialTheme.colors.surface,
+                                    focusedBorderColor = MaterialTheme.colors.secondary
+                                ),
+                            )
+
+                            VerticalDefaultMargin()
+                            //email text field
+                            OutlinedTextField(
+                                value = email,
+                                onValueChange = {
+                                    email = it
+                                },
+
+                                Modifier
+                                    .fillMaxWidth(),
+                                label = {
+                                    Text(text = stringResource(R.string.email))
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Email, contentDescription = null,
+                                        Modifier.size(16.dp),
+                                        tint = MaterialTheme.colors.surface
+                                    )
+                                },
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                                singleLine = true,
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    unfocusedBorderColor = MaterialTheme.colors.surface,
+                                    focusedBorderColor = MaterialTheme.colors.secondary
+                                ),
+                            )
+                            VerticalDefaultMargin()
+
+                            //password text field
+                            OutlinedTextField(
+                                value = password,
+                                onValueChange = {
+                                    password = it
+                                },
+
+                                Modifier
+                                    .fillMaxWidth(),
+                                label = {
+                                    Text(text = stringResource(R.string.password))
+                                },
+                                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                                leadingIcon = {
+                                    val icon =
+                                        if (passwordVisibility) ImageVector.vectorResource(id = R.drawable.ic_hide_eye) else ImageVector.vectorResource(
+                                            id = R.drawable.ic_visible_eye
+                                        )
+                                    IconButton(
+                                        {
+                                            passwordVisibility = !passwordVisibility
+                                        },
+                                        Modifier.size(16.dp),
+                                        content = {
+                                            Icon(
+                                                imageVector = icon,
+                                                contentDescription = null,
+                                                tint = Color.Gray
+                                            )
+                                        }
+                                    )
+                                },
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                                singleLine = true,
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    unfocusedBorderColor = MaterialTheme.colors.surface,
+                                    focusedBorderColor = MaterialTheme.colors.secondary
+                                ),
+                            )
+
+                            VerticalDefaultMargin()
+
+                            //mobile text field
+                            OutlinedTextField(
+                                value = mobile,
+                                onValueChange = {
+                                    mobile = it
+                                },
+
+                                Modifier
+                                    .fillMaxWidth(),
+                                label = {
+                                    Text(text = stringResource(R.string.mobile))
+                                },
+
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Phone, contentDescription = null,
+                                        Modifier.size(16.dp),
+                                        tint = MaterialTheme.colors.surface
+                                    )
+                                },
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                                singleLine = true,
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    unfocusedBorderColor = MaterialTheme.colors.surface,
+                                    focusedBorderColor = MaterialTheme.colors.secondary
+                                ),
+                            )
+                            if (role_id == 3 || role_id == 4) {
+                                VerticalDefaultMargin()
+                                //contracts types
+                                ExposedDropdownMenuBox(
+                                    modifier = Modifier.fillMaxWidth(),
                                     expanded = expandedContract,
-                                    onDismissRequest = {
-                                        expandedContract = false
+                                    onExpandedChange = {
+                                        expandedContract = !expandedContract
                                     }
                                 ) {
-                                    needs.result.contracts.forEach { selectedContract ->
-                                        DropdownMenuItem(
+                                    OutlinedTextField(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        readOnly = true,
+                                        value = selectedContractText,
+                                        onValueChange = { },
+                                        label = { Text(stringResource(R.string.contract_type)) },
+                                        trailingIcon = {
+                                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                                expanded = expandedContract
+                                            )
+                                        },
+                                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                                            unfocusedBorderColor = MaterialTheme.colors.surface,
+                                            focusedBorderColor = MaterialTheme.colors.secondary,
 
-                                            modifier = Modifier.fillMaxWidth(),
+                                            )
+                                    )
+                                    ExposedDropdownMenu(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(color = MaterialTheme.customColorsPalette.cardBack),
+                                        expanded = expandedContract,
+                                        onDismissRequest = {
+                                            expandedContract = false
+                                        }
+                                    ) {
+                                        needs.result.contracts.forEach { selectedContract ->
+                                            DropdownMenuItem(
 
-                                            onClick = {
-                                                selectedContractText = selectedContract.title
-                                                contractId = selectedContract.id
-                                                expandedContract = false
+                                                modifier = Modifier.fillMaxWidth(),
+
+                                                onClick = {
+                                                    selectedContractText = selectedContract.title
+                                                    contractId = selectedContract.id
+                                                    expandedContract = false
+                                                }
+                                            ) {
+                                                Text(text = selectedContract.title)
                                             }
-                                        ) {
-                                            Text(text = selectedContract.title)
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        if (role_id == 4) {
-                            VerticalDefaultMargin()
-                            ExposedDropdownMenuBox(
-                                modifier = Modifier.fillMaxWidth(),
-                                expanded = expandedPost,
-                                onExpandedChange = {
-                                    expandedPost = !expandedPost
-                                }
-                            ) {
-                                OutlinedTextField(
+                            if (role_id == 4) {
+                                VerticalDefaultMargin()
+                                ExposedDropdownMenuBox(
                                     modifier = Modifier.fillMaxWidth(),
+                                    expanded = expandedPost,
+                                    onExpandedChange = {
+                                        expandedPost = !expandedPost
+                                    }
+                                ) {
+                                    OutlinedTextField(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        readOnly = true,
+                                        value = selectedPostText,
+                                        onValueChange = { },
+                                        label = { Text(stringResource(R.string.post_type)) },
+                                        trailingIcon = {
+                                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                                expanded = expandedPost
+                                            )
+                                        },
+                                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                                            unfocusedBorderColor = MaterialTheme.colors.surface,
+                                            focusedBorderColor = MaterialTheme.colors.secondary,
+
+                                            )
+                                    )
+                                    ExposedDropdownMenu(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(color = MaterialTheme.customColorsPalette.cardBack),
+                                        expanded = expandedPost,
+                                        onDismissRequest = {
+                                            expandedPost = false
+                                        }
+                                    ) {
+                                        needs.result.posts.forEach { selectedPost ->
+                                            DropdownMenuItem(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                onClick = {
+                                                    selectedPostText = selectedPost.title
+                                                    postId = selectedPost.id
+                                                    expandedPost = false
+                                                }
+                                            ) {
+                                                Text(text = selectedPost.title)
+                                            }
+                                        }
+                                    }
+                                }
+
+                                VerticalDefaultMargin()
+                                Box() {
+
+                                }
+
+                                OutlinedTextField(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            coroutineScope.launch {
+                                                sheetState.show()
+                                            }
+                                        },
+                                    enabled = false,
                                     readOnly = true,
-                                    value = selectedPostText,
+                                    value = viewmodel.contractorName.value,
                                     onValueChange = { },
-                                    label = { Text(stringResource(R.string.post_type)) },
+                                    label = { Text(stringResource(R.string.select_contractor)) },
                                     trailingIcon = {
                                         ExposedDropdownMenuDefaults.TrailingIcon(
                                             expanded = expandedPost
@@ -403,70 +511,51 @@ fun registerScreen(
                                     colors = TextFieldDefaults.outlinedTextFieldColors(
                                         unfocusedBorderColor = MaterialTheme.colors.surface,
                                         focusedBorderColor = MaterialTheme.colors.secondary,
-
+                                        disabledBorderColor = MaterialTheme.colors.surface,
+                                        disabledTextColor = MaterialTheme.colors.primary
                                         )
                                 )
-                                ExposedDropdownMenu(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(color = MaterialTheme.customColorsPalette.cardBack),
-                                    expanded = expandedPost,
-                                    onDismissRequest = {
-                                        expandedPost = false
-                                    }
-                                ) {
-                                    needs.result.posts.forEach { selectedPost ->
-                                        DropdownMenuItem(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            onClick = {
-                                                selectedPostText = selectedPost.title
-                                                postId = selectedPost.id
-                                                expandedPost = false
-                                            }
-                                        ) {
-                                            Text(text = selectedPost.title)
-                                        }
-                                    }
-                                }
+
+
                             }
 
 
                         }
-
-
-                    }
-                    Box(
-                        modifier = Modifier.padding(
-                            horizontal = MaterialTheme.spacing.small_margin,
-                            vertical = MaterialTheme.spacing.default_margin
-                        )
-                    ) {
-                        ConfirmButton(onclick = {
-                            viewmodel.register(
-                                name.text,
-                                password.text,
-                                email.text,
-                                mobile.text,
-                                role_id,
-                                selectedImageUri.value,
-                                if (role_id == 3 || role_id == 4) contractId else null,
-                                if (role_id == 4) postId else null,
-                                1,
-                                contextt
+                        Box(
+                            modifier = Modifier.padding(
+                                horizontal = MaterialTheme.spacing.small_margin,
+                                vertical = MaterialTheme.spacing.default_margin
                             )
-                        }) {
-                            if (register is Resource.IsLoading) {
-                                CircularProgressIndicator(
-                                    color = Color.White,
-                                    modifier = Modifier.size(24.dp)
+                        ) {
+                            ConfirmButton(onclick = {
+                                viewmodel.register(
+                                    name.text,
+                                    password.text,
+                                    email.text,
+                                    mobile.text,
+                                    role_id,
+                                    selectedImageUri.value,
+                                    if (role_id == 3 || role_id == 4) contractId else null,
+                                    if (role_id == 4) postId else null,
+                                    1,
+                                    contextt,
+                                    viewmodel.contractorId.value.requestValue()
                                 )
-                            } else {
-                                Text(text = "ثبت کاربر")
-                            }
+                            }) {
+                                if (register is Resource.IsLoading) {
+                                    CircularProgressIndicator(
+                                        color = Color.White,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                } else {
+                                    Text(text = "ثبت کاربر")
+                                }
 
+                            }
                         }
                     }
                 }
+
             }
         }
         null -> {

@@ -17,7 +17,8 @@ interface UserManageRepository {
         contract_type_id:Int?,
         project_id:Int,
         post_id:Int?,
-        profile:File?
+        profile:File?,
+        contractorId:Int?
     ) : Flow<Resource<String>>
 
     fun updateUser(

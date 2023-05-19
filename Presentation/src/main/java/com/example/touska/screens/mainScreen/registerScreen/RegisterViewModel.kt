@@ -2,6 +2,7 @@ package com.example.touska.screens.mainScreen.registerScreen
 
 import android.content.Context
 import android.net.Uri
+import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,6 +37,9 @@ class RegisterViewModel @Inject constructor(
     val register: LiveData<Resource<String>> get() = register_
 
 
+    var contractorName = mutableStateOf("")
+    var contractorId = mutableStateOf(0)
+
     fun getRegisterNeeds() {
         viewModelScope.launch {
             registerNeedsUseCase().collect {
@@ -45,7 +49,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun register(name:String,password:String,email:String,mobile:String,role_id:Int,uri: Uri?,contract_type_id : Int?,
-                 post_id:Int?,project_id:Int,context:Context
+                 post_id:Int?,project_id:Int,context:Context,contractorId:Int?
                  ){
 
         var profile : File?=null
@@ -83,7 +87,7 @@ class RegisterViewModel @Inject constructor(
 
 
         viewModelScope.launch {
-            registerUsersUseCase(name,email,password,mobile,role_id,contract_type_id,project_id,post_id,profile).collect {
+            registerUsersUseCase(name,email,password,mobile,role_id,contract_type_id,project_id,post_id,profile,contractorId).collect {
                 register_.postValue(it)
             }
         }
