@@ -156,4 +156,6 @@
     <string name="end_time_filter">فیلتر پایان تاریخ</string>
     <string name="contractors">پیمانکاران</string>
     <string name="select_contractor">انتخاب پیمان کار</string>
+    <string name="contractor">پیمانکار</string>
+    <string name="free_worker">کارگر آزاد</string>
 </resources>

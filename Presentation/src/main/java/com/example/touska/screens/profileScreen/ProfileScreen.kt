@@ -270,6 +270,28 @@ fun profileScreen(
                                 Text(text = user.result.roleTitle)
                             }
                             CustomDivider()
+                            if (user.result.roleId==UserTypes.Worker.role_id) {
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(46.dp)
+                                ) {
+                                    DrawableText(
+                                        text = stringResource(R.string.contractor),
+                                        icon = Icons.Default.Feed
+                                    )
+                                    user.result.contractorName?.let {
+                                        Text(it)
+                                    }?: kotlin.run {
+                                        Text(stringResource(R.string.free_worker))
+                                    }
+
+                                }
+                                CustomDivider()
+                            }
+
 
                             user.result.contractType?.let {
                                 Row(

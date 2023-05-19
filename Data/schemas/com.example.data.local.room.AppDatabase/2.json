@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "e06697c9a656294842a72d14fa130463",
+    "identityHash": "aaf81aeef4cb3177404e06957e4261dd",
     "entities": [
       {
         "tableName": "ProjectEntity",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `contract_type_id` INTEGER, `created_at` TEXT, `email` TEXT NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `role` TEXT NOT NULL, `contractor_id` INTEGER, `pjproject_id` INTEGER NOT NULL, `pjname` TEXT NOT NULL, `pjlat` REAL NOT NULL, `pjlang` REAL NOT NULL, `pjpic` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `contract_type_id` INTEGER, `created_at` TEXT, `email` TEXT NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `role` TEXT NOT NULL, `contractor_id` INTEGER, `contractorName` TEXT, `pjproject_id` INTEGER NOT NULL, `pjname` TEXT NOT NULL, `pjlat` REAL NOT NULL, `pjlang` REAL NOT NULL, `pjpic` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -116,6 +116,12 @@
             "fieldPath": "contractor_id",
             "columnName": "contractor_id",
             "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contractorName",
+            "columnName": "contractorName",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -538,7 +544,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e06697c9a656294842a72d14fa130463')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aaf81aeef4cb3177404e06957e4261dd')"
     ]
   }
 }

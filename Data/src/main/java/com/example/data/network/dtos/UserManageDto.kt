@@ -30,5 +30,8 @@ data class UserManageDto(
     @SerializedName("qr_code")
     val qrCode:String,
     @SerializedName("role_title")
-    val roleTitle:String
+    val roleTitle:String,
+    @SerializedName("contractor_id")
+    val contractorId:Int?,
+    val contractorName:String?
 )

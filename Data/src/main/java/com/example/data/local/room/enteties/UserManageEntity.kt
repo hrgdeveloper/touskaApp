@@ -2,6 +2,7 @@ package com.example.data.local.room.enteties
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "UserManage")
 data class UserManageEntity(
@@ -23,4 +24,7 @@ data class UserManageEntity(
     val post_title : String?,
     val qr_code:String,
     val role_title:String,
+    val contractor_id:Int?,
+    val contractorName:String?
+
 )

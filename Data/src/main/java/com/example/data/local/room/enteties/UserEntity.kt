@@ -18,7 +18,7 @@ data class UserEntity(
     val role:String,
     @Embedded(prefix = "pj")
     val project : ProjectEntity,
-
     val contractor_id : Int?,
+    val contractorName:String?
 
 )

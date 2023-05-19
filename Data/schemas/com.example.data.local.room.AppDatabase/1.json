@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f16d2b417c00e2eb2e66a2bcfbd6a7b2",
+    "identityHash": "54f25ff57adf5b517db7427a0c8a0597",
     "entities": [
       {
         "tableName": "ProjectEntity",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `contract_type_id` INTEGER, `created_at` TEXT, `email` TEXT NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `role` TEXT NOT NULL, `pjproject_id` INTEGER NOT NULL, `pjname` TEXT NOT NULL, `pjlat` REAL NOT NULL, `pjlang` REAL NOT NULL, `pjpic` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `contract_type_id` INTEGER, `created_at` TEXT, `email` TEXT NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `role` TEXT NOT NULL, `contractor_id` INTEGER, `contractorName` TEXT, `pjproject_id` INTEGER NOT NULL, `pjname` TEXT NOT NULL, `pjlat` REAL NOT NULL, `pjlang` REAL NOT NULL, `pjpic` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -111,6 +111,18 @@
             "columnName": "role",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "contractor_id",
+            "columnName": "contractor_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contractorName",
+            "columnName": "contractorName",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "project.project_id",
@@ -414,7 +426,7 @@
       },
       {
         "tableName": "UserManage",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contract_type_id` INTEGER, `created_at` TEXT NOT NULL, `email` TEXT NOT NULL, `email_verified_at` INTEGER, `id` INTEGER NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `project_id` INTEGER NOT NULL, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `updated_at` TEXT NOT NULL, `profile` TEXT, `contract_type` TEXT, `post_title` TEXT, `qr_code` TEXT NOT NULL, `role_title` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contract_type_id` INTEGER, `created_at` TEXT NOT NULL, `email` TEXT NOT NULL, `email_verified_at` INTEGER, `id` INTEGER NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `project_id` INTEGER NOT NULL, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `updated_at` TEXT NOT NULL, `profile` TEXT, `contract_type` TEXT, `post_title` TEXT, `qr_code` TEXT NOT NULL, `role_title` TEXT NOT NULL, `contractor_id` INTEGER, `contractorName` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "contract_type_id",
@@ -517,6 +529,18 @@
             "columnName": "role_title",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "contractor_id",
+            "columnName": "contractor_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contractorName",
+            "columnName": "contractorName",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -532,7 +556,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f16d2b417c00e2eb2e66a2bcfbd6a7b2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '54f25ff57adf5b517db7427a0c8a0597')"
     ]
   }
 }

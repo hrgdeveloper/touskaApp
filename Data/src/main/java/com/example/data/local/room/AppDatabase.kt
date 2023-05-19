@@ -13,9 +13,9 @@ import com.example.data.local.room.utils.DataConverter
         FloorEntity::class, UnitEntity::class, PostEntity::class, ActivityEntity::class,
         ContractEntity::class, WorkingTimeEntity::class, UserManageEntity::class
     ],
-    version = 2,
+    version = 1,
     exportSchema = true,
-    autoMigrations = [AutoMigration(1,2)]
+    autoMigrations = []
 )
 @TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {

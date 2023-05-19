@@ -6,7 +6,7 @@ import com.example.domain.models.User
 
 fun UserDto.toEntity() : UserEntity {
     return UserEntity(id,contract_type_id,created_at,email,mobile,name,post_id,role_id,status,role,
-           project.toEntity(),contractor_id
+           project.toEntity(),contractor_id,contractorName
         )
 }
 fun ProjectDto.toEntity():ProjectEntity {
@@ -41,6 +41,7 @@ fun WorkingTimeDto.toEntity() : WorkingTimeEntity {
 }
 fun UserManageDto.toEntity() : UserManageEntity {
     return UserManageEntity(contractTypeId, createdAt, email, emailVerifiedAt, id, mobile, name, postId, projectId, roleId, status, updatedAt,
-          profile,contractType,postTitle,qrCode,roleTitle
+          profile,contractType,postTitle,qrCode,roleTitle,
+        contractorId,contractorName
         )
 }
