@@ -1,6 +1,10 @@
 package com.example.touska.screens.workerList
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -36,9 +41,13 @@ import com.example.touska.navigation.MainNavigation
 import com.example.touska.screens.postScreen.PostViewModel
 import com.example.touska.screens.usermanageInsideScreen.UserManageInsideViewModel
 import com.example.touska.ui.theme.customColorsPalette
+import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
 import com.example.touska.utils.UserTypes
+import com.example.touska.utils.mirror
 import com.google.gson.Gson
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 
 
 import kotlinx.coroutines.*
@@ -68,35 +77,82 @@ fun workerListScreen(
         mutableStateOf(0)
     }
 
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = {
+
+        }
+    )
+
+
+    val scanLauncher = rememberLauncherForActivityResult(
+        contract = ScanContract(),
+        onResult = { result -> Log.i(TAG, "scanned code: ${result.contents}") }
+    )
+
+
 
     LaunchedEffect(Unit) {
-        viewmodel.getSpeceficUsers(UserTypes.Worker.role_id, searchQuery.text,0)
+        viewmodel.getSpeceficUsers(UserTypes.Worker.role_id, searchQuery.text, 0)
         postViewModel.getPosts()
     }
 
     val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(topBar =  {
-        CustomTopAppbar(title = stringResource(R.string.chose_worker), navController = navController)
+    Scaffold(topBar = {
+        TopAppBar(backgroundColor = MaterialTheme.customColorsPalette.top_bar) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            modifier = Modifier.mirror(),
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                    Text(text = stringResource(id = R.string.chose_worker), fontSize = 20.sp, fontFamily = iranSansFamily)
+                }
+                    IconButton(onClick = {
+                        scanLauncher.launch(ScanOptions())
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.QrCode,
+                            null
+                        )
+
+                }
+            }
+        }
+
     }) {
 
-        when(posts) {
+        when (posts) {
             is Resource.Failure -> {
                 failure(message = posts.message) {
                     postViewModel.getPosts()
                 }
             }
-            Resource.IsLoading ->  {
+            Resource.IsLoading -> {
                 CircularProgressBox()
             }
             is Resource.Success -> {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    Row(Modifier.padding(horizontal= MaterialTheme.spacing.small_margin)) {
+                    Row(Modifier.padding(horizontal = MaterialTheme.spacing.small_margin)) {
                         OutlinedTextField(
                             value = searchQuery,
                             onValueChange = {
                                 searchQuery = it
-                                viewmodel.getSpeceficUsers(UserTypes.Worker.role_id, searchQuery.text,postId)
+                                viewmodel.getSpeceficUsers(
+                                    UserTypes.Worker.role_id,
+                                    searchQuery.text,
+                                    postId
+                                )
                             },
 
                             Modifier
@@ -127,19 +183,23 @@ fun workerListScreen(
                                 focusedBorderColor = MaterialTheme.colors.secondary
                             )
 
-                            )
+                        )
                         Spacer(modifier = Modifier.width(4.dp))
 
-                   //     post dropdownn
+                        //     post dropdownn
                         ExposedDropdownMenuBox(
-                            modifier = Modifier.width(160.dp).height(56.dp),
+                            modifier = Modifier
+                                .width(160.dp)
+                                .height(56.dp),
                             expanded = expandedPost,
                             onExpandedChange = {
                                 expandedPost = !expandedPost
                             }
                         ) {
                             OutlinedTextField(
-                                modifier =Modifier.width(160.dp).height(56.dp),
+                                modifier = Modifier
+                                    .width(160.dp)
+                                    .height(56.dp),
                                 readOnly = true,
                                 value = selectedPostText,
                                 onValueChange = { },
@@ -171,7 +231,11 @@ fun workerListScreen(
                                             selectedPostText = selectedPost.title
                                             postId = selectedPost.id
                                             expandedPost = false
-                                            viewmodel.getSpeceficUsers(UserTypes.Worker.role_id,searchQuery.text,postId)
+                                            viewmodel.getSpeceficUsers(
+                                                UserTypes.Worker.role_id,
+                                                searchQuery.text,
+                                                postId
+                                            )
                                         }
                                     ) {
                                         Text(text = selectedPost.title)
@@ -194,7 +258,12 @@ fun workerListScreen(
                                             .padding(8.dp)
                                             .clickable {
                                                 navController.navigate(
-                                                    MainNavigation.AddReport.route + "?worker=${Gson().toJson(users[position])}")
+                                                    MainNavigation.AddReport.route + "?worker=${
+                                                        Gson().toJson(
+                                                            users[position]
+                                                        )
+                                                    }"
+                                                )
                                             }
                                     ) {
                                         Column(
@@ -240,8 +309,10 @@ fun workerListScreen(
                                                     modifier = Modifier
                                                         .size(60.dp)
                                                         .clip(CircleShape)
-                                                        .border(1.dp, MaterialTheme.colors.surface,
-                                                            CircleShape)
+                                                        .border(
+                                                            1.dp, MaterialTheme.colors.surface,
+                                                            CircleShape
+                                                        )
                                                 )
                                             }
 
@@ -256,7 +327,10 @@ fun workerListScreen(
                                                             color = MaterialTheme.colors.surface,
                                                             fontSize = 10.sp
                                                         )
-                                                        Text(text = users[position].contractType ?: "")
+                                                        Text(
+                                                            text = users[position].contractType
+                                                                ?: ""
+                                                        )
                                                     }
                                                     Column(modifier = Modifier.weight(1f)) {
                                                         Text(
@@ -270,8 +344,6 @@ fun workerListScreen(
 
                                                 }
                                             }
-
-
 
 
                                         }
@@ -295,9 +367,8 @@ fun workerListScreen(
 
 
 
-
-
 }
+
 
 
 

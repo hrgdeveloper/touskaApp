@@ -102,7 +102,8 @@ fun reportScreen(
             6 -> 100.dp
             7 -> 100.dp
             8 -> 150.dp
-            9 -> 100.dp
+            9 -> 150.dp
+            10->100.dp
             else -> 100.dp
         }
     }
@@ -116,7 +117,8 @@ fun reportScreen(
             6 -> stringResource(R.string.activity_type)
             7 -> stringResource(R.string.total_working_time)
             8 -> stringResource(R.string.supervisor_name)
-            9 -> stringResource(R.string.date_submited)
+            9 -> stringResource(R.string.contractor)
+            10 -> stringResource(R.string.date_submited)
 
             else -> ""
         }
@@ -143,7 +145,8 @@ fun reportScreen(
             6 -> report.activity
             7 -> report.totalTime
             8 -> report.supervisorName ?: ""
-            9 -> report.submitted
+            9 -> report.contractorName ?: stringResource(id = R.string.free_worker)
+            10 -> report.submitted
             else -> ""
         }
 
@@ -364,12 +367,20 @@ fun reportScreen(
                     }
                     if (needs is Resource.Success) {
                         VerticalDefaultMargin()
-                        Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth().padding(horizontal =
-                        MaterialTheme.spacing.default_margin)) {
-                            Text(modifier = Modifier.weight(1f).fillMaxWidth() ,
+                        Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal =
+                                MaterialTheme.spacing.default_margin
+                            )) {
+                            Text(modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth() ,
                                 text = if (viewmodel.startDatePersian.value.isEmpty())  " " else  stringResource(id = R.string.startDate),
                                 color = MaterialTheme.colors.surface)
-                            Text(modifier = Modifier.weight(1f).fillMaxWidth(),
+                            Text(modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
                                 text = if (viewmodel.endDatePersian.value.isEmpty())  " " else stringResource(id = R.string.endDate),
                                 color = MaterialTheme.colors.surface)
                         }
@@ -599,7 +610,7 @@ fun reportScreen(
                             ) {
                                 VerticalSmallSpacer()
                                 Table(
-                                    columnCount = 10,
+                                    columnCount = 11,
                                     cellWidth = cellWidth,
                                     data = reports.result,
                                     modifier = Modifier.verticalScroll(rememberScrollState()),

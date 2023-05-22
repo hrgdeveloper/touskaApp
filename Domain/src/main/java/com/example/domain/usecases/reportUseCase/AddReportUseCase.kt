@@ -18,9 +18,10 @@ class AddReportUseCase @Inject constructor(val reportRepository: ReportRepositor
                          floorId: Int?,
                          unitId: Int?,
                          description: String?,
-                         times: String
+                         times: String,
+                         pic:File?
     ): Flow<Resource<String> > {
-        return reportRepository.addReport(workerId, superVisorId, activityId, blockId, floorId, unitId, description, times)
+        return reportRepository.addReport(workerId, superVisorId, activityId, blockId, floorId, unitId, description, times,pic)
     }
 
 }

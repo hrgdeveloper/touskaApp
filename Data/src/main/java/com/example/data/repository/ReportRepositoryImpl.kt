@@ -53,20 +53,38 @@ class ReportRepositoryImpl @Inject constructor(
         floorId: Int?,
         unitId: Int?,
         description: String?,
-        times: String
+        times: String,
+        pic:File?
     ): Flow<Resource<String>> = flow {
         emit(Resource.IsLoading)
+
+        var pic_part : MultipartBody.Part? =null
+        pic?.let {
+            val requestFile= pic.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            pic_part=MultipartBody.Part.createFormData("pic", pic.name, requestFile)
+        }
+
+        val params = mutableMapOf<String, RequestBody>()
+        params["worker_id"] = workerId.toString().toRequestBody(MultipartBody.FORM)
+        params["supervisor_id"] = superVisorId.toString().toRequestBody(MultipartBody.FORM)
+        params["activity_id"] = activityId.toString().toRequestBody(MultipartBody.FORM)
+        params["bloc_id"] = blockId.toString().toRequestBody(MultipartBody.FORM)
+        params["times"] = times.toRequestBody(MultipartBody.FORM)
+        floorId?.let {
+            params["floor_id"] = it.toString().toRequestBody(MultipartBody.FORM)
+        }
+        unitId?.let {
+            params["unit_id"]=it.toString().toRequestBody(MultipartBody.FORM)
+        }
+        description?.let {
+            params["description"]=it.toRequestBody(MultipartBody.FORM)
+        }
+
+
         try {
             safeCall {
                 apiInterface.addReport(
-                    workerId,
-                    superVisorId,
-                    activityId,
-                    blockId,
-                    floorId,
-                    unitId,
-                    description,
-                    times
+                    pic_part,params
                 )
             }
             emit(Resource.Success("Report has Added Successfully"))

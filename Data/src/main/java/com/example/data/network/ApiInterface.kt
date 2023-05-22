@@ -207,7 +207,6 @@ interface ApiInterface {
     ): Response<BaseResponse<List<UserManageDto>>>
 
 
-
     @POST("register")
     @Multipart
     suspend fun register(
@@ -220,7 +219,7 @@ interface ApiInterface {
     suspend fun updateUser(
         @Part file: MultipartBody.Part?,
         @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>,
-        @Path("id") id:Int
+        @Path("id") id: Int
     ): Response<BaseResponse<UserManageDto>>
 
 
@@ -229,24 +228,28 @@ interface ApiInterface {
     ): Response<BaseResponse<RegisterNeedDto>>
 
     @GET("getUser")
-    suspend fun getUser(@Query("qr_code") qrCode:String
+    suspend fun getUser(
+        @Query("qr_code") qrCode: String
     ): Response<BaseResponse<UserManageDto>>
 
     @POST("report")
-    @FormUrlEncoded
-    suspend fun addReport(@Field("worker_id") workerId : Int ,
-                          @Field("supervisor_id") superVisorId : Int,
-                          @Field("activity_id") activityId : Int,
-                          @Field("bloc_id") blockId : Int,
-                          @Field("floor_id") floorId : Int?,
-                          @Field("unit_id") unitId : Int?,
-                          @Field("description") description : String?,
-                          @Field("times") times:String
+    @Multipart
+    suspend fun addReport(
+//        @Field("worker_id") workerId : Int ,
+//                          @Field("supervisor_id") superVisorId : Int,
+//                          @Field("activity_id") activityId : Int,
+//                          @Field("bloc_id") blockId : Int,
+//                          @Field("floor_id") floorId : Int?,
+//                          @Field("unit_id") unitId : Int?,
+//                          @Field("description") description : String?,
+//                          @Field("times") times:String
+        @Part file: MultipartBody.Part?,
+        @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>
     ): Response<BaseResponse<ReportDto>>
 
     @GET("report-needs")
     suspend fun reportNeeds(
-        @Query("worker_id") worker_id :Int
+        @Query("worker_id") worker_id: Int
     ): Response<BaseResponse<ReportNeedDto>>
 
 
@@ -257,18 +260,17 @@ interface ApiInterface {
 
     @GET("report")
     suspend fun getReports(
-       @Query("block_id")  blockId: Int?,
-       @Query("floor_id") floorId: Int?,
-       @Query("unit_id")  unitId: Int?,
-       @Query("supervisor_id")   superVisorId: Int?,
-       @Query("worker_id")  workerId: Int?,
-       @Query("post_id")  postId:Int?,
-       @Query("activity_id")  activityId: Int?,
-       @Query("contract_type_id") contractTypeId:Int?,
-       @Query("start_date") startDate:String?,
-       @Query("end_date")  endDate:String?
+        @Query("block_id") blockId: Int?,
+        @Query("floor_id") floorId: Int?,
+        @Query("unit_id") unitId: Int?,
+        @Query("supervisor_id") superVisorId: Int?,
+        @Query("worker_id") workerId: Int?,
+        @Query("post_id") postId: Int?,
+        @Query("activity_id") activityId: Int?,
+        @Query("contract_type_id") contractTypeId: Int?,
+        @Query("start_date") startDate: String?,
+        @Query("end_date") endDate: String?
     ): Response<BaseResponse<List<ReportDto>>>
-
 
 
 }

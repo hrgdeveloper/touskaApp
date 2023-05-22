@@ -23,5 +23,6 @@ data class Report(
     val updatedAt: String,
     val workerId: Int,
     val workerName: String,
-    val supervisorName : String?
+    val supervisorName : String?,
+    val contractorName : String?
 )

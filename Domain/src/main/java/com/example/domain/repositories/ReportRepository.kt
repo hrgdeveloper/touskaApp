@@ -6,6 +6,7 @@ import com.example.domain.models.ReportNeed
 import com.example.domain.models.ReportNeedFull
 import com.example.shared.Resource
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface ReportRepository {
     fun reportNeeds(worker_id: Int): Flow<Resource<ReportNeed>>
@@ -20,7 +21,8 @@ interface ReportRepository {
         floorId: Int?,
         unitId: Int?,
         description: String?,
-        times: String
+        times: String,
+        pic: File?
     ): Flow<Resource<String>>
 
     fun getReports(

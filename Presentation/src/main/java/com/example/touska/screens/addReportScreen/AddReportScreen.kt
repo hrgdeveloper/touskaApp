@@ -2,8 +2,13 @@ package com.example.touska.screens.addReportScreen
 
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
+import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -23,7 +28,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -43,6 +51,7 @@ import com.example.touska.R
 
 import com.example.touska.components.*
 import com.example.touska.navigation.Navigation
+import com.example.touska.screens.mainScreen.registerScreen.getBitmapFromUri
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
@@ -179,6 +188,16 @@ fun addReportScreen(
     LaunchedEffect(Unit) {
         viewmodel.getReportNeeds(worker.id)
     }
+
+    val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
+    val selectedImageBitmap = remember { mutableStateOf<Bitmap?>(null) }
+
+    val pickImage =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            selectedImageUri.value = uri
+            selectedImageBitmap.value = uri?.let { getBitmapFromUri(context, it) }
+        }
+
 
     when (needs) {
         is Resource.Failure -> {
@@ -426,7 +445,9 @@ fun addReportScreen(
                                             .clickable {
                                                 isForStartTime = true
                                                 mTimePickerDialog.show()
-                                            },
+                                            }
+                                            .padding(start = MaterialTheme.spacing.small_margin)
+                                        ,
                                         contentAlignment = Alignment.CenterStart
                                     ) {
                                         DrawableText(
@@ -452,7 +473,9 @@ fun addReportScreen(
                                             .clickable {
                                                 isForStartTime = false
                                                 mTimePickerDialog.show()
-                                            },
+                                            }
+                                            .padding(start = MaterialTheme.spacing.small_margin)
+                                        ,
                                         contentAlignment = Alignment.CenterStart
                                     ) {
                                         DrawableText(
@@ -557,15 +580,14 @@ fun addReportScreen(
                                 .padding(horizontal = MaterialTheme.spacing.default_margin),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-
-                            Spacer(modifier = Modifier.height(30.dp))
-
+                            Spacer(modifier = Modifier.height(MaterialTheme.spacing.default_margin))
 
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 val painer = worker.profile?.let {
+                                    Log.e("sFAFASFSAF",BuildConfig.BASE_IMAGE + worker.profile)
                                     rememberImagePainter(BuildConfig.BASE_IMAGE + worker.profile)
                                 } ?: kotlin.run {
                                     painterResource(id = R.drawable.ic_profile)
@@ -574,7 +596,7 @@ fun addReportScreen(
                                 Image(
                                     painter = painer, contentDescription = null,
                                     Modifier
-                                        .size(80.dp)
+                                        .size(40.dp)
                                         .clip(CircleShape)
                                         .border(2.dp, MaterialTheme.colors.surface, CircleShape),
                                     contentScale = ContentScale.FillBounds
@@ -583,7 +605,7 @@ fun addReportScreen(
                                 Spacer(modifier = Modifier.width(10.dp))
                                 Text(
                                     text = worker.name,
-                                    fontSize = 24.sp,
+                                    fontSize = 16.sp,
                                     fontFamily = iranSansFamily,
                                     fontWeight = FontWeight.Black
                                 )
@@ -781,7 +803,7 @@ fun addReportScreen(
                             VerticalDefaultMargin()
 
 
-                            //name text field
+                            //description text field
                             OutlinedTextField(
                                 value = description,
                                 onValueChange = {
@@ -803,8 +825,44 @@ fun addReportScreen(
 
                             VerticalDefaultMargin()
 
+                            Card(modifier = Modifier
+                                .size(120.dp)
+                                .align(Alignment.Start)
+                                .clickable {
+                                    pickImage.launch("image/*")
+                                }
+                                ,
+                                backgroundColor = Color.Transparent,
+                                elevation = 0.dp,
+                                border = BorderStroke(1.dp,MaterialTheme.colors.surface),
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    selectedImageBitmap.value?.let {
+                                        Image(
+                                            bitmap = it.asImageBitmap(),
+                                            contentDescription = null,
+                                            contentScale = ContentScale.FillBounds,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .fillMaxSize()
+                                        )
+                                    }?: kotlin.run {
+                                        Icon(
+                                            imageVector = Icons.Default.Image,
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .size(40.dp),
+                                            tint = MaterialTheme.colors.surface
+                                        )
+                                    }
+                                }
+
+                            }
+
 
                         }
+
+
                         Box(
                             modifier = Modifier.padding(
                                 horizontal = MaterialTheme.spacing.small_margin,
@@ -812,7 +870,9 @@ fun addReportScreen(
                             )
                         ) {
                             ConfirmButton(onclick = {
-                                viewmodel.submitReport(worker.id,13,activityId,blocId,floorId,unitId,description.text,workingTimes)
+                                viewmodel.submitReport(worker.id,13,activityId,blocId,floorId,unitId,description.text,workingTimes,
+                                    picUri = selectedImageUri.value,context
+                                )
                             }) {
                             if (addReport is Resource.IsLoading) {
                                 CircularProgressIndicator(

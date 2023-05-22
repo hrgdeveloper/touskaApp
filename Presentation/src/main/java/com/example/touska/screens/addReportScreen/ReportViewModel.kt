@@ -58,8 +58,15 @@ class ReportViewModel @Inject constructor(
         floorId: Int,
         unitId: Int,
         description: String,
-        times: List<WorkingTime>
+        times: List<WorkingTime>,
+        picUri:Uri?,
+        context:Context
     ) {
+        var pic : File?=null
+        picUri?.let {
+            pic= FileUtils.getFile(context,picUri)
+        }
+
         if (activityId == 0) {
             addReport_.postValue(Resource.Failure("", 400, R.string.insert_activity_name))
             return
@@ -81,7 +88,8 @@ class ReportViewModel @Inject constructor(
                 blockId, if (floorId == 0) null else floorId,
                 if (unitId == 0) null else unitId,
                 if (description.isEmpty()) null else description,
-                Gson().toJson(times.map { it.toDto() })
+                Gson().toJson(times.map { it.toDto() }),
+                pic
             ).collect {
                 addReport_.postValue(it)
             }

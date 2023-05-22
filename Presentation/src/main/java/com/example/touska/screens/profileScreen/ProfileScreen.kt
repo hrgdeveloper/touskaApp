@@ -120,6 +120,7 @@ fun profileScreen(
                                 .clickable {
                                            navController.navigateUp()
                                 },
+
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back",
                             tint = Color.White

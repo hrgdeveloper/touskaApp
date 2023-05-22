@@ -23,5 +23,6 @@ data class ReportDto(
     val updated_at: String,
     val worker_id: Int,
     val worker_name: String,
-    val supervisorName : String?
+    val supervisorName : String?,
+    val contractorName:String?
 )
