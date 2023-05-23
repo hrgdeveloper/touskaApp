@@ -93,7 +93,7 @@ fun loginScreen(
                 Modifier
                     .fillMaxWidth()
                     .height(300.dp),
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.Crop
             )
             Card(
                 shape = RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp),

@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 
+
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -153,29 +154,33 @@ fun profileScreen(
                         ) {
                             VerticalDefaultMargin()
 
-                            Row(
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically,
+                            Box(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text(
                                     text = user.result.name,
                                     fontSize = 24.sp,
                                     fontFamily = iranSansFamily,
-                                    fontWeight = FontWeight.Black
+                                    fontWeight = FontWeight.Black,
+                                    modifier = Modifier.align(Alignment.CenterStart)
                                 )
-                                Button(
-                                    onClick = {
-                                              navController.navigate(MainNavigation.AddReport.route + "?worker=${Gson().toJson(user.result)}")
+                                if (user.result.roleId==UserTypes.Worker.role_id) {
+                                    Button(
+                                        modifier = Modifier.align(Alignment.CenterEnd),
+                                        onClick = {
+                                            navController.navigate(MainNavigation.AddReport.route + "?worker=${Gson().toJson(user.result)}")
 
-                                    }, colors = ButtonDefaults.buttonColors(
-                                        backgroundColor = MaterialTheme.colors.primaryVariant,
-                                        contentColor = Color.White
-                                    ),
-                                    shape = RoundedCornerShape(25.dp)
-                                ) {
-                                    Text(text = stringResource(R.string.submit_report))
+                                        }, colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = MaterialTheme.colors.primaryVariant,
+                                            contentColor = Color.White
+                                        ),
+                                        shape = RoundedCornerShape(25.dp)
+                                    ) {
+                                        Text(text = stringResource(R.string.submit_report))
+                                    }
                                 }
+
+
                             }
                             VerticalDefaultMarginBigger()
 

@@ -11,4 +11,6 @@ sealed class FilterTypes(val type:Int){
     object START_TIME : FilterTypes(7)
 
     object END_TIME : FilterTypes(8)
+
+    object Contractor : FilterTypes(9)
 }

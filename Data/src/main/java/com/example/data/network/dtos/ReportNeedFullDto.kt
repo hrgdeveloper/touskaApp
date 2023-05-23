@@ -6,5 +6,6 @@ data class ReportNeedFullDto(
     val contracts : List<ContractDto>,
     val posts : List<PostDto>,
     val floors : List<FloorDto>,
-    val units : List<UnitDto>
+    val units : List<UnitDto>,
+    val contractors : List<UserDto>
 )

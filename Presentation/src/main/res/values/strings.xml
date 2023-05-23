@@ -158,4 +158,7 @@
     <string name="select_contractor">انتخاب پیمان کار</string>
     <string name="contractor">پیمانکار</string>
     <string name="free_worker">کارگر آزاد</string>
+    <string name="projectName">نام پروژه</string>
+    <string name="contractor_type">فیلتر پیمان کار</string>
+    <string name="contractor_filter">فیلتر پیمان کار</string>
 </resources>

@@ -13,5 +13,6 @@ data class User(
     val role:String,
     val project : Project?,
     val contractorId:Int?,
-    val contractorName:String?
+    val contractorName:String?,
+    val profile:String?
 )

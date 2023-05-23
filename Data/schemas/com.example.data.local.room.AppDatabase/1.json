@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "54f25ff57adf5b517db7427a0c8a0597",
+    "identityHash": "574fdd5533eda36837e6c203587ce16a",
     "entities": [
       {
         "tableName": "ProjectEntity",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `contract_type_id` INTEGER, `created_at` TEXT, `email` TEXT NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `role` TEXT NOT NULL, `contractor_id` INTEGER, `contractorName` TEXT, `pjproject_id` INTEGER NOT NULL, `pjname` TEXT NOT NULL, `pjlat` REAL NOT NULL, `pjlang` REAL NOT NULL, `pjpic` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `contract_type_id` INTEGER, `created_at` TEXT, `email` TEXT NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `role` TEXT NOT NULL, `contractor_id` INTEGER, `contractorName` TEXT, `profile` TEXT, `pjproject_id` INTEGER NOT NULL, `pjname` TEXT NOT NULL, `pjlat` REAL NOT NULL, `pjlang` REAL NOT NULL, `pjpic` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -121,6 +121,12 @@
           {
             "fieldPath": "contractorName",
             "columnName": "contractorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "profile",
+            "columnName": "profile",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -556,7 +562,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '54f25ff57adf5b517db7427a0c8a0597')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '574fdd5533eda36837e6c203587ce16a')"
     ]
   }
 }

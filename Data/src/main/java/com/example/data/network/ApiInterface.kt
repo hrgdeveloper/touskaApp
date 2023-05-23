@@ -269,7 +269,8 @@ interface ApiInterface {
         @Query("activity_id") activityId: Int?,
         @Query("contract_type_id") contractTypeId: Int?,
         @Query("start_date") startDate: String?,
-        @Query("end_date") endDate: String?
+        @Query("end_date") endDate: String?,
+        @Query("contractor_id") contractorId: Int?
     ): Response<BaseResponse<List<ReportDto>>>
 
 

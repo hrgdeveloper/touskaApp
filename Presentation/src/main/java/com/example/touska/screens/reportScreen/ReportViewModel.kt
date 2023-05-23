@@ -61,6 +61,7 @@ class ReportViewModel @Inject constructor(
     var activityName = mutableStateOf("")
     var contractTypeName = mutableStateOf("")
     var workerName = mutableStateOf("")
+    var contractorName = mutableStateOf("")
 
 
     var blockId = mutableStateOf(0)
@@ -71,6 +72,8 @@ class ReportViewModel @Inject constructor(
     var activityId = mutableStateOf(0)
     var contractTypeId = mutableStateOf(0)
     var workerId = mutableStateOf(0)
+    var contractorId = mutableStateOf(0)
+
 
     var startDatePersian = mutableStateOf("")
     var endDatePersian = mutableStateOf("")
@@ -82,8 +85,8 @@ class ReportViewModel @Inject constructor(
             getReports(blockId.value.requestValue(),floorId.value.requestValue(), unitId.value.requestValue(),
                 superVisorId.value.requestValue(),workerId.value.requestValue(),postId.value.requestValue(),
                 activityId.value.requestValue(),contractTypeId.value.requestValue(),startDate.value.requestValue(),
-                endDate.value.requestValue()
-                ).collect {
+                endDate.value.requestValue(),contractorId.value.requestValue()
+                 ).collect {
                 reports_.postValue(it)
             }
         }
@@ -131,6 +134,9 @@ class ReportViewModel @Inject constructor(
           }else if (filterModel.filterType==FilterTypes.END_TIME.type){
               endDate.value=""
               endDatePersian.value=""
+          }else if (filterModel.filterType==FilterTypes.Contractor.type){
+              contractorName.value=""
+              contractorId.value=0
           }
     }
 

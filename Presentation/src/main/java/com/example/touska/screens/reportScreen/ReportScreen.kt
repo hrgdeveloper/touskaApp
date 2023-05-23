@@ -207,7 +207,63 @@ fun reportScreen(
                                 CustomDivider()
                             }
                         }
-                    } else if (filterType == FilterTypes.FLOOR.type) {
+                    }else  if (filterType == FilterTypes.Contractor.type) {
+
+                            Box(modifier = Modifier
+                                .height(48.dp)
+                                .fillMaxWidth()
+                                .padding(start = MaterialTheme.spacing.small_margin)
+                                .clickable {
+                                    viewmodel.contractorId.value = -1
+                                    viewmodel.contractorName.value =
+                                       context.getString(R.string.free_worker)
+                                    viewmodel.fetchReports()
+                                    viewmodel.addToFilterList(
+                                        FilterModel(
+                                            R.string.contractor_filter,
+                                            FilterTypes.Contractor.type
+                                        )
+                                    )
+                                    coroutineScope.launch {
+                                        sheetStateSelect.hide()
+                                    }
+
+                                }
+                            ) {
+                                Text(text = stringResource(id = R.string.free_worker), modifier = Modifier.align(Alignment.CenterStart))
+                            }
+                            CustomDivider()
+
+
+                        LazyColumn {
+                            items(needs.result.contractors) {
+                                Box(modifier = Modifier
+                                    .height(48.dp)
+                                    .padding(start = MaterialTheme.spacing.small_margin)
+                                    .clickable {
+                                        viewmodel.contractorId.value = it.id
+                                        viewmodel.contractorName.value = it.name
+                                        viewmodel.fetchReports()
+                                        viewmodel.addToFilterList(
+                                            FilterModel(
+                                                R.string.contractor_filter,
+                                                FilterTypes.Contractor.type
+                                            )
+                                        )
+                                        coroutineScope.launch {
+                                            sheetStateSelect.hide()
+                                        }
+
+                                    }
+                                ) {
+                                    Text(text = it.name, modifier = Modifier.align(Alignment.CenterStart))
+                                }
+                                CustomDivider()
+                            }
+                        }
+                    }
+
+                    else if (filterType == FilterTypes.FLOOR.type) {
                         LazyColumn {
                             items(needs.result.floors) {
                                 Surface(
@@ -449,6 +505,16 @@ fun reportScreen(
 
                         }
 
+                        VerticalDefaultMargin()
+                        FilterBox(title = R.string.contractor_type, text = viewmodel.contractorName.value) {
+                            coroutineScope.launch {
+                                filterType = FilterTypes.Contractor.type
+                                sheetStateSelect.show()
+                            }
+                        }
+
+
+
 
                         VerticalDefaultMargin()
                         FilterBox(title = R.string.block_filter, text = viewmodel.blockName.value) {
@@ -458,6 +524,10 @@ fun reportScreen(
 
                             }
                         }
+
+
+
+
                         VerticalDefaultMargin()
                         FilterBox(title = R.string.floor_filter, text = viewmodel.floorName.value) {
                             coroutineScope.launch {

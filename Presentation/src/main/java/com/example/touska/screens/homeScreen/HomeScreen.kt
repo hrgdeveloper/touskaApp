@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
+import com.example.data.BuildConfig
 import com.example.touska.R
 import com.example.touska.components.VerticalDefaultMargin
 import com.example.touska.components.VerticalSmallSpacer
@@ -59,28 +61,38 @@ fun homeScreen(
                     .background(MaterialTheme.customColorsPalette.cardBack)
             ) {
                 val (iv_project,iv_profile,tv_project) = createRefs()
-                Image(painter = painterResource(id = R.drawable.art), contentDescription = null,
+                Image(painter = painterResource(id = R.drawable.project), contentDescription = null,
                      modifier = Modifier
                          .fillMaxWidth()
-                         .height(200.dp)
+                         .height(260.dp)
                          .constrainAs(iv_project) {
                              top.linkTo(parent.top, 0.dp)
                          },
-                    contentScale = ContentScale.FillBounds
+                    contentScale = ContentScale.Crop
                     )
-                Image(painter = painterResource(id = R.drawable.art), contentDescription = null,
+
+
+                Image(   painter =
+                if (user.profile!= null) {
+                    rememberImagePainter(BuildConfig.BASE_IMAGE + user.profile)
+                } else {
+                    painterResource(id = R.drawable.ic_profile)
+
+                }, contentDescription = null,
                     modifier = Modifier
-                        .size(75.dp)
+                        .size(85.dp)
                         .clip(CircleShape)
                         .border(2.dp, Color.White, CircleShape)
                         .constrainAs(iv_profile) {
                             top.linkTo(iv_project.bottom)
                             bottom.linkTo(iv_project.bottom)
                             end.linkTo(iv_project.end, 15.dp)
-                        }
+                        },
+                    contentScale = ContentScale.Crop
                     )
 
-                Text(text = user.project!!.name, fontSize = 18.sp, fontFamily = iranSansFamily, fontWeight = FontWeight.Bold,
+                Text(text = stringResource(id = R.string.projectName) + " : " + user.project!!.name, fontSize = 16.sp,
+                    fontFamily = iranSansFamily, fontWeight = FontWeight.Bold,
                     modifier = Modifier.constrainAs(tv_project){
                         top.linkTo(iv_profile.bottom)
                         start.linkTo(parent.start,16.dp)

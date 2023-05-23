@@ -6,7 +6,7 @@ import com.example.domain.models.*
 
 fun UserDto.toDomain() : User{
   return  User(id,contract_type_id,created_at,email,mobile,name,post_id,role_id,
-          status,role,null,contractor_id,contractorName
+          status,role,null,contractor_id,contractorName,profile
         )
 }
 
@@ -97,7 +97,8 @@ fun ReportNeedFullDto.toDomain(): ReportNeedFull {
     return ReportNeedFull(activities.map { it.toDomain() },
         blocs.map { it.toDomain() }, contracts.map { it.toDomain() },
         posts.map { it.toDomain() }, floors.map { it.toDomain() },
-        units.map { it.toDomain() }
+        units.map { it.toDomain() },
+        contractors.map { it.toDomain() }
     )
 }
 

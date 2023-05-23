@@ -150,8 +150,11 @@
     <string name="today">امروز</string>
     <string name="start_time_filter">فیلتر شروع تاریخ</string>
     <string name="end_time_filter">فیلتر پایان تاریخ</string>
-    <string name="contractors">پیمانکاران</string>
+    <string name="contractors">پیمانکار</string>
     <string name="select_contractor">انتخاب پیمان کار</string>
     <string name="contractor">پیمانکار</string>
     <string name="free_worker">کارگر آزاد</string>
+    <string name="projectName">نام پروژه</string>
+    <string name="contractor_type">فیلتر پیمان کار</string>
+    <string name="contractor_filter">فیلتر پیمان کار</string>
 </resources>

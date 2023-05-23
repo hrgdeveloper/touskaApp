@@ -15,6 +15,7 @@ data class UserDto(
     val role:String,
     val project: ProjectDto,
     val contractor_id:Int?,
-    val contractorName:String?
+    val contractorName:String?,
+    val profile:String?
 
 )
