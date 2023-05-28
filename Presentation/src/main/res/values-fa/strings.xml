@@ -157,4 +157,8 @@
     <string name="projectName">نام پروژه</string>
     <string name="contractor_type">فیلتر پیمان کار</string>
     <string name="contractor_filter">فیلتر پیمان کار</string>
+    <string name="yes">بلی</string>
+    <string name="accept_logout">آیا مایل به خروج از حساب کاربری میباشید</string>
+    <string name="no_reports_today">\"هیچ گزارشی برای تاریخ امروز ثبت نشده است \"</string>
+    <string name="no_reports_by_filter">هیچ گزارشی برای فیلتر های انتخابی ثبت نشده است</string>
 </resources>

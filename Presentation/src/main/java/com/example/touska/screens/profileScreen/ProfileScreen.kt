@@ -102,7 +102,7 @@ fun profileScreen(
                             Modifier
                                 .fillMaxWidth()
                                 .height(310.dp),
-                            contentScale = ContentScale.FillBounds
+                            contentScale = ContentScale.Crop
                         )
                     } else {
                          Box(modifier = Modifier

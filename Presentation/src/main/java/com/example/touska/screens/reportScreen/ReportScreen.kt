@@ -153,7 +153,13 @@ fun reportScreen(
         Text(
             text = value,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+            modifier = Modifier
+                .padding(vertical = 4.dp, horizontal = 8.dp)
+                .clickable {
+                    Toast
+                        .makeText(context, report.workerName, Toast.LENGTH_SHORT)
+                        .show()
+                },
             fontSize = 14.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -216,7 +222,7 @@ fun reportScreen(
                                 .clickable {
                                     viewmodel.contractorId.value = -1
                                     viewmodel.contractorName.value =
-                                       context.getString(R.string.free_worker)
+                                        context.getString(R.string.free_worker)
                                     viewmodel.fetchReports()
                                     viewmodel.addToFilterList(
                                         FilterModel(
@@ -679,23 +685,29 @@ fun reportScreen(
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
                                 VerticalSmallSpacer()
-                                Table(
-                                    columnCount = 11,
-                                    cellWidth = cellWidth,
-                                    data = reports.result,
-                                    modifier = Modifier.verticalScroll(rememberScrollState()),
-                                    headerCellContent = headerCellTitle,
-                                    cellContent = cellText
-                                )
+                                if (reports.result.isEmpty()) {
+                                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                        if (viewmodel.filtersList.size>0) {
+                                            Text(text = stringResource(R.string.no_reports_by_filter))
+                                        }else {
+                                            Text(text = stringResource(R.string.no_reports_today))
+                                        }
+                                    }
+                                }else {
+                                    Table(
+                                        columnCount = 11,
+                                        cellWidth = cellWidth,
+                                        data = reports.result,
+                                        modifier = Modifier.verticalScroll(rememberScrollState()),
+                                        headerCellContent = headerCellTitle,
+                                        cellContent = cellText
+                                    )
+                                }
+
 
                             }
 
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f),
-                            ) {
 
-                            }
 
                         }
                     }

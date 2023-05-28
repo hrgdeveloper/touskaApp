@@ -60,7 +60,7 @@ fun homeScreen(
                     .clip(RoundedCornerShape(10.dp))
                     .background(MaterialTheme.customColorsPalette.cardBack)
             ) {
-                val (iv_project,iv_profile,tv_project) = createRefs()
+                val (iv_project,iv_profile,tv_project,tv_email,spacer,tv_name) = createRefs()
                 Image(painter = painterResource(id = R.drawable.project), contentDescription = null,
                      modifier = Modifier
                          .fillMaxWidth()
@@ -92,13 +92,28 @@ fun homeScreen(
                     )
 
                 Text(text = stringResource(id = R.string.projectName) + " : " + user.project!!.name, fontSize = 16.sp,
-                    fontFamily = iranSansFamily, fontWeight = FontWeight.Bold,
+                    fontFamily = iranSansFamily,
                     modifier = Modifier.constrainAs(tv_project){
-                        top.linkTo(iv_profile.bottom)
+                        top.linkTo(iv_profile.bottom,8.dp)
                         start.linkTo(parent.start,16.dp)
-                        bottom.linkTo(parent.bottom,16.dp)
+
                         }
                     )
+                Text(text =  user.name, fontSize = 16.sp,
+                    fontFamily = iranSansFamily,
+                    modifier = Modifier.constrainAs(tv_name){
+                        top.linkTo(tv_project.bottom,8.dp)
+                        start.linkTo(parent.start,16.dp)
+                    }
+                )
+
+
+
+
+                Spacer(modifier = Modifier.height(8.dp).fillMaxWidth().constrainAs(spacer){
+                    top.linkTo(tv_name.bottom)
+                })
+
             }
 
             VerticalDefaultMargin()

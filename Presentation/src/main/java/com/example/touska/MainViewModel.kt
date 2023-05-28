@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(prefManager: PrefManager) : ViewModel() {
+class MainViewModel @Inject constructor(private val prefManager: PrefManager) : ViewModel() {
 
     private val _theme = mutableStateOf(prefManager.getValue(PrefManager.THEME,String::class,ThemeTypes.SYSTEM))
     val them: State<String> = _theme
@@ -17,5 +17,9 @@ class MainViewModel @Inject constructor(prefManager: PrefManager) : ViewModel() 
     fun setTheme(theme : String) {
         _theme.value=theme
     }
+    fun logOut(){
+        prefManager.setValue(PrefManager.IS_LOGIN,false)
+    }
+
 
 }

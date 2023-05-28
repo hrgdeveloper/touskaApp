@@ -1,11 +1,8 @@
 package com.example.touska.screens.login
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -34,6 +31,7 @@ import com.example.shared.Resource
 
 import com.example.touska.R
 import com.example.touska.components.VerticalDefaultMargin
+import com.example.touska.components.VerticalSmallSpacer
 import com.example.touska.navigation.Navigation
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
@@ -116,7 +114,7 @@ fun loginScreen(
                         color = MaterialTheme.colors.primary
                     )
 
-                    VerticalDefaultMargin()
+                    VerticalSmallSpacer()
 
                     OutlinedTextField(
                         value = email,
@@ -141,9 +139,11 @@ fun loginScreen(
                             unfocusedBorderColor = MaterialTheme.colors.surface,
                             focusedBorderColor = MaterialTheme.colors.secondary
                         ),
+
                     )
 
-                    VerticalDefaultMargin()
+                    VerticalSmallSpacer()
+
 
                     OutlinedTextField(
                         value = password,
@@ -199,7 +199,9 @@ fun loginScreen(
                         if (loginState is Resource.IsLoading) {
                             CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)
                         }else {
-                            Text(text = stringResource(R.string.enter))
+                            Text(text = stringResource(R.string.enter),
+                                color = Color.White
+                                )
                         }
 
                     }

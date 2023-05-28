@@ -112,6 +112,12 @@ fun userManageInsideScreen(
                     tint = MaterialTheme.colors.surface
                 )
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = MaterialTheme.colors.surface,
+                focusedBorderColor = MaterialTheme.colors.secondary
+            ),
+
+
             singleLine = true,
 
             )
