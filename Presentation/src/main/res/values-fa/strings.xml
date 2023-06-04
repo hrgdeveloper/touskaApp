@@ -161,4 +161,7 @@
     <string name="accept_logout">آیا مایل به خروج از حساب کاربری میباشید</string>
     <string name="no_reports_today">\"هیچ گزارشی برای تاریخ امروز ثبت نشده است \"</string>
     <string name="no_reports_by_filter">هیچ گزارشی برای فیلتر های انتخابی ثبت نشده است</string>
+    <string name="project_control">کنترل پروژه</string>
+    <string name="report_info">اطلاعات گزارش</string>
+    <string name="describtions">"توضیحات : "</string>
 </resources>

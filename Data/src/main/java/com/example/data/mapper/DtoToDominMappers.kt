@@ -84,7 +84,8 @@ fun ReportDto.toDomain(): Report {
         worker_id,
         worker_name,
         supervisorName,
-        contractorName
+        contractorName,
+        pic
     )
 }
 

@@ -24,5 +24,6 @@ data class ReportDto(
     val worker_id: Int,
     val worker_name: String,
     val supervisorName : String?,
-    val contractorName:String?
+    val contractorName:String?,
+    val pic:String?
 )

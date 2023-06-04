@@ -41,6 +41,7 @@ import com.example.touska.ui.theme.spacing
 import com.example.touska.utils.FilterModel
 import com.example.touska.utils.FilterTypes
 import com.example.touska.utils.returnProperMessage
+import com.google.gson.Gson
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog
 import ir.hamsaa.persiandatepicker.api.PersianPickerDate
 import ir.hamsaa.persiandatepicker.api.PersianPickerListener
@@ -156,9 +157,7 @@ fun reportScreen(
             modifier = Modifier
                 .padding(vertical = 4.dp, horizontal = 8.dp)
                 .clickable {
-                    Toast
-                        .makeText(context, report.workerName, Toast.LENGTH_SHORT)
-                        .show()
+                    navController.navigate(MainNavigation.InsideReport.route + "?report=${Gson().toJson(report)}")
                 },
             fontSize = 14.sp,
             maxLines = 1,

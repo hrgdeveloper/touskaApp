@@ -29,6 +29,9 @@ sealed class MainNavigation(val route : String) {
 
     object AddReport : MainNavigation("addReport")
 
+    object InsideReport : MainNavigation("insideReport")
+
+
     fun withArgs(vararg args:  String ) : String {
         return  buildString {
             append(route)

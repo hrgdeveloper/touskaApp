@@ -36,6 +36,7 @@ import com.example.touska.screens.homeScreen.homeScreen
 import com.example.touska.screens.postScreen.postScreen
 import com.example.touska.screens.profileScreen.profileScreen
 import com.example.touska.screens.mainScreen.registerScreen.registerScreen
+import com.example.touska.screens.reportInsideScreen.reportInsideScreen
 
 import com.example.touska.screens.reportScreen.reportScreen
 import com.example.touska.screens.settingScreen.settingScreen
@@ -328,6 +329,20 @@ fun NavigationGraph(navController: NavHostController,mainViewModel: MainViewMode
             val worker = it.arguments?.getString("worker", "")?:""
             addReportScreen(navController = navController, worker = worker)
         }
+
+        composable(
+            route = MainNavigation.InsideReport.route + "?report={report}",
+            arguments = listOf(
+                navArgument("report") {
+                    type = NavType.StringType
+                },
+            )
+        )
+        {
+            val report = it.arguments?.getString("report", "")?:""
+            reportInsideScreen(navController = navController, reportString = report)
+        }
+
 
 
     }
