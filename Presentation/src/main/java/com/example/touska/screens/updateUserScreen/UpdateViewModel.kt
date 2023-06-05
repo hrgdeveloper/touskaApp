@@ -50,7 +50,7 @@ class UpdateViewModel @Inject constructor(
 
 
     fun updateUser(name:String,email:String,mobile:String,uri: Uri?,contract_type_id : Int?,
-                 post_id:Int?,context:Context,id:Int
+                 post_id:Int?,context:Context,id:Int,description:String?
                  ){
 
         var profile : File?=null
@@ -85,7 +85,7 @@ class UpdateViewModel @Inject constructor(
 
 
         viewModelScope.launch {
-            updateUserUseCase(name,email,mobile,contract_type_id,post_id,profile,id).collect {
+            updateUserUseCase(name,email,mobile,contract_type_id,post_id,profile,id,description).collect {
                 update_.postValue(it)
             }
         }

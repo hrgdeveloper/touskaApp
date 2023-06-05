@@ -149,6 +149,8 @@ fun reportInsideScreen(
                     }
                 }
 
+
+
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)
@@ -289,6 +291,8 @@ fun reportInsideScreen(
 
                                 )
                         }
+
+
 
                         CustomDivider()
 

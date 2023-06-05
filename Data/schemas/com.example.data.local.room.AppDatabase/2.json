@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "aaf81aeef4cb3177404e06957e4261dd",
+    "identityHash": "47254ba0c18fc7ec04328e57aa7dc614",
     "entities": [
       {
         "tableName": "ProjectEntity",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `contract_type_id` INTEGER, `created_at` TEXT, `email` TEXT NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `role` TEXT NOT NULL, `contractor_id` INTEGER, `contractorName` TEXT, `pjproject_id` INTEGER NOT NULL, `pjname` TEXT NOT NULL, `pjlat` REAL NOT NULL, `pjlang` REAL NOT NULL, `pjpic` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `contract_type_id` INTEGER, `created_at` TEXT, `email` TEXT NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `role` TEXT NOT NULL, `contractor_id` INTEGER, `contractorName` TEXT, `profile` TEXT, `description` TEXT, `pjproject_id` INTEGER NOT NULL, `pjname` TEXT NOT NULL, `pjlat` REAL NOT NULL, `pjlang` REAL NOT NULL, `pjpic` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -121,6 +121,18 @@
           {
             "fieldPath": "contractorName",
             "columnName": "contractorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "profile",
+            "columnName": "profile",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -426,7 +438,7 @@
       },
       {
         "tableName": "UserManage",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contract_type_id` INTEGER, `created_at` TEXT NOT NULL, `email` TEXT NOT NULL, `email_verified_at` INTEGER, `id` INTEGER NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `project_id` INTEGER NOT NULL, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `updated_at` TEXT NOT NULL, `profile` TEXT, `contract_type` TEXT, `post_title` TEXT, `qr_code` TEXT NOT NULL, `role_title` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contract_type_id` INTEGER, `created_at` TEXT NOT NULL, `email` TEXT NOT NULL, `email_verified_at` INTEGER, `id` INTEGER NOT NULL, `mobile` TEXT NOT NULL, `name` TEXT NOT NULL, `post_id` INTEGER, `project_id` INTEGER NOT NULL, `role_id` INTEGER NOT NULL, `status` INTEGER NOT NULL, `updated_at` TEXT NOT NULL, `profile` TEXT, `contract_type` TEXT, `post_title` TEXT, `qr_code` TEXT NOT NULL, `role_title` TEXT NOT NULL, `contractor_id` INTEGER, `contractorName` TEXT, `description` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "contract_type_id",
@@ -529,6 +541,24 @@
             "columnName": "role_title",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "contractor_id",
+            "columnName": "contractor_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contractorName",
+            "columnName": "contractorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -544,7 +574,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aaf81aeef4cb3177404e06957e4261dd')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '47254ba0c18fc7ec04328e57aa7dc614')"
     ]
   }
 }

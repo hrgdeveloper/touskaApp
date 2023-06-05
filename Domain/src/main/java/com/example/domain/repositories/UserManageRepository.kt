@@ -18,7 +18,8 @@ interface UserManageRepository {
         project_id:Int,
         post_id:Int?,
         profile:File?,
-        contractorId:Int?
+        contractorId:Int?,
+        description:String?
     ) : Flow<Resource<String>>
 
     fun updateUser(
@@ -28,7 +29,8 @@ interface UserManageRepository {
         contract_type_id:Int?,
         post_id:Int?,
         profile:File?,
-        id:Int
+        id:Int,
+        description:String?
     ) : Flow<Resource<String>>
 
 

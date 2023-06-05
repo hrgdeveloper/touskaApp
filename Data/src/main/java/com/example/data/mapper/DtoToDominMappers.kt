@@ -6,7 +6,7 @@ import com.example.domain.models.*
 
 fun UserDto.toDomain() : User{
   return  User(id,contract_type_id,created_at,email,mobile,name,post_id,role_id,
-          status,role,null,contractor_id,contractorName,profile
+          status,role,null,contractor_id,contractorName,profile,description
         )
 }
 

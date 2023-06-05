@@ -33,6 +33,7 @@ abstract class SafeApiCall {
                        throw CustomExeption( TIMEOUT,-1)
                    }
                    is IOException ->{
+                       Log.e("myExeptionsasfasf",throwable.localizedMessage.toString())
                      throw  CustomExeption( IOE,-2)
                    }else-> {
                        if (BuildConfig.DEBUG) {

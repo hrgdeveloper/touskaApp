@@ -20,6 +20,7 @@ data class UserEntity(
     val project : ProjectEntity,
     val contractor_id : Int?,
     val contractorName:String?,
-    val profile:String?
+    val profile:String?,
+    val description:String?
 
 )

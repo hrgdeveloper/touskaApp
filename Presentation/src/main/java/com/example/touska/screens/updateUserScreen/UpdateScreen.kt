@@ -77,6 +77,10 @@ fun updateScreen(
         mutableStateOf(TextFieldValue(userManage.mobile))
     }
 
+    var description by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
 
     var expandedContract by remember { mutableStateOf(false) }
     var selectedContractText by remember { mutableStateOf(userManage.contractType?:"") }
@@ -394,7 +398,29 @@ fun updateScreen(
                             }
 
 
+
                         }
+                        VerticalSmallSpacer()
+
+                        //description text field
+                        OutlinedTextField(
+                            value = description,
+                            onValueChange = {
+                                description = it
+                            },
+
+                            Modifier
+                                .fillMaxWidth(),
+                            label = {
+                                Text(text = stringResource(R.string.descriptions))
+                            },
+                            singleLine = false,
+                            minLines = 5,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                unfocusedBorderColor = MaterialTheme.colors.surface,
+                                focusedBorderColor = MaterialTheme.colors.secondary
+                            ),
+                        )
 
 
                     }
@@ -413,7 +439,8 @@ fun updateScreen(
                                 if (role_id == 3 || role_id == 4) contractId else null,
                                 if (role_id == 4) postId else null,
                                 contextt,
-                                userManage.id
+                                userManage.id,
+                                description.text.ifEmpty {  null}
                             )
 
 

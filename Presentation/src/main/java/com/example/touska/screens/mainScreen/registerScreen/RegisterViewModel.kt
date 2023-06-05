@@ -49,7 +49,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun register(name:String,password:String,email:String,mobile:String,role_id:Int,uri: Uri?,contract_type_id : Int?,
-                 post_id:Int?,project_id:Int,context:Context,contractorId:Int?
+                 post_id:Int?,project_id:Int,context:Context,contractorId:Int?,description:String?
                  ){
 
         var profile : File?=null
@@ -87,7 +87,9 @@ class RegisterViewModel @Inject constructor(
 
 
         viewModelScope.launch {
-            registerUsersUseCase(name,email,password,mobile,role_id,contract_type_id,project_id,post_id,profile,contractorId).collect {
+            registerUsersUseCase(name,email,password,mobile,role_id,contract_type_id,project_id,post_id,profile,contractorId,
+               description
+                ).collect {
                 register_.postValue(it)
             }
         }

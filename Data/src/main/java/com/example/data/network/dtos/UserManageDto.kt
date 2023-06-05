@@ -33,5 +33,6 @@ data class UserManageDto(
     val roleTitle:String,
     @SerializedName("contractor_id")
     val contractorId:Int?,
-    val contractorName:String?
+    val contractorName:String?,
+    val description:String?
 )

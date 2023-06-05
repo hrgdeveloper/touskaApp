@@ -113,13 +113,19 @@ fun profileScreen(
                          }
                     }
 
-                    Box(modifier = Modifier.fillMaxWidth().height(56.dp).background(transBack)
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .background(transBack)
 
                     ) {
                         Icon(
-                            modifier = Modifier.mirror().align(Alignment.CenterStart).padding(MaterialTheme.spacing.default_margin)
+                            modifier = Modifier
+                                .mirror()
+                                .align(Alignment.CenterStart)
+                                .padding(MaterialTheme.spacing.default_margin)
                                 .clickable {
-                                           navController.navigateUp()
+                                    navController.navigateUp()
                                 },
 
                             imageVector = Icons.Filled.ArrowBack,
@@ -127,11 +133,15 @@ fun profileScreen(
                             tint = Color.White
                         )
                         Icon(
-                            modifier = Modifier.align(Alignment.CenterEnd).padding(MaterialTheme.spacing.default_margin).clickable {
-                                navController.navigate(MainNavigation.UpdateUser.route+"?role_id=${user.result.roleId}&" +
-                                        "userManage=${Gson().toJson(user.result)}",
-                                )
-                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(MaterialTheme.spacing.default_margin)
+                                .clickable {
+                                    navController.navigate(
+                                        MainNavigation.UpdateUser.route + "?role_id=${user.result.roleId}&" +
+                                                "userManage=${Gson().toJson(user.result)}",
+                                    )
+                                },
                             imageVector = Icons.Filled.Edit,
                             contentDescription = "Edit",
                             tint = Color.White
@@ -212,9 +222,12 @@ fun profileScreen(
                                     .clickable {
                                         val shareIntent = Intent()
                                         shareIntent.action = Intent.ACTION_SEND
-                                        shareIntent.type="text/plain"
-                                        shareIntent.putExtra(Intent.EXTRA_TEXT, "https://touska.com/${user.result.qrCode}");
-                                        startActivity(context,shareIntent,null)
+                                        shareIntent.type = "text/plain"
+                                        shareIntent.putExtra(
+                                            Intent.EXTRA_TEXT,
+                                            "https://touska.com/${user.result.qrCode}"
+                                        );
+                                        startActivity(context, shareIntent, null)
                                     }
                             ) {
                                 DrawableText(
@@ -332,6 +345,13 @@ fun profileScreen(
                                 }
                                 CustomDivider()
                             }
+                            VerticalDefaultMargin()
+                            Text(text = stringResource(id = R.string.describtions), color = MaterialTheme.colors.surface)
+                            VerticalSmallSpacer()
+                            Text(text = user.result.description?:"")
+
+
+
 
 
                         }

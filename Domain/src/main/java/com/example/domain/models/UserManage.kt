@@ -19,5 +19,6 @@ data class UserManage(
     val qrCode : String?,
     val roleTitle : String,
     val contractorId:Int?,
-    val contractorName:String?
+    val contractorName:String?,
+    val description:String?
 )

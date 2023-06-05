@@ -62,6 +62,7 @@ fun mainScreen( mainViewModel: MainViewModel) {
         else -> false // in all other cases show bottom bar
     }
 
+
     Scaffold(
         bottomBar = {
             if (showBottomBar.value) {
@@ -113,6 +114,7 @@ fun BottomNavigation(navController: NavController) {
                         fontSize = 12.sp
                     )
                 },
+
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.primary.copy(0.4f),
                 alwaysShowLabel = true,

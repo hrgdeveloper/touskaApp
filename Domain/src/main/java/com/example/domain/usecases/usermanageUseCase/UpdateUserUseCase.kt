@@ -16,10 +16,11 @@ class UpdateUserUseCase @Inject constructor(val userManageRepository: UserManage
         contract_type_id: Int?,
         post_id: Int?,
         profile: File?,
-        id:Int
+        id:Int,
+        description:String?
     ): Flow<Resource<String> > {
         return userManageRepository.updateUser(
-            name,email,mobile,contract_type_id,post_id,profile,id
+            name,email,mobile,contract_type_id,post_id,profile,id,description
         )
     }
 

@@ -93,6 +93,11 @@ fun registerScreen(
         mutableStateOf(TextFieldValue(""))
     }
 
+    var description by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
+
     var passwordVisibility by remember {
         mutableStateOf(false)
     }
@@ -519,6 +524,27 @@ fun registerScreen(
 
                             }
 
+                            VerticalSmallSpacer()
+                            //description text field
+                            OutlinedTextField(
+                                value = description,
+                                onValueChange = {
+                                    description = it
+                                },
+
+                                Modifier
+                                    .fillMaxWidth(),
+                                label = {
+                                    Text(text = stringResource(R.string.descriptions))
+                                },
+                                singleLine = false,
+                                minLines = 5,
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    unfocusedBorderColor = MaterialTheme.colors.surface,
+                                    focusedBorderColor = MaterialTheme.colors.secondary
+                                ),
+                            )
+
 
                         }
                         Box(
@@ -539,7 +565,8 @@ fun registerScreen(
                                     if (role_id == 4) postId else null,
                                     1,
                                     contextt,
-                                    viewmodel.contractorId.value.requestValue()
+                                    viewmodel.contractorId.value.requestValue(),
+                                    description.text.ifEmpty { null }
                                 )
                             }) {
                                 if (register is Resource.IsLoading) {

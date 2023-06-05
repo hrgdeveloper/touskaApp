@@ -90,7 +90,8 @@ class UserManageRepositoryImpl @Inject constructor(
         project_id: Int,
         post_id: Int?,
         profile: File?,
-        contractorId:Int?
+        contractorId:Int?,
+        description:String?
     ): Flow<Resource<String> > = flow {
         emit(Resource.IsLoading)
         try {
@@ -118,6 +119,9 @@ class UserManageRepositoryImpl @Inject constructor(
             contractorId?.let {
                 params["contractor_id"] = it.toString().toRequestBody(MultipartBody.FORM)
             }
+            description?.let {
+                params["description"] = it.toRequestBody(MultipartBody.FORM)
+            }
 
 
             val result = safeCall {
@@ -140,7 +144,8 @@ class UserManageRepositoryImpl @Inject constructor(
         contract_type_id: Int?,
         post_id: Int?,
         profile: File?,
-        id:Int
+        id:Int,
+        description: String?
     ): Flow<Resource<String>> = flow {
         try {
             var pic_part : MultipartBody.Part? =null
@@ -161,6 +166,11 @@ class UserManageRepositoryImpl @Inject constructor(
             if (post_id!=null) {
                 params["post_id"] = post_id.toString().toRequestBody(MultipartBody.FORM)
             }
+
+            description?.let {
+                params["description"] = it.toRequestBody(MultipartBody.FORM)
+            }
+
 
 
             val result = safeCall {

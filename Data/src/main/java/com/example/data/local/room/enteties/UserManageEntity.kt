@@ -25,6 +25,7 @@ data class UserManageEntity(
     val qr_code:String,
     val role_title:String,
     val contractor_id:Int?,
-    val contractorName:String?
+    val contractorName:String?,
+    val description:String?
 
 )

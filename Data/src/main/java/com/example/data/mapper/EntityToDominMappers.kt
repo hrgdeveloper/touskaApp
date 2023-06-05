@@ -10,7 +10,7 @@ import com.example.domain.models.*
 
 fun UserEntity.toDomain():User {
     return User(id,contract_type_id,created_at,email,mobile,name,post_id,role_id,status,role,project.toDomain(),
-     contractor_id,contractorName,profile
+     contractor_id,contractorName,profile,description
         )
 }
 
@@ -49,7 +49,7 @@ fun WorkingTimeEntity.toDomain() : WorkingTime {
 fun UserManageEntity.toDomain() : UserManage {
     return UserManage(contract_type_id, created_at, email, email_verified_at, id, mobile, name, post_id, project_id, role_id, status, updated_at,
         profile,contract_type,post_title,qr_code,role_title,
-        contractor_id,contractorName
+        contractor_id,contractorName,description
         )
 }
 
