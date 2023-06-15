@@ -104,7 +104,8 @@ class ReportRepositoryImpl @Inject constructor(
         contractTypeId: Int?,
         startDate: String?,
         endDate: String?,
-        contractorId:Int?
+        contractorId:Int?,
+        orderBy:String,orderType:String
     ): Flow<Resource<MutableList<Report>>> = flow {
         emit(Resource.IsLoading)
         try {
@@ -120,7 +121,9 @@ class ReportRepositoryImpl @Inject constructor(
                 contractTypeId,
                 startDate,
                 endDate,
-                contractorId
+                contractorId,
+                orderBy,
+                orderType
             ) }
             emit(Resource.Success(result.map { it.toDomain() }.toMutableList()))
         } catch (e:CustomExeption) {

@@ -14,9 +14,11 @@ import javax.inject.Inject
 class GetReportsUseCase @Inject constructor(val reportRepository: ReportRepository) {
     operator fun invoke(blockId: Int?,floorId: Int?,unitId: Int?,superVisorId: Int?,
                         workerId: Int?,postId:Int?,activityId: Int?,contractTypeId:Int?,
-                        startDate:String?,endDate:String?,contractorId:Int?
+                        startDate:String?,endDate:String?,contractorId:Int?,orderBy:String,orderType:String
     ): Flow<Resource<MutableList<Report>>>{
-        return reportRepository.getReports(blockId, floorId, unitId, superVisorId, workerId, postId, activityId, contractTypeId, startDate, endDate,contractorId)
+        return reportRepository.getReports(blockId, floorId, unitId, superVisorId, workerId, postId, activityId, contractTypeId, startDate, endDate,contractorId,
+            orderBy,orderType
+            )
     }
 
 }

@@ -270,7 +270,9 @@ interface ApiInterface {
         @Query("contract_type_id") contractTypeId: Int?,
         @Query("start_date") startDate: String?,
         @Query("end_date") endDate: String?,
-        @Query("contractor_id") contractorId: Int?
+        @Query("contractor_id") contractorId: Int?,
+        @Query("orderBy") orderBy: String,
+        @Query("orderType") orderType: String
     ): Response<BaseResponse<List<ReportDto>>>
 
 

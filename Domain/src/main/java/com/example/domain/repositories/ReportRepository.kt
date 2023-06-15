@@ -28,6 +28,7 @@ interface ReportRepository {
     fun getReports(
         blockId: Int?, floorId: Int?, unitId: Int?, superVisorId: Int?,
         workerId: Int?, postId: Int?, activityId: Int?, contractTypeId: Int?,
-        startDate: String?, endDate: String?,contractorId:Int?
+        startDate: String?, endDate: String?,contractorId:Int?,
+        orderBy:String,orderType:String
     ): Flow<Resource<MutableList<Report>>>
 }

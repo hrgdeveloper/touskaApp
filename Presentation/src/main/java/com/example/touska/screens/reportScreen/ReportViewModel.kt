@@ -23,6 +23,7 @@ import com.example.domain.usecases.reportUseCase.ReportNeedsFullUseCase
 import com.example.domain.usecases.reportUseCase.ReportNeedsUseCase
 import com.example.shared.Resource
 import com.example.touska.R
+import com.example.touska.utils.DataProvider
 import com.example.touska.utils.FilterModel
 import com.example.touska.utils.FilterTypes
 import com.example.touska.utils.requestValue
@@ -51,6 +52,10 @@ class ReportViewModel @Inject constructor(
 
     val filtersList = mutableStateListOf<FilterModel>()
 
+    var bottomSheetType = mutableStateOf(1)
+
+    var sortList = mutableStateListOf<Sort>()
+
 
 
     var blockName = mutableStateOf("")
@@ -62,6 +67,8 @@ class ReportViewModel @Inject constructor(
     var contractTypeName = mutableStateOf("")
     var workerName = mutableStateOf("")
     var contractorName = mutableStateOf("")
+    var orderBy = mutableStateOf("submitted")
+    var orderType = mutableStateOf("asc")
 
 
     var blockId = mutableStateOf(0)
@@ -80,12 +87,17 @@ class ReportViewModel @Inject constructor(
     var startDate = mutableStateOf("")
     var endDate = mutableStateOf("")
 
+    init {
+        sortList.addAll(DataProvider.sortList())
+    }
+
     fun fetchReports() {
         viewModelScope.launch {
             getReports(blockId.value.requestValue(),floorId.value.requestValue(), unitId.value.requestValue(),
                 superVisorId.value.requestValue(),workerId.value.requestValue(),postId.value.requestValue(),
                 activityId.value.requestValue(),contractTypeId.value.requestValue(),startDate.value.requestValue(),
-                endDate.value.requestValue(),contractorId.value.requestValue()
+                endDate.value.requestValue(),contractorId.value.requestValue(),
+                orderBy.value,orderType.value
                  ).collect {
                 reports_.postValue(it)
             }

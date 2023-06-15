@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.domain.models.Report
 import com.example.shared.Resource
@@ -63,6 +64,9 @@ fun reportScreen(
     var filterType by remember {
         mutableStateOf(FilterTypes.BLOCK.type)
     }
+
+
+
 
 
 
@@ -104,7 +108,7 @@ fun reportScreen(
             7 -> 100.dp
             8 -> 150.dp
             9 -> 150.dp
-            10->100.dp
+            10 -> 100.dp
             else -> 100.dp
         }
     }
@@ -157,7 +161,13 @@ fun reportScreen(
             modifier = Modifier
                 .padding(vertical = 4.dp, horizontal = 8.dp)
                 .clickable {
-                    navController.navigate(MainNavigation.InsideReport.route + "?report=${Gson().toJson(report)}")
+                    navController.navigate(
+                        MainNavigation.InsideReport.route + "?report=${
+                            Gson().toJson(
+                                report
+                            )
+                        }"
+                    )
                 },
             fontSize = 14.sp,
             maxLines = 1,
@@ -185,34 +195,38 @@ fun reportScreen(
                 ) {
                 }
                 VerticalDefaultMargin()
-                if (needs is Resource.Success) {
-                    if (filterType == FilterTypes.BLOCK.type) {
-                        LazyColumn {
-                            items(needs.result.blocs) {
-                                Surface(
-                                    selected = false, onClick = {
-                                        viewmodel.blockId.value = it.id
-                                        viewmodel.blockName.value = it.name
-                                        viewmodel.fetchReports()
-                                        viewmodel.addToFilterList(
-                                            FilterModel(
-                                                R.string.block_filter,
-                                                FilterTypes.BLOCK.type
+                Text(stringResource(R.string.sort_by), fontSize = 18.sp, fontFamily = iranSansFamily, fontWeight = FontWeight.Medium)
+                VerticalDefaultMargin()
+
+                if (viewmodel.bottomSheetType.value == 1) {
+                    if (needs is Resource.Success) {
+                        if (filterType == FilterTypes.BLOCK.type) {
+                            LazyColumn {
+                                items(needs.result.blocs) {
+                                    Surface(
+                                        selected = false, onClick = {
+                                            viewmodel.blockId.value = it.id
+                                            viewmodel.blockName.value = it.name
+                                            viewmodel.fetchReports()
+                                            viewmodel.addToFilterList(
+                                                FilterModel(
+                                                    R.string.block_filter,
+                                                    FilterTypes.BLOCK.type
+                                                )
                                             )
-                                        )
-                                        coroutineScope.launch {
-                                            sheetStateSelect.hide()
-                                        }
-                                    }, color = Color.Transparent, modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = MaterialTheme.spacing.default_margin)
-                                ) {
-                                    Text(text = it.name)
+                                            coroutineScope.launch {
+                                                sheetStateSelect.hide()
+                                            }
+                                        }, color = Color.Transparent, modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = MaterialTheme.spacing.default_margin)
+                                    ) {
+                                        Text(text = it.name)
+                                    }
+                                    CustomDivider()
                                 }
-                                CustomDivider()
                             }
-                        }
-                    }else  if (filterType == FilterTypes.Contractor.type) {
+                        } else if (filterType == FilterTypes.Contractor.type) {
 
                             Box(modifier = Modifier
                                 .height(48.dp)
@@ -235,171 +249,213 @@ fun reportScreen(
 
                                 }
                             ) {
-                                Text(text = stringResource(id = R.string.free_worker), modifier = Modifier.align(Alignment.CenterStart))
+                                Text(
+                                    text = stringResource(id = R.string.free_worker),
+                                    modifier = Modifier.align(Alignment.CenterStart)
+                                )
                             }
                             CustomDivider()
 
 
-                        LazyColumn {
-                            items(needs.result.contractors) {
-                                Box(modifier = Modifier
-                                    .height(48.dp)
-                                    .padding(start = MaterialTheme.spacing.small_margin)
-                                    .clickable {
-                                        viewmodel.contractorId.value = it.id
-                                        viewmodel.contractorName.value = it.name
-                                        viewmodel.fetchReports()
-                                        viewmodel.addToFilterList(
-                                            FilterModel(
-                                                R.string.contractor_filter,
-                                                FilterTypes.Contractor.type
+                            LazyColumn {
+                                items(needs.result.contractors) {
+                                    Box(modifier = Modifier
+                                        .height(48.dp)
+                                        .padding(start = MaterialTheme.spacing.small_margin)
+                                        .clickable {
+                                            viewmodel.contractorId.value = it.id
+                                            viewmodel.contractorName.value = it.name
+                                            viewmodel.fetchReports()
+                                            viewmodel.addToFilterList(
+                                                FilterModel(
+                                                    R.string.contractor_filter,
+                                                    FilterTypes.Contractor.type
+                                                )
                                             )
-                                        )
-                                        coroutineScope.launch {
-                                            sheetStateSelect.hide()
-                                        }
+                                            coroutineScope.launch {
+                                                sheetStateSelect.hide()
+                                            }
 
+                                        }
+                                    ) {
+                                        Text(
+                                            text = it.name,
+                                            modifier = Modifier.align(Alignment.CenterStart)
+                                        )
                                     }
-                                ) {
-                                    Text(text = it.name, modifier = Modifier.align(Alignment.CenterStart))
+                                    CustomDivider()
                                 }
-                                CustomDivider()
+                            }
+                        } else if (filterType == FilterTypes.FLOOR.type) {
+                            LazyColumn {
+                                items(needs.result.floors) {
+                                    Surface(
+                                        selected = false, onClick = {
+                                            viewmodel.floorId.value = it.id
+                                            viewmodel.floorName.value = it.name
+                                            viewmodel.fetchReports()
+                                            viewmodel.addToFilterList(
+                                                FilterModel(
+                                                    R.string.floor_filter,
+                                                    FilterTypes.FLOOR.type
+                                                )
+                                            )
+                                            coroutineScope.launch {
+                                                sheetStateSelect.hide()
+                                            }
+                                        }, color = Color.Transparent, modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = MaterialTheme.spacing.default_margin)
+                                    ) {
+                                        Text(text = it.name)
+                                    }
+                                    CustomDivider()
+                                }
+                            }
+                        } else if (filterType == FilterTypes.UNIT.type) {
+                            LazyColumn {
+                                items(needs.result.units) {
+                                    Surface(
+                                        selected = false, onClick = {
+                                            viewmodel.unitId.value = it.id
+                                            viewmodel.unitName.value = it.name
+                                            viewmodel.fetchReports()
+                                            viewmodel.addToFilterList(
+                                                FilterModel(
+                                                    R.string.unit_filter,
+                                                    FilterTypes.UNIT.type
+                                                )
+                                            )
+                                            coroutineScope.launch {
+                                                sheetStateSelect.hide()
+                                            }
+                                        }, color = Color.Transparent, modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = MaterialTheme.spacing.default_margin)
+                                    ) {
+                                        Text(text = it.name)
+                                    }
+                                    CustomDivider()
+                                }
+                            }
+                        } else if (filterType == FilterTypes.POST.type) {
+                            LazyColumn {
+                                items(needs.result.posts) {
+                                    Surface(
+                                        selected = false, onClick = {
+                                            viewmodel.postId.value = it.id
+                                            viewmodel.postTitle.value = it.title
+                                            viewmodel.fetchReports()
+                                            viewmodel.addToFilterList(
+                                                FilterModel(
+                                                    R.string.post_filter,
+                                                    FilterTypes.POST.type
+                                                )
+                                            )
+                                            coroutineScope.launch {
+                                                sheetStateSelect.hide()
+                                            }
+                                        }, color = Color.Transparent, modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = MaterialTheme.spacing.default_margin)
+                                    ) {
+                                        Text(text = it.title)
+                                    }
+                                    CustomDivider()
+                                }
+                            }
+                        } else if (filterType == FilterTypes.ACTIVITY.type) {
+                            LazyColumn {
+                                items(needs.result.activities) {
+                                    Surface(
+                                        selected = false, onClick = {
+                                            viewmodel.activityId.value = it.id
+                                            viewmodel.activityName.value = it.title
+                                            viewmodel.fetchReports()
+                                            viewmodel.addToFilterList(
+                                                FilterModel(
+                                                    R.string.post_filter,
+                                                    FilterTypes.ACTIVITY.type
+                                                )
+                                            )
+                                            coroutineScope.launch {
+                                                sheetStateSelect.hide()
+                                            }
+                                        }, color = Color.Transparent, modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = MaterialTheme.spacing.default_margin)
+                                    ) {
+                                        Text(text = it.title)
+                                    }
+                                    CustomDivider()
+                                }
+                            }
+                        } else if (filterType == FilterTypes.CONTRACT.type) {
+                            LazyColumn {
+                                items(needs.result.contracts) {
+                                    Surface(
+                                        selected = false, onClick = {
+                                            viewmodel.contractTypeId.value = it.id
+                                            viewmodel.contractTypeName.value = it.title
+                                            viewmodel.fetchReports()
+                                            viewmodel.addToFilterList(
+                                                FilterModel(
+                                                    R.string.contract_filter,
+                                                    FilterTypes.CONTRACT.type
+                                                )
+                                            )
+                                            coroutineScope.launch {
+                                                sheetStateSelect.hide()
+                                            }
+                                        }, color = Color.Transparent, modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = MaterialTheme.spacing.default_margin)
+                                    ) {
+                                        Text(text = it.title)
+                                    }
+                                    CustomDivider()
+                                }
                             }
                         }
                     }
+                } else if (viewmodel.bottomSheetType.value == 2) {
+                    LazyColumn {
+                        items(viewmodel.sortList) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(48.dp)
+                                    .clickable {
+                                        viewmodel.sortList.forEach {
+                                            it.isSelected = false
+                                        }
+                                        it.isSelected = true
+                                        viewmodel.orderBy.value=it.value
+                                        viewmodel.fetchReports()
+                                        coroutineScope.launch {
+                                            sheetStateSelect.hide()
+                                        }
 
-                    else if (filterType == FilterTypes.FLOOR.type) {
-                        LazyColumn {
-                            items(needs.result.floors) {
-                                Surface(
-                                    selected = false, onClick = {
-                                        viewmodel.floorId.value = it.id
-                                        viewmodel.floorName.value = it.name
-                                        viewmodel.fetchReports()
-                                        viewmodel.addToFilterList(
-                                            FilterModel(
-                                                R.string.floor_filter,
-                                                FilterTypes.FLOOR.type
-                                            )
-                                        )
-                                        coroutineScope.launch {
-                                            sheetStateSelect.hide()
-                                        }
-                                    }, color = Color.Transparent, modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = MaterialTheme.spacing.default_margin)
-                                ) {
-                                    Text(text = it.name)
+
+                                    }
+                                    .padding(horizontal = MaterialTheme.spacing.default_margin_bigger),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(stringResource(id = it.name))
+                                if (it.isSelected) {
+                                  Icon(imageVector = Icons.Default.Check, contentDescription = null, tint = Color.Green)
+                                }else {
+                                    Box(modifier = Modifier.size(1.dp))
                                 }
-                                CustomDivider()
+
                             }
-                        }
-                    } else if (filterType == FilterTypes.UNIT.type) {
-                        LazyColumn {
-                            items(needs.result.units) {
-                                Surface(
-                                    selected = false, onClick = {
-                                        viewmodel.unitId.value = it.id
-                                        viewmodel.unitName.value = it.name
-                                        viewmodel.fetchReports()
-                                        viewmodel.addToFilterList(
-                                            FilterModel(
-                                                R.string.unit_filter,
-                                                FilterTypes.UNIT.type
-                                            )
-                                        )
-                                        coroutineScope.launch {
-                                            sheetStateSelect.hide()
-                                        }
-                                    }, color = Color.Transparent, modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = MaterialTheme.spacing.default_margin)
-                                ) {
-                                    Text(text = it.name)
-                                }
-                                CustomDivider()
-                            }
-                        }
-                    } else if (filterType == FilterTypes.POST.type) {
-                        LazyColumn {
-                            items(needs.result.posts) {
-                                Surface(
-                                    selected = false, onClick = {
-                                        viewmodel.postId.value = it.id
-                                        viewmodel.postTitle.value = it.title
-                                        viewmodel.fetchReports()
-                                        viewmodel.addToFilterList(
-                                            FilterModel(
-                                                R.string.post_filter,
-                                                FilterTypes.POST.type
-                                            )
-                                        )
-                                        coroutineScope.launch {
-                                            sheetStateSelect.hide()
-                                        }
-                                    }, color = Color.Transparent, modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = MaterialTheme.spacing.default_margin)
-                                ) {
-                                    Text(text = it.title)
-                                }
-                                CustomDivider()
-                            }
-                        }
-                    } else if (filterType == FilterTypes.ACTIVITY.type) {
-                        LazyColumn {
-                            items(needs.result.activities) {
-                                Surface(
-                                    selected = false, onClick = {
-                                        viewmodel.activityId.value = it.id
-                                        viewmodel.activityName.value = it.title
-                                        viewmodel.fetchReports()
-                                        viewmodel.addToFilterList(
-                                            FilterModel(
-                                                R.string.post_filter,
-                                                FilterTypes.ACTIVITY.type
-                                            )
-                                        )
-                                        coroutineScope.launch {
-                                            sheetStateSelect.hide()
-                                        }
-                                    }, color = Color.Transparent, modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = MaterialTheme.spacing.default_margin)
-                                ) {
-                                    Text(text = it.title)
-                                }
-                                CustomDivider()
-                            }
-                        }
-                    } else if (filterType == FilterTypes.CONTRACT.type) {
-                        LazyColumn {
-                            items(needs.result.contracts) {
-                                Surface(
-                                    selected = false, onClick = {
-                                        viewmodel.contractTypeId.value = it.id
-                                        viewmodel.contractTypeName.value = it.title
-                                        viewmodel.fetchReports()
-                                        viewmodel.addToFilterList(
-                                            FilterModel(
-                                                R.string.contract_filter,
-                                                FilterTypes.CONTRACT.type
-                                            )
-                                        )
-                                        coroutineScope.launch {
-                                            sheetStateSelect.hide()
-                                        }
-                                    }, color = Color.Transparent, modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = MaterialTheme.spacing.default_margin)
-                                ) {
-                                    Text(text = it.title)
-                                }
-                                CustomDivider()
-                            }
+                            CustomDivider()
                         }
                     }
                 }
+
+
 
                 VerticalDefaultMargin()
 
@@ -428,40 +484,51 @@ fun reportScreen(
                     }
                     if (needs is Resource.Success) {
                         VerticalDefaultMargin()
-                        Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal =
-                                MaterialTheme.spacing.default_margin
-                            )) {
-                            Text(modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth() ,
-                                text = if (viewmodel.startDatePersian.value.isEmpty())  " " else  stringResource(id = R.string.startDate),
-                                color = MaterialTheme.colors.surface)
-                            Text(modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth(),
-                                text = if (viewmodel.endDatePersian.value.isEmpty())  " " else stringResource(id = R.string.endDate),
-                                color = MaterialTheme.colors.surface)
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    horizontal =
+                                    MaterialTheme.spacing.default_margin
+                                )
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth(),
+                                text = if (viewmodel.startDatePersian.value.isEmpty()) " " else stringResource(
+                                    id = R.string.startDate
+                                ),
+                                color = MaterialTheme.colors.surface
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth(),
+                                text = if (viewmodel.endDatePersian.value.isEmpty()) " " else stringResource(
+                                    id = R.string.endDate
+                                ),
+                                color = MaterialTheme.colors.surface
+                            )
                         }
 
                         Row(modifier = Modifier.padding(horizontal = MaterialTheme.spacing.default_margin)) {
-                            Box(modifier = Modifier
-                                .height(50.dp)
-                                .weight(1f)
-                                .clip(
-                                    RoundedCornerShape(8.dp)
-                                )
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.customColorsPalette.cardBack,
-                                    RoundedCornerShape(8.dp)
-                                )
-                                .padding(horizontal = MaterialTheme.spacing.small_margin)
-                                .clickable {
-                                    showDatePicker(true, context, viewmodel)
-                                }, contentAlignment = Alignment.Center
+                            Box(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .weight(1f)
+                                    .clip(
+                                        RoundedCornerShape(8.dp)
+                                    )
+                                    .border(
+                                        1.dp,
+                                        MaterialTheme.customColorsPalette.cardBack,
+                                        RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(horizontal = MaterialTheme.spacing.small_margin)
+                                    .clickable {
+                                        showDatePicker(true, context, viewmodel)
+                                    }, contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     text = if (viewmodel.startDatePersian.value.isEmpty()) {
@@ -511,9 +578,13 @@ fun reportScreen(
                         }
 
                         VerticalDefaultMargin()
-                        FilterBox(title = R.string.contractor_type, text = viewmodel.contractorName.value) {
+                        FilterBox(
+                            title = R.string.contractor_type,
+                            text = viewmodel.contractorName.value
+                        ) {
                             coroutineScope.launch {
                                 filterType = FilterTypes.Contractor.type
+                                viewmodel.bottomSheetType.value = 1
                                 sheetStateSelect.show()
                             }
                         }
@@ -525,6 +596,7 @@ fun reportScreen(
                         FilterBox(title = R.string.block_filter, text = viewmodel.blockName.value) {
                             coroutineScope.launch {
                                 filterType = FilterTypes.BLOCK.type
+                                viewmodel.bottomSheetType.value = 1
                                 sheetStateSelect.show()
 
                             }
@@ -537,6 +609,7 @@ fun reportScreen(
                         FilterBox(title = R.string.floor_filter, text = viewmodel.floorName.value) {
                             coroutineScope.launch {
                                 filterType = FilterTypes.FLOOR.type
+                                viewmodel.bottomSheetType.value = 1
                                 sheetStateSelect.show()
 
                             }
@@ -545,6 +618,7 @@ fun reportScreen(
                         FilterBox(title = R.string.unit_filter, text = viewmodel.unitName.value) {
                             coroutineScope.launch {
                                 filterType = FilterTypes.UNIT.type
+                                viewmodel.bottomSheetType.value = 1
                                 sheetStateSelect.show()
 
                             }
@@ -554,6 +628,7 @@ fun reportScreen(
                         FilterBox(title = R.string.post_filter, text = viewmodel.postTitle.value) {
                             coroutineScope.launch {
                                 filterType = FilterTypes.POST.type
+                                viewmodel.bottomSheetType.value = 1
                                 sheetStateSelect.show()
 
                             }
@@ -567,6 +642,7 @@ fun reportScreen(
                         ) {
                             coroutineScope.launch {
                                 filterType = FilterTypes.ACTIVITY.type
+                                viewmodel.bottomSheetType.value = 1
                                 sheetStateSelect.show()
 
                             }
@@ -579,11 +655,11 @@ fun reportScreen(
                         ) {
                             coroutineScope.launch {
                                 filterType = FilterTypes.CONTRACT.type
+                                viewmodel.bottomSheetType.value = 1
                                 sheetStateSelect.show()
 
                             }
                         }
-
 
 
                     }
@@ -601,9 +677,11 @@ fun reportScreen(
                         viewmodel.fetchReports()
                     }
                 }
+
                 Resource.IsLoading -> {
                     CircularProgressBox()
                 }
+
                 is Resource.Success -> {
                     Scaffold(topBar = {
                         TopAppBar(backgroundColor = MaterialTheme.customColorsPalette.top_bar) {
@@ -613,16 +691,32 @@ fun reportScreen(
                                     .fillMaxWidth()
                                     .fillMaxHeight()
                             ) {
-                                Icon(imageVector = Icons.Default.FilterAlt,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .align(Alignment.CenterEnd)
-                                        .clickable {
-                                            coroutineScope.launch {
-                                                sheetState.show()
+                                Row(modifier = Modifier.align(Alignment.CenterEnd)) {
+                                    Icon(imageVector = Icons.Default.Sort,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .clickable {
+                                                coroutineScope.launch {
+                                                    viewmodel.bottomSheetType.value = 2
+                                                    sheetStateSelect.show()
+                                                }
                                             }
-                                        }
-                                )
+                                    )
+                                    Spacer(modifier = Modifier.width(MaterialTheme.spacing.small_margin))
+
+                                    Icon(imageVector = Icons.Default.FilterAlt,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .clickable {
+                                                coroutineScope.launch {
+                                                    sheetState.show()
+                                                }
+                                            }
+                                    )
+
+
+                                }
+
                                 OutlinedButton(
                                     onClick = {
                                         navController.navigate(MainNavigation.WorkerList.route)
@@ -685,14 +779,17 @@ fun reportScreen(
                             ) {
                                 VerticalSmallSpacer()
                                 if (reports.result.isEmpty()) {
-                                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                        if (viewmodel.filtersList.size>0) {
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        if (viewmodel.filtersList.size > 0) {
                                             Text(text = stringResource(R.string.no_reports_by_filter))
-                                        }else {
+                                        } else {
                                             Text(text = stringResource(R.string.no_reports_today))
                                         }
                                     }
-                                }else {
+                                } else {
                                     Table(
                                         columnCount = 11,
                                         cellWidth = cellWidth,
@@ -707,12 +804,12 @@ fun reportScreen(
                             }
 
 
-
                         }
                     }
 
 
                 }
+
                 null -> {
 
                 }
@@ -744,11 +841,21 @@ fun showDatePicker(isStart: Boolean, context: Context, viewmodel: ReportViewMode
                 if (isStart) {
                     viewmodel.startDate.value = gregorianDate
                     viewmodel.startDatePersian.value = persianDate
-                    viewmodel.addToFilterList(FilterModel(R.string.start_time_filter,FilterTypes.START_TIME.type))
+                    viewmodel.addToFilterList(
+                        FilterModel(
+                            R.string.start_time_filter,
+                            FilterTypes.START_TIME.type
+                        )
+                    )
                 } else {
                     viewmodel.endDate.value = gregorianDate
                     viewmodel.endDatePersian.value = persianDate
-                    viewmodel.addToFilterList(FilterModel(R.string.end_time_filter,FilterTypes.END_TIME.type))
+                    viewmodel.addToFilterList(
+                        FilterModel(
+                            R.string.end_time_filter,
+                            FilterTypes.END_TIME.type
+                        )
+                    )
                 }
 
                 viewmodel.fetchReports()
