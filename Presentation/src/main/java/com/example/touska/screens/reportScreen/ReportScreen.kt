@@ -419,6 +419,27 @@ fun reportScreen(
                         }
                     }
                 } else if (viewmodel.bottomSheetType.value == 2) {
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .padding(horizontal = MaterialTheme.spacing.default_margin)
+                        ,
+                        horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically,
+                        content = {
+                         Text(text = stringResource(R.string.ascending_order))
+                            Switch(viewmodel.orderType.value.equals("asc"),
+                                onCheckedChange = {
+                                    if (it){
+                                        viewmodel.orderType.value="asc"
+                                        viewmodel.fetchReports()
+                                    }else {
+                                        viewmodel.orderType.value="desc"
+                                        viewmodel.fetchReports()
+                                    }
+                                },
+                                colors = SwitchDefaults.colors()
+                                )
+                    })
                     LazyColumn {
                         items(viewmodel.sortList) {
                             Row(
@@ -430,7 +451,7 @@ fun reportScreen(
                                             it.isSelected = false
                                         }
                                         it.isSelected = true
-                                        viewmodel.orderBy.value=it.value
+                                        viewmodel.orderBy.value = it.value
                                         viewmodel.fetchReports()
                                         coroutineScope.launch {
                                             sheetStateSelect.hide()
