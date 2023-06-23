@@ -54,7 +54,8 @@ class ReportRepositoryImpl @Inject constructor(
         unitId: Int?,
         description: String?,
         times: String,
-        pic:File?
+        pic:File?,
+        submitted_at:String?
     ): Flow<Resource<String>> = flow {
         emit(Resource.IsLoading)
 
@@ -78,6 +79,9 @@ class ReportRepositoryImpl @Inject constructor(
         }
         description?.let {
             params["description"]=it.toRequestBody(MultipartBody.FORM)
+        }
+        submitted_at?.let {
+            params["submitted_at"]=it.toRequestBody(MultipartBody.FORM)
         }
 
 

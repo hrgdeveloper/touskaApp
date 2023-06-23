@@ -22,7 +22,8 @@ interface ReportRepository {
         unitId: Int?,
         description: String?,
         times: String,
-        pic: File?
+        pic: File?,
+        submitted_at : String?
     ): Flow<Resource<String>>
 
     fun getReports(

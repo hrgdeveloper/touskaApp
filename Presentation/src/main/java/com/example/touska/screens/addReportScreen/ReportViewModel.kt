@@ -60,7 +60,8 @@ class ReportViewModel @Inject constructor(
         description: String,
         times: List<WorkingTime>,
         picUri:Uri?,
-        context:Context
+        context:Context,
+        submitted_at : String?
     ) {
         var pic : File?=null
         picUri?.let {
@@ -89,7 +90,7 @@ class ReportViewModel @Inject constructor(
                 if (unitId == 0) null else unitId,
                 if (description.isEmpty()) null else description,
                 Gson().toJson(times.map { it.toDto() }),
-                pic
+                pic,submitted_at
             ).collect {
                 addReport_.postValue(it)
             }

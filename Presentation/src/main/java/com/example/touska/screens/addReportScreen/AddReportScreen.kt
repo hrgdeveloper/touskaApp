@@ -2,6 +2,7 @@ package com.example.touska.screens.addReportScreen
 
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
+import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
@@ -31,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,14 +54,20 @@ import com.example.touska.R
 import com.example.touska.components.*
 import com.example.touska.navigation.Navigation
 import com.example.touska.screens.mainScreen.registerScreen.getBitmapFromUri
+import com.example.touska.screens.reportScreen.showDatePicker
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
+import com.example.touska.utils.FilterModel
+import com.example.touska.utils.FilterTypes
 import com.example.touska.utils.mirror
 import com.example.touska.utils.returnProperMessage
 import com.example.touska.utils.toastLong
 
 import com.google.gson.Gson
+import ir.hamsaa.persiandatepicker.PersianDatePickerDialog
+import ir.hamsaa.persiandatepicker.api.PersianPickerDate
+import ir.hamsaa.persiandatepicker.api.PersianPickerListener
 
 
 import kotlinx.coroutines.*
@@ -116,6 +124,14 @@ fun addReportScreen(
         mutableStateOf("")
     }
 
+    var submitted_at_persian by remember {
+        mutableStateOf("")
+    }
+    var submitted_at by remember {
+        mutableStateOf("")
+    }
+
+
 
     var expandedActivity by remember { mutableStateOf(false) }
     var selectedActivityText by remember { mutableStateOf("") }
@@ -160,14 +176,18 @@ fun addReportScreen(
             }
 
             is Resource.Success -> {
-                Toast.makeText(context,  context.getString(R.string.reported_successfully) , Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.reported_successfully),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
             else -> {
 
             }
         }
     }
-
 
 
     //this variable define if we click on setStrat Time or End Time
@@ -205,9 +225,11 @@ fun addReportScreen(
                 viewmodel.getReportNeeds(worker.id)
             }
         }
+
         Resource.IsLoading -> {
             CircularProgressBox()
         }
+
         is Resource.Success -> {
             ModalBottomSheetLayout(
                 sheetState = sheetState,
@@ -446,8 +468,7 @@ fun addReportScreen(
                                                 isForStartTime = true
                                                 mTimePickerDialog.show()
                                             }
-                                            .padding(start = MaterialTheme.spacing.small_margin)
-                                        ,
+                                            .padding(start = MaterialTheme.spacing.small_margin),
                                         contentAlignment = Alignment.CenterStart
                                     ) {
                                         DrawableText(
@@ -474,8 +495,7 @@ fun addReportScreen(
                                                 isForStartTime = false
                                                 mTimePickerDialog.show()
                                             }
-                                            .padding(start = MaterialTheme.spacing.small_margin)
-                                        ,
+                                            .padding(start = MaterialTheme.spacing.small_margin),
                                         contentAlignment = Alignment.CenterStart
                                     ) {
                                         DrawableText(
@@ -541,8 +561,8 @@ fun addReportScreen(
                                         )
                                         coroutineScope.launch {
                                             sheetState.hide()
-                                            customStartTime=""
-                                            customEndTime=""
+                                            customStartTime = ""
+                                            customEndTime = ""
                                         }
                                     }, modifier = Modifier
                                         .height(48.dp)
@@ -587,7 +607,7 @@ fun addReportScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 val painer = worker.profile?.let {
-                                    Log.e("sFAFASFSAF",BuildConfig.BASE_IMAGE + worker.profile)
+                                    Log.e("sFAFASFSAF", BuildConfig.BASE_IMAGE + worker.profile)
                                     rememberImagePainter(BuildConfig.BASE_IMAGE + worker.profile)
                                 } ?: kotlin.run {
                                     painterResource(id = R.drawable.ic_profile)
@@ -612,7 +632,54 @@ fun addReportScreen(
                             }
                             //profile picture
 
+
                             VerticalDefaultMargin()
+
+                            //date picker
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp)
+                                .border(width = 1.dp,MaterialTheme.colors.surface, shape = RoundedCornerShape(size = 8.dp))
+                                .clickable {
+                                    val picker = PersianDatePickerDialog(context)
+                                        .setPositiveButtonString(context.resources.getString(R.string.confirm))
+                                        .setNegativeButton(context.resources.getString(R.string.cancel))
+                                        .setTodayButton(context.resources.getString(R.string.today))
+                                        .setTodayButtonVisible(true)
+                                        .setMinYear(1400)
+                                        .setTitleType(PersianDatePickerDialog.WEEKDAY_DAY_MONTH_YEAR)
+                                        .setShowInBottomSheet(true)
+                                        .setListener(object : PersianPickerListener {
+                                            override fun onDateSelected(persianPickerDate: PersianPickerDate) {
+                                                submitted_at = persianPickerDate.gregorianYear.toString() + "-" +
+                                                        persianPickerDate.gregorianMonth + "-" + persianPickerDate.gregorianDay
+                                                submitted_at_persian = persianPickerDate.persianYear.toString() + "-" +
+                                                        persianPickerDate.persianMonth + "-" + persianPickerDate.persianDay
+
+
+
+                                            }
+
+                                            override fun onDismissed() {
+
+                                            }
+
+                                        })
+                                    picker.show()
+                                }
+                                .padding(horizontal = MaterialTheme.spacing.default_margin)
+                                ,
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                content = {
+                                    DrawableText(text = stringResource(id = R.string.date),
+                                        icon =Icons.Default.DateRange)
+                                    Text(text = if (submitted_at_persian.isEmpty()) {stringResource(R.string.today) } else {
+                                        submitted_at_persian
+                                    })
+
+                                })
+
                             //contracts types
                             ExposedDropdownMenuBox(
                                 modifier = Modifier.fillMaxWidth(),
@@ -825,16 +892,16 @@ fun addReportScreen(
 
                             VerticalDefaultMargin()
 
-                            Card(modifier = Modifier
-                                .size(120.dp)
-                                .align(Alignment.Start)
-                                .clickable {
-                                    pickImage.launch("image/*")
-                                }
-                                ,
+                            Card(
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .align(Alignment.Start)
+                                    .clickable {
+                                        pickImage.launch("image/*")
+                                    },
                                 backgroundColor = Color.Transparent,
                                 elevation = 0.dp,
-                                border = BorderStroke(1.dp,MaterialTheme.colors.surface),
+                                border = BorderStroke(1.dp, MaterialTheme.colors.surface),
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
                                     selectedImageBitmap.value?.let {
@@ -846,7 +913,7 @@ fun addReportScreen(
                                                 .fillMaxWidth()
                                                 .fillMaxSize()
                                         )
-                                    }?: kotlin.run {
+                                    } ?: kotlin.run {
                                         Icon(
                                             imageVector = Icons.Default.Image,
                                             contentDescription = null,
@@ -870,18 +937,28 @@ fun addReportScreen(
                             )
                         ) {
                             ConfirmButton(onclick = {
-                                viewmodel.submitReport(worker.id,13,activityId,blocId,floorId,unitId,description.text,workingTimes,
-                                    picUri = selectedImageUri.value,context
+                                viewmodel.submitReport(
+                                    worker.id,
+                                    13,
+                                    activityId,
+                                    blocId,
+                                    floorId,
+                                    unitId,
+                                    description.text,
+                                    workingTimes,
+                                    picUri = selectedImageUri.value,
+                                    context,
+                                    if (submitted_at.isEmpty()) {null} else {submitted_at}
                                 )
                             }) {
-                            if (addReport is Resource.IsLoading) {
-                                CircularProgressIndicator(
-                                    color = Color.White,
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            } else {
-                                Text(text = stringResource(id = R.string.submit_report))
-                                    }
+                                if (addReport is Resource.IsLoading) {
+                                    CircularProgressIndicator(
+                                        color = Color.White,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                } else {
+                                    Text(text = stringResource(id = R.string.submit_report))
+                                }
 
                             }
                         }
@@ -891,6 +968,7 @@ fun addReportScreen(
 
 
         }
+
         null -> {
 
         }
@@ -898,9 +976,9 @@ fun addReportScreen(
     }
 
 
+
+
 }
-
-
 
 
 
