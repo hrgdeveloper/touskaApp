@@ -1,7 +1,7 @@
 package com.example.touska.screens.reportInsideScreen
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 
 import androidx.compose.foundation.*
@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.items
 
 
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -19,25 +18,15 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
@@ -46,16 +35,15 @@ import com.example.domain.models.Report
 import com.example.shared.Resource
 import com.example.touska.R
 import com.example.touska.components.*
-import com.example.touska.navigation.MainNavigation
+import com.example.touska.screens.addReportScreen.ReportViewModel
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
 import com.example.touska.ui.theme.transBack
-import com.example.touska.utils.UserTypes
 import com.example.touska.utils.mirror
+import com.example.touska.utils.returnProperMessage
+import com.example.touska.utils.toastLong
 
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.gson.Gson
 
 
@@ -67,9 +55,11 @@ import kotlinx.coroutines.*
 fun reportInsideScreen(
     navController: NavController,
     reportString: String,
+    isRepeat:Boolean,
+    reportViewModel : ReportViewModel= hiltViewModel()
 ) {
     var report  = Gson().fromJson(reportString,Report::class.java)
-
+    val repeatReport = reportViewModel.repeatReport.observeAsState().value
 
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState(
@@ -80,6 +70,27 @@ fun reportInsideScreen(
 
     BackHandler(sheetState.isVisible) {
         coroutineScope.launch { sheetState.hide() }
+    }
+
+    LaunchedEffect(key1 = repeatReport){
+        when(repeatReport) {
+            is Resource.Failure -> {
+                repeatReport.returnProperMessage(context).toastLong(context)
+            }
+            Resource.IsLoading ->  {
+
+            }
+            is Resource.Success -> {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.report_successfully_repetead),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> {
+
+            }
+        }
     }
 
 
@@ -417,6 +428,21 @@ fun reportInsideScreen(
                         Text(text = stringResource(R.string.describtions))
                         VerticalSmallSpacer()
                         Text(text = report.description?:"")
+
+                        VerticalSmallSpacer()
+                        if (isRepeat) {
+                            ConfirmButton(onclick = {
+                               reportViewModel.repeatReport(report?.id?:0)
+
+                            }, padding = 0.dp) {
+                                if (repeatReport is Resource.IsLoading) {
+                                    CircularProgressBox()
+                                }else {
+                                    Text(text = stringResource(id = R.string.repeat_report))
+                                }
+
+                            }
+                        }
 
 
 

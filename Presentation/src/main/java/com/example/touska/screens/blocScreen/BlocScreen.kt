@@ -1,17 +1,13 @@
 package com.example.touska.screens.blocScreen
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -26,11 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintSet
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.domain.models.Bloc
 import com.example.shared.Resource
 import com.example.touska.R
 import com.example.touska.components.*
@@ -345,9 +338,9 @@ fun blocScreen(
                             bloc_value = TextFieldValue("")
                             isUpdate = false
                         }
-                    }, content = {
+                    }) {
                         Text(text = stringResource(id = R.string.add_new_bloc))
-                    })
+                    }
 
                     VerticalDefaultMargin()
 

@@ -333,16 +333,19 @@ fun NavigationGraph(navController: NavHostController,mainViewModel: MainViewMode
         }
 
         composable(
-            route = MainNavigation.InsideReport.route + "?report={report}",
+            route = MainNavigation.InsideReport.route + "?report={report}&isRepeat={isRepeat}",
             arguments = listOf(
                 navArgument("report") {
                     type = NavType.StringType
-                },
+                }, navArgument("isRepeat") {
+                    type = NavType.BoolType
+                }
             )
         )
         {
             val report = it.arguments?.getString("report", "")?:""
-            reportInsideScreen(navController = navController, reportString = report)
+            val isRepeat = it.arguments?.getBoolean("isRepeat",false)!!
+            reportInsideScreen(navController = navController, reportString = report, isRepeat = isRepeat)
         }
 
 

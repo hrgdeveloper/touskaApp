@@ -5,12 +5,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -36,30 +34,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberImagePainter
-import com.example.data.BuildConfig
-import com.example.domain.models.UserManage
 import com.example.shared.Resource
 import com.example.touska.R
 import com.example.touska.components.*
-import com.example.touska.navigation.Navigation
 import com.example.touska.ui.theme.customColorsPalette
-import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
-import com.example.touska.utils.UserTypes
 import com.example.touska.utils.requestValue
 import com.example.touska.utils.returnProperMessage
 import com.example.touska.utils.toastLong
-import com.google.gson.Gson
 
 
 import kotlinx.coroutines.*

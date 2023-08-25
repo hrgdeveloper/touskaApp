@@ -135,4 +135,18 @@ class ReportRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun repeatReport(reportId: Int): Flow<Resource<String>> = flow {
+
+        try {
+            safeCall {
+                apiInterface.repeatReport(
+                    reportId
+                )
+            }
+            emit(Resource.Success("Report Repetead Successfully"))
+        } catch (customExeption: CustomExeption) {
+            emit(Resource.Failure(customExeption.errorMessage, customExeption.status))
+        }
+    }
+
 }

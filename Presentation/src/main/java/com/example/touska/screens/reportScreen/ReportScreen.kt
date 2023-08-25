@@ -161,7 +161,7 @@ fun reportScreen(
                             Gson().toJson(
                                 report
                             )
-                        }"
+                        }&isRepeat=false"
                     )
                 },
             fontSize = 14.sp,

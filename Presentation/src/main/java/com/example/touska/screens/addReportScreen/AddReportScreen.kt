@@ -2,23 +2,17 @@ package com.example.touska.screens.addReportScreen
 
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
-import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-
-import androidx.compose.foundation.text.KeyboardOptions
 
 
 import androidx.compose.material.*
@@ -29,10 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,14 +43,11 @@ import com.example.shared.Resource
 import com.example.touska.R
 
 import com.example.touska.components.*
-import com.example.touska.navigation.Navigation
+import com.example.touska.navigation.MainNavigation
 import com.example.touska.screens.mainScreen.registerScreen.getBitmapFromUri
-import com.example.touska.screens.reportScreen.showDatePicker
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
-import com.example.touska.utils.FilterModel
-import com.example.touska.utils.FilterTypes
 import com.example.touska.utils.mirror
 import com.example.touska.utils.returnProperMessage
 import com.example.touska.utils.toastLong
@@ -72,7 +60,6 @@ import ir.hamsaa.persiandatepicker.api.PersianPickerListener
 
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
-import java.time.LocalTime
 import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -231,6 +218,7 @@ fun addReportScreen(
         }
 
         is Resource.Success -> {
+
             ModalBottomSheetLayout(
                 sheetState = sheetState,
                 sheetShape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp),
@@ -604,31 +592,59 @@ fun addReportScreen(
 
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                val painer = worker.profile?.let {
-                                    Log.e("sFAFASFSAF", BuildConfig.BASE_IMAGE + worker.profile)
-                                    rememberImagePainter(BuildConfig.BASE_IMAGE + worker.profile)
-                                } ?: kotlin.run {
-                                    painterResource(id = R.drawable.ic_profile)
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    val painer = worker.profile?.let {
+                                        rememberImagePainter(BuildConfig.BASE_IMAGE + worker.profile)
+                                    } ?: kotlin.run {
+                                        painterResource(id = R.drawable.ic_profile)
+                                    }
+
+                                    Image(
+                                        painter = painer, contentDescription = null,
+                                        Modifier
+                                            .size(40.dp)
+                                            .clip(CircleShape)
+                                            .border(2.dp, MaterialTheme.colors.surface, CircleShape),
+                                        contentScale = ContentScale.FillBounds
+
+                                    )
+                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Text(
+                                        text = worker.name,
+                                        fontSize = 16.sp,
+                                        fontFamily = iranSansFamily,
+                                        fontWeight = FontWeight.Black
+                                    )
                                 }
 
-                                Image(
-                                    painter = painer, contentDescription = null,
-                                    Modifier
-                                        .size(40.dp)
-                                        .clip(CircleShape)
-                                        .border(2.dp, MaterialTheme.colors.surface, CircleShape),
-                                    contentScale = ContentScale.FillBounds
 
-                                )
-                                Spacer(modifier = Modifier.width(10.dp))
-                                Text(
-                                    text = worker.name,
-                                    fontSize = 16.sp,
-                                    fontFamily = iranSansFamily,
-                                    fontWeight = FontWeight.Black
-                                )
+                                Button(
+                                    onClick = {
+                                              if (needs.result.report==null) {
+                                                  Toast.makeText(context, context.getString(R.string.no_previous_report) , Toast.LENGTH_SHORT).show()
+                                              }else {
+                                                  navController.navigate(
+                                                      MainNavigation.InsideReport.route + "?report=${
+                                                          Gson().toJson(
+                                                              needs.result.report
+                                                          )
+                                                      }&isRepeat=true"
+                                                  )
+                                              }
+
+                                    }, colors = ButtonDefaults.buttonColors(
+                                        backgroundColor = MaterialTheme.colors.primaryVariant,
+                                        contentColor = Color.White
+                                    ),
+                                    shape = RoundedCornerShape(25.dp)
+                                ) {
+                                    Text(text = stringResource(R.string.repeat_report))
+                                }
+
+
                             }
                             //profile picture
 
@@ -639,7 +655,11 @@ fun addReportScreen(
                             Row(modifier = Modifier
                                 .fillMaxWidth()
                                 .height(56.dp)
-                                .border(width = 1.dp,MaterialTheme.colors.surface, shape = RoundedCornerShape(size = 8.dp))
+                                .border(
+                                    width = 1.dp,
+                                    MaterialTheme.colors.surface,
+                                    shape = RoundedCornerShape(size = 8.dp)
+                                )
                                 .clickable {
                                     val picker = PersianDatePickerDialog(context)
                                         .setPositiveButtonString(context.resources.getString(R.string.confirm))
@@ -651,11 +671,12 @@ fun addReportScreen(
                                         .setShowInBottomSheet(true)
                                         .setListener(object : PersianPickerListener {
                                             override fun onDateSelected(persianPickerDate: PersianPickerDate) {
-                                                submitted_at = persianPickerDate.gregorianYear.toString() + "-" +
-                                                        persianPickerDate.gregorianMonth + "-" + persianPickerDate.gregorianDay
-                                                submitted_at_persian = persianPickerDate.persianYear.toString() + "-" +
-                                                        persianPickerDate.persianMonth + "-" + persianPickerDate.persianDay
-
+                                                submitted_at =
+                                                    persianPickerDate.gregorianYear.toString() + "-" +
+                                                            persianPickerDate.gregorianMonth + "-" + persianPickerDate.gregorianDay
+                                                submitted_at_persian =
+                                                    persianPickerDate.persianYear.toString() + "-" +
+                                                            persianPickerDate.persianMonth + "-" + persianPickerDate.persianDay
 
 
                                             }

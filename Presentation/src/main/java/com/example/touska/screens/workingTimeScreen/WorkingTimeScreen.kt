@@ -35,7 +35,6 @@ import com.example.touska.utils.toastLong
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -507,9 +506,9 @@ fun workingTimeScreen(
                             endTime = ""
                             isUpdate = false
                         }
-                    }, content = {
+                    }) {
                         Text(text = stringResource(id = R.string.add_new_working_time))
-                    })
+                    }
                     VerticalDefaultMargin()
                 }
             }

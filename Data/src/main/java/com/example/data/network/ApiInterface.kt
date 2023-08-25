@@ -247,6 +247,11 @@ interface ApiInterface {
         @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>
     ): Response<BaseResponse<ReportDto>>
 
+    @POST("repeatReport")
+    @FormUrlEncoded
+    suspend fun repeatReport(@Field("report_id") report_id:Int) : Response<BaseResponse<Any>>
+
+
     @GET("report-needs")
     suspend fun reportNeeds(
         @Query("worker_id") worker_id: Int

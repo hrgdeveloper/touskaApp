@@ -1,15 +1,10 @@
 package com.example.touska.screens.usermanageScreen
 
 import android.annotation.SuppressLint
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 
 
@@ -19,9 +14,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 
 
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -29,17 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.shared.Resource
@@ -50,11 +37,6 @@ import com.example.touska.screens.usermanageInsideScreen.userManageInsideScreen
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.spacing
 import com.example.touska.utils.UserTypes
-
-import com.example.touska.utils.returnProperMessage
-import com.example.touska.utils.toastLong
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 
 import kotlinx.coroutines.*
@@ -141,9 +123,9 @@ fun TabLayout(navController: NavController) {
         horizontal = MaterialTheme.spacing.small_margin)) {
             ConfirmButton(onclick = {
               navController.navigate(MainNavigation.Register.route+"?role_id=${pagerState.currentPage+1}")
-            },{
+            }) {
                 Text(text = stringResource(R.string.add_new_user))
-            })
+            }
 
         }
     }

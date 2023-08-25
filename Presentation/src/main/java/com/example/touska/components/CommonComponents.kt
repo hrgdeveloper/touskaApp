@@ -11,12 +11,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 
 import androidx.compose.ui.unit.dp
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
-import kotlinx.coroutines.launch
 
 @Composable
 fun VerticalSmallSpacer() {
@@ -54,6 +54,7 @@ fun CircularProgressBox() {
 @Composable
 fun ConfirmButton(
     onclick: () -> Unit,
+    padding: Dp =MaterialTheme.spacing.default_margin,
     content: @Composable () -> Unit
 ) {
     Button(
@@ -63,7 +64,7 @@ fun ConfirmButton(
         Modifier
             .fillMaxWidth()
             .height(48.dp)
-            .padding(horizontal = MaterialTheme.spacing.default_margin),
+            .padding(horizontal = padding),
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
         shape = RoundedCornerShape(4.dp)
     ) {

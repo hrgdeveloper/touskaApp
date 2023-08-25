@@ -13,6 +13,7 @@ import com.example.domain.models.RegisterNeed
 import com.example.domain.models.ReportNeed
 import com.example.domain.models.WorkingTime
 import com.example.domain.usecases.reportUseCase.AddReportUseCase
+import com.example.domain.usecases.reportUseCase.RepeatReportUsecase
 import com.example.domain.usecases.reportUseCase.ReportNeedsUseCase
 
 import com.example.domain.usecases.usermanageUseCase.RegisterNeedsUseCase
@@ -31,7 +32,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ReportViewModel @Inject constructor(
     val reportNeedsUseCase: ReportNeedsUseCase,
-    val addReportUseCase: AddReportUseCase
+    val addReportUseCase: AddReportUseCase,
+    val repeatReportUseCase : RepeatReportUsecase
 
 ) : ViewModel() {
     private val needs_ = MutableLiveData<Resource<ReportNeed>>()
@@ -40,6 +42,12 @@ class ReportViewModel @Inject constructor(
 
     private val addReport_ = MutableLiveData<Resource<String>>()
     val addReport: LiveData<Resource<String>> get() = addReport_
+
+
+    private val _repeatReport = MutableLiveData<Resource<String>>()
+    val repeatReport: LiveData<Resource<String>> get() = _repeatReport
+
+
 
 
     fun getReportNeeds(worker_id: Int) {
@@ -98,5 +106,19 @@ class ReportViewModel @Inject constructor(
 
     }
 
+
+    fun repeatReport(
+        reportId:Int
+    ) {
+
+        viewModelScope.launch {
+            repeatReportUseCase(
+                reportId
+            ).collect {
+                _repeatReport.postValue(it)
+            }
+        }
+
+    }
 
 }

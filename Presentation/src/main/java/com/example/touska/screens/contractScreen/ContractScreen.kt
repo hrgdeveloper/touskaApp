@@ -25,11 +25,9 @@ import androidx.navigation.NavController
 import com.example.shared.Resource
 import com.example.touska.R
 import com.example.touska.components.*
-import com.example.touska.navigation.MainNavigation
 import com.example.touska.ui.theme.customColorsPalette
 import com.example.touska.ui.theme.iranSansFamily
 import com.example.touska.ui.theme.spacing
-import com.example.touska.utils.mirror
 import com.example.touska.utils.returnProperMessage
 import com.example.touska.utils.toastLong
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -341,9 +339,9 @@ fun contractScreen(
                             contractTitle = TextFieldValue("")
                             isUpdate = false
                         }
-                    }, content = {
+                    }) {
                         Text(text = stringResource(id = R.string.add_new_Contract))
-                    })
+                    }
                     VerticalDefaultMargin()
                 }
             }

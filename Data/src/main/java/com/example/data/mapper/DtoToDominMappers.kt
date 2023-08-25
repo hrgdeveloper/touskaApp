@@ -20,7 +20,8 @@ fun ReportNeedDto.toDomain(): ReportNeed {
     return ReportNeed(
         activities.map { it.toDomain() },
         blocs.map { it.toDomain() },
-        workingTimes.map { it.toDomain() }
+        workingTimes.map { it.toDomain() },
+        reportDto?.toDomain()
     )
 }
 

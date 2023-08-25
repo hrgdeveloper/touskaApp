@@ -172,4 +172,7 @@
     <string name="sort_by">مرتب سازی بر اساس</string>
     <string name="ascending_order">مرتب سازی صعودی</string>
     <string name="date">تاریخ</string>
+    <string name="repeat_report">تکرار گذارش</string>
+    <string name="no_previous_report">تا به حال برای این کارگر گزارشی ثبت نشده است</string>
+    <string name="report_successfully_repetead">"گزارش با موفقیت تکرار گردید "</string>
 </resources>

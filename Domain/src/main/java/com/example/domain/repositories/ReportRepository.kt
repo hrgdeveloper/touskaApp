@@ -32,4 +32,9 @@ interface ReportRepository {
         startDate: String?, endDate: String?,contractorId:Int?,
         orderBy:String,orderType:String
     ): Flow<Resource<MutableList<Report>>>
+
+    fun repeatReport(
+       reportId:Int
+    ): Flow<Resource<String>>
+
 }
